@@ -1,14 +1,27 @@
-package com.models;
+package com.bean;
 /*
 * La classe qui encapsulera l'envoie du serveur(la classe T).
 *
 * */
 public class ResponseMessage<T> {
     private T data;
-    private String message;
+    private messages message;
     private int status;
 
-    public ResponseMessage(T data, String message, int status) {
+    public enum messages {
+        ERR_BDD,
+        ERR_HASHING,
+        USER_FIND,
+        ALL_USERS_FIND,
+        USER_CREATE,
+        USER_ALREADY_EXISTS,
+        USER_UPDATE,
+        ERR_INFO_USER,
+        USER_DELETE,
+        USER_SIGN_IN
+    }
+
+    public ResponseMessage(T data, messages message, int status) {
         this.data = data;
         this.message = message;
         this.status = status;
@@ -18,13 +31,14 @@ public class ResponseMessage<T> {
         return data;
     }
 
-    public String getMessage() {
+    public messages getMessage() {
         return message;
     }
 
     public int getStatus() {
         return status;
     }
+
     public String toString(){
         return status+ ":"+message;
     }
