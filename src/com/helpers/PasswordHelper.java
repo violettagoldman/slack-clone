@@ -1,7 +1,5 @@
 package com.helpers;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,7 +20,7 @@ public class PasswordHelper {
         return hashedPass;
     }
 
-    public static boolean comparePassAndHashedPassword(@NotNull String pass, @NotNull String hashedPassword) throws NoSuchAlgorithmException {
+    public static boolean comparePassAndHashedPassword(String pass, String hashedPassword) throws NoSuchAlgorithmException {
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
         byte[] base64hash=Base64.getEncoder().encode(hash);
