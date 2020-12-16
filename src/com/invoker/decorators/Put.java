@@ -1,10 +1,9 @@
-package com.srf.decorators;
+package com.invoker.decorators;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
-public @interface MethodRoute {
-    String route() default "";
-    String type() default "";
+public @interface Put {
+    String value() default "";
 }

@@ -3,7 +3,7 @@ package com.controllers;
 import com.helpers.PasswordHelper;
 import com.models.ResponseMessage;
 import com.models.User;
-import com.srf.decorators.ControllerRoute;
+import com.invoker.decorators.ControllerRoute;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
@@ -11,7 +11,7 @@ import java.sql.SQLIntegrityConstraintViolationException;
 
 
 //Get : /user/3
-@ControllerRoute(route="/user")
+@ControllerRoute(value ="/user")
 public class UserController extends com.controllers.Controller {
 
     void getUsr(int id){}

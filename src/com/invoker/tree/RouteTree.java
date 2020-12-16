@@ -1,11 +1,15 @@
-package com.srf.routes;
+package com.invoker.tree;
+
+import javassist.NotFoundException;
+import org.omg.CosNaming.NamingContextPackage.NotFound;
 
 import javax.management.openmbean.KeyAlreadyExistsException;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class RouteTree {
     private RouteItem node;
-    private String routeItemPath;
+    private final String routeItemPath;
     private ArrayList<RouteTree> children;
 
     public RouteTree(RouteItem node, String routeItemPath) {
@@ -23,12 +27,8 @@ public class RouteTree {
         _insert(node,0);
     }
 
-    //depth doit être appleé à partir de 1;
 
     private void _insert(RouteItem node,int depth)throws IllegalArgumentException {
-        if (depth < 0) {
-            throw new IllegalArgumentException("Depth must be >=0");
-        }
         boolean isLast = (node.getAbsolutePath().length == depth);
         if (isLast) {
             if (this.node == null) {
@@ -38,17 +38,35 @@ public class RouteTree {
             }
             return;
         }
-        String nodeRouteItemLeaf = node.getAbsolutePath()[depth];
+        String routeItemPath = node.getAbsolutePath()[depth];
         for (RouteTree child : this.getChildren()) {
-            if (child.routeItemPath.equals(nodeRouteItemLeaf)) {
+            if (child.routeItemPath.equals(routeItemPath)) {
                 child._insert(node, ++depth);
                 return;
             }
         }
-        RouteTree child = new RouteTree(null, nodeRouteItemLeaf);
+        RouteTree child = new RouteTree(null, routeItemPath);
         this.children.add(child);
         child._insert(node, ++depth);
     }
+
+    private RouteItem _find(String[] absolutePath,int depth)throws NotFoundException{
+        boolean isLast = (absolutePath.length == depth);
+        if (isLast) {
+                return this.node;
+        }
+        String routeItemPath = absolutePath[depth];
+        for (RouteTree child : this.getChildren()) {
+            if (child.routeItemPath.equals(routeItemPath)) {
+                return child._find(absolutePath, ++depth);
+            }
+        }
+        throw new NotFoundException("item not found");
+    }
+    public RouteItem find(String route) throws NotFoundException {
+        return _find(route.split("/"),0);
+    }
+
 
 
     public String toString() {

@@ -1,4 +1,4 @@
-package com.srf.routes;
+package com.invoker.tree;
 
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -13,6 +13,10 @@ public class RouteItem {
         this.absolutePath = absolutePath.split("/");
         this.itemPath= this.absolutePath[this.absolutePath.length-1];
         this.method = method;
+    }
+
+    public Method getMethod() {
+        return method;
     }
 
     public String[] getAbsolutePath() {
