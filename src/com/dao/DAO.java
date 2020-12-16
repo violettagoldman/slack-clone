@@ -4,6 +4,8 @@ import com.bean.ResponseMessage;
 import com.jdbc.ConnectionSQL;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Optional;
 
 public abstract class DAO<T> {
 
@@ -14,7 +16,7 @@ public abstract class DAO<T> {
      * @param id
      * @return
      */
-    public abstract ResponseMessage<T> find(long id);
+    public abstract Optional<T> find(long id) throws SQLException;
 
     /**
      * Create object in database

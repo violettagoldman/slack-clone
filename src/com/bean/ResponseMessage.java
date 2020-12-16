@@ -8,7 +8,7 @@ public class ResponseMessage<T> {
     private messages message;
     private int status;
 
-    public enum messages {
+    public enum messages { // M Maj
         ERR_BDD,
         ERR_HASHING,
         USER_FIND,
@@ -18,7 +18,15 @@ public class ResponseMessage<T> {
         USER_UPDATE,
         ERR_INFO_USER,
         USER_DELETE,
-        USER_SIGN_IN
+        USER_SIGN_IN,
+
+        CHANNEL_CREATE,
+        CHANNEL_ALREADY_EXISTS,
+        CHANNEL_UPDATE,
+        CHANNEL_FIND,
+        ALL_CHANNELS_FIND,
+        USER_ADD_TO_A_CHANNEL,
+        CHANNEL_DELETE
     }
 
     public ResponseMessage(T data, messages message, int status) {

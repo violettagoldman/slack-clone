@@ -12,36 +12,32 @@ import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserDAO extends DAO<User> {
 
-    public ResponseMessage<User> find(long id) {
-        User user = new User();
-        try {
-            ResultSet result = this.connect.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE
-            ).executeQuery(
-                    "SELECT * FROM user WHERE id = " + id
-            );
+    public Optional<User> find(long id) throws SQLException {
 
-            if(result.first()) {
-                user = new User(
-                        id,
-                        result.getString("username"),
-                        result.getString("email"),
-                        result.getString("hashed_password"),
-                        result.getTimestamp("created_at")
-                );
-            }
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "SELECT * FROM user WHERE id = " + id
+        );
 
-            return new ResponseMessage<User>(user, ResponseMessage.messages.USER_FIND, 200);
-
-        } catch (SQLException e) {
-            System.out.println(e);
-            return new ResponseMessage<User>(null, ResponseMessage.messages.ERR_BDD, 500);
+        if (result.first()) {
+            return Optional.of(new User(
+                    id,
+                    result.getString("username"),
+                    result.getString("email"),
+                    result.getString("hashed_password"),
+                    result.getTimestamp("created_at")
+            ));
         }
+        return Optional.empty();
     }
+
+
 
     public ResponseMessage<ArrayList<User>> findAll () {
 
@@ -206,21 +202,7 @@ public class UserDAO extends DAO<User> {
         }
     }
 
-    public ResponseMessage<User> signIn(String username, String pass) {
-        try {
-            User user = findWithUsername(username).getData();
 
-            if (!PasswordHelper.comparePassAndHashedPassword(pass, user.getPassword())) {
-                user = new User();
-            }
-
-            return new ResponseMessage<User>(user, ResponseMessage.messages.USER_SIGN_IN, 200);
-
-        } catch (NoSuchAlgorithmException e) {
-            System.out.println(e);
-            return new ResponseMessage<User>(null, ResponseMessage.messages.ERR_HASHING, 500);
-        }
-    }
 
     public static boolean isEmailValid(String email) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
