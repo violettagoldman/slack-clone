@@ -1,4 +1,4 @@
-package PijakoGUI;
+package client;
 
 import java.net.Socket;
 import java.io.IOException;

@@ -1,4 +1,4 @@
-package PijakoGUI;
+package client;
 
 public interface SocketListener {
     void onDisconnection(SocketManager sm);

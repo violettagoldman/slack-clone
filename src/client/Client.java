@@ -1,4 +1,4 @@
-package PijakoGUI;
+package client;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -95,7 +95,7 @@ public class Client implements SocketListener, Runnable {
         cl.start();
         cl.sendMessage();
         //appelez interface graphique
-        new PijakoGUI.PijakoWindow().setVisible(true);
+        new pijakogui.PijakoWindow().setVisible(true);
         cl.run();
     }
 
@@ -116,6 +116,7 @@ public class Client implements SocketListener, Runnable {
             case MESSAGE:
                 // print message
                 System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
+                pijakogui.ChannelService.addMessage(payload.getProps().get("user") + ": " + payload.getProps().get("message"), "Team Violetta");
                 payloads.add(payload);
                 break;
         }
