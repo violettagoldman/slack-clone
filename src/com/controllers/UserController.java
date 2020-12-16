@@ -3,20 +3,26 @@ package com.controllers;
 import com.helpers.PasswordHelper;
 import com.models.ResponseMessage;
 import com.models.User;
-
+import com.srf.decorators.ControllerRoute;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 
-public class UserController extends Controller {
 
+//Get : /user/3
+@ControllerRoute(route="/user")
+public class UserController extends com.controllers.Controller {
+
+    void getUsr(int id){}
     private UserController() {
         super();
     }
     /*
-    * Creer un utilisateur dans la BDD
-    * */
+     * Creer un utilisateur dans la BDD
+     * */
+
+
     public static ResponseMessage<User> createUser(User user)  {
         try {
             String createUserString = "INSERT INTO user (username,email,hashed_password,created_at) VALUES (?,?,?,?)";

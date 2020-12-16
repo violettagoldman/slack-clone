@@ -1,7 +1,7 @@
 package com.controllers;
 
-import java.sql.Connection;
 
+import java.sql.Connection;
 public class Controller {
     protected static Connection connexion;
 
