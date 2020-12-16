@@ -48,15 +48,21 @@ public class Client implements SocketListener, Runnable {
         while (scanner.hasNextLine()) {
             String message = scanner.nextLine();
             // Click send and get message
-            Payload payload = buildPayload(message);
+            Payload payload = buildPayloadMessage(message);
             sm.send(payload);
         }
         scanner.close();
     }
 
-    private Payload buildPayload(String message) {
+    private Payload buildPayloadMessage(String message) {
         Payload payload = new Payload(Payload.Type.MESSAGE);
         payload.addProperty("message", message);
+        payload.addProperty("user", user);
+        return (payload);
+    }
+
+    private Payload buildPayloadConnection() {
+        Payload payload = new Payload(Payload.Type.CONNECTION);
         payload.addProperty("user", user);
         return (payload);
     }
@@ -69,7 +75,30 @@ public class Client implements SocketListener, Runnable {
                     while (true) {
                         try {
                             String message = messages.take();
-                            Payload payload = buildPayload(message);
+                            Payload payload = buildPayloadMessage(message);
+                            sm.send(payload);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                } finally {
+                    System.out.println("Fin demon");
+                }
+            }
+        }, "Demon");
+        daemonThread.setDaemon(true);
+        daemonThread.start();
+    }
+
+    public void sendConnection() {
+        Thread daemonThread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while (true) {
+                        try {
+                            String message = messages.take();
+                            Payload payload = buildPayloadConnection();
                             sm.send(payload);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -89,13 +118,14 @@ public class Client implements SocketListener, Runnable {
     }
 
     public static void main(String[] argv) {
+        new pijakogui.PijakoWindow().setVisible(true);
         Client cl = Client.getInstance();
         // Client cl = new Client(argv[0]);
         cl.setUser(argv[0]);
         cl.start();
+        cl.sendConnection();
         cl.sendMessage();
         //appelez interface graphique
-        new pijakogui.PijakoWindow().setVisible(true);
         cl.run();
     }
 
@@ -109,6 +139,7 @@ public class Client implements SocketListener, Runnable {
         switch (payload.getType()) {
             case CONNECTION:
                 System.out.println(payload.getProps().get("user") + " connected.");
+                pijakogui.ChannelService.addMessage(payload.getProps().get("user") + " connected.", "Team Violetta");
                 break;
             case DISCONNECTION:
                 System.out.println("Someone left.");
