@@ -1,4 +1,4 @@
-package client;
+package network;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -32,12 +32,10 @@ public class Client implements SocketListener, Runnable {
     public void start() {
         try {
             Socket socket = new Socket("135.181.151.73", 6868);
+            // Socket socket = new Socket("localhost", 6868);
             sm = new SocketManager(socket, this);
             thread = new Thread(sm);
             thread.start();
-            Payload payload = new Payload(Payload.Type.CONNECTION);
-            payload.addProperty("user", user);
-            sm.send(payload);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -82,7 +80,7 @@ public class Client implements SocketListener, Runnable {
                         }
                     }
                 } finally {
-                    System.out.println("Fin demon");
+                    System.out.println("Demon end");
                 }
             }
         }, "Demon");
@@ -95,15 +93,12 @@ public class Client implements SocketListener, Runnable {
             @Override
             public void run() {
                 try {
-                    while (true) {
                         try {
-                            String message = messages.take();
                             Payload payload = buildPayloadConnection();
                             sm.send(payload);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }
                 } finally {
                     System.out.println("Fin demon");
                 }
@@ -125,7 +120,6 @@ public class Client implements SocketListener, Runnable {
         cl.start();
         cl.sendConnection();
         cl.sendMessage();
-        //appelez interface graphique
         cl.run();
     }
 

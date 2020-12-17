@@ -40,7 +40,7 @@ public class MyButton extends JButton {
                    // messagesZone.add(bDeleteMessages);
                     //messagesZone.add(message);
                     messagesZone.validate();
-                    client.Client.getInstance().publishMessage(str);
+                    network.Client.getInstance().publishMessage(str);
                     write.setText("");
                 }
             }

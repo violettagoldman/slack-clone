@@ -1,4 +1,4 @@
-package client;
+package network;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -51,6 +51,7 @@ public class Server implements Runnable, SocketListener {
 
     @Override
     public void onMessage(SocketManager sm, Payload payload) {
+        System.out.println(payload.toString());
         broadcast(payload);
     }
 }

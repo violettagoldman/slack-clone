@@ -1,4 +1,4 @@
-package client;
+package network;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,7 +19,7 @@ public final class Payload {
     }
 
     public Payload(String payload) {
-        String lines[] = payload.split("\n");
+        String lines[] = payload.split("\1");
         this.type = Type.valueOf(lines[0]);
         for (int i = 1; i < lines.length; ++i) {
             String line[] = lines[i].split("=", 2);
@@ -35,9 +35,9 @@ public final class Payload {
     public String toString() {
         String result = "";
 
-        result += this.type + "\n";
+        result += this.type + "\1";
         for (String key : props.keySet())
-            result += key + "=" + props.get(key) + "\n";
+            result += key + "=" + props.get(key) + "\1";
         return (result);
     }
 
