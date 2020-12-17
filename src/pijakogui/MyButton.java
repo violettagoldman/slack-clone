@@ -17,6 +17,27 @@ public class MyButton extends JButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 setBackground(MyColor.blue());
             }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                setBackground(MyColor.grayWith());
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                setBackground(MyColor.grayWith());
+            }
+        });
+    }
+
+    public MyButton(Icon i){
+        super(i);
+        this.setBackground(MyColor.grayWith());
+        this.setBorder(new EmptyBorder(10, 10, 10, 10));
+        this.setBorder(null);
+        this.setPreferredSize(new Dimension(60,0));
+        this.setFont(new Font("Nirmala UI Semilight", 0, 15));
+
+        this.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                setBackground(MyColor.blue());
+            }
 
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 setBackground(MyColor.grayWith());
@@ -28,6 +49,7 @@ public class MyButton extends JButton {
         });
     }
 
+
     public static MyButton createBSend(JTextArea write, JPanel messagesZone){
         MyButton send = new MyButton("Send");
         send.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -35,14 +57,30 @@ public class MyButton extends JButton {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 if (!write.getText().equals("")) {
                     String str = write.getText();
-                    JTextArea message = ChannelPanel.addMessages("__Jeanne\uD83D\uDE00__\n"+(str)+"\n");
                     //JButton bDeleteMessages = MyButton.createBDeleteMessage(messagesZone, message);
                    // messagesZone.add(bDeleteMessages);
-                    //messagesZone.add(message);
                     messagesZone.validate();
                     network.Client.getInstance().publishMessage(str);
                     write.setText("");
                 }
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { }
+        });
+        return send;
+    }
+
+    public static MyButton createBSmile(JPanel messagesZone){
+        MyButton send = new MyButton(new ImageIcon(MyButton.class.getResource("smile.png")));
+        send.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                ImageIcon image = new ImageIcon( MyButton.class.getResource("smile.png"));
+                ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+                JLabel jlabel = new JLabel(image2);
+                jlabel.setPreferredSize(new Dimension(20,20));
+                messagesZone.add(jlabel);
+                messagesZone.validate();
+                //client.Client.getInstance().publishMessage(str);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -127,7 +165,7 @@ public class MyButton extends JButton {
         bSaveChannel.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                ChannelsPanel.addChannels(title.getText());
+                ChannelsPanel.addChannels(title.getText(), "user");
                 title.setText("Name of new channel");
                 cardLayout.show(cardPanel, "channels");
             }
@@ -147,12 +185,14 @@ public class MyButton extends JButton {
         return bSignIn;
     }
 
-    public static MyButton createBLogin(CardLayout cardLayout, JPanel cardPanel){
+    public static MyButton createBLogin(CardLayout cardLayout, JPanel cardPanel, JTextField nickname){
         MyButton bLogin = new MyButton("Connect");
         bLogin.setPreferredSize(new Dimension(100,20));
         bLogin.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "menu");}
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                client.Client.getInstance().setUser(nickname.getText());
+                cardLayout.show(cardPanel, "menu");}
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bLogin;
@@ -241,8 +281,7 @@ public class MyButton extends JButton {
         bNameUser.setPreferredSize(new Dimension(100,30));
         bNameUser.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { ;
-            }
+            public void mousePressed(java.awt.event.MouseEvent evt) { }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bNameUser;

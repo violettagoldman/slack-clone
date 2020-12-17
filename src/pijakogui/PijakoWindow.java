@@ -49,7 +49,8 @@ public class PijakoWindow extends JFrame {
         //ge.registerFont(f);
 
         //Test ajout de message depuis le serveur
-        ChannelService.addChannel("Team Violetta");
+        Service.addChannel("Team Violetta", "Jeanne");
+        //Service.addMessage("test etst ", "Team Violetta");
         //ChannelService.addMessage("coucou la team !", "Team Violetta");
 
     }

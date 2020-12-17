@@ -127,7 +127,7 @@ public class MyPanel extends JPanel {
         profile.panel.add(password);
         profile.south.setPreferredSize(new Dimension(400,400));
 
-        profile.panel.add(MyButton.createBLogin(cardLayout, cardPanel));
+        profile.panel.add(MyButton.createBLogin(cardLayout, cardPanel, nickname));
         profile.panel.add(MyButton.createBSignIn(cardLayout, cardPanel));
 
         MyScroll scroll = MyScroll.createBlack(profile);

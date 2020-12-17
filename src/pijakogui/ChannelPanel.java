@@ -3,13 +3,16 @@ package pijakogui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.util.HashMap;
 
 public class ChannelPanel extends JPanel {
     public final String title;
     public final String id;
     public final JPanel messagesZone;
+    public final JPanel listUser;
+    public final HashMap<String, MyButton> usersMap = new HashMap<>();
 
-    public ChannelPanel(String title, String id){
+    public ChannelPanel(String title, String id, String user){
         this.title = title;
         this.id = id;
         this.setLayout(new BorderLayout());
@@ -22,7 +25,7 @@ public class ChannelPanel extends JPanel {
         menu.setPreferredSize(new Dimension(0,40));
 
         //zone de liste des utilisateurs
-        JPanel listUser = new JPanel();
+        listUser = new JPanel();
         listUser.setPreferredSize(new Dimension(100,0));
         listUser.setBackground(MyColor.grayBlue());
         listUser.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,new Color(101, 162, 201)));
@@ -43,9 +46,11 @@ public class ChannelPanel extends JPanel {
         messagesZone = new JPanel();
         messagesZone.setLayout(new BoxLayout(messagesZone, BoxLayout.PAGE_AXIS));
         messagesZone.setBackground(MyColor.gray());
-        JTextArea firstMessage = addMessages("\n\n Your channel : \n\n "+title+" \n\n Send news messages !! ");
-        firstMessage.setAlignmentX(Component.CENTER_ALIGNMENT);
-        messagesZone.add(firstMessage);
+        messagesZone.add(new MyTextArea("\n\n Channel of "+user+": \n\n**************************************\n\n "
+                +title+
+                " \n\n**************************************\n\n Send news messages !! "+
+                "\n\n**************************************\n\n See the other users at right ->\n\n"
+        ));
         JScrollPane scrollMessages = MyScroll.createGray(messagesZone);
         this.add(scrollMessages , BorderLayout.CENTER );
 
@@ -61,25 +66,26 @@ public class ChannelPanel extends JPanel {
         writeScript.setFont(new Font("SansSerif", Font.PLAIN, 15));
         writeScript.setForeground(MyColor.white());
         write.add(MyButton.createBSend(writeScript, messagesZone), BorderLayout.EAST );
+        write.add(MyButton.createBSmile(messagesZone), BorderLayout.WEST );
 
         this.add(write, BorderLayout.SOUTH );
     }
 
-    public static JTextArea addMessages(String str){
-        JTextArea message = new JTextArea();
-        message.setEditable(false);
-        message.setBackground(MyColor.gray());
-        message.setBorder(new EmptyBorder(10, 10, 10, 10));
-        message.setLineWrap(true);
-        message.setFont(new Font("SansSerif", Font.PLAIN, 15));
+    public void addMessages(String str, String nickname){
+        JTextArea user = new MyTextArea(nickname);
+        user.setForeground(MyColor.blue());
+        this.messagesZone.add(user);
+        JTextArea message = new MyTextArea(str);
         message.setForeground(MyColor.white());
-        //RTFEditorKit kit = new RTFEditorKit();
-        //message.setContentType("text/rtf");
-        //message.setEditorKit(kit);
-        //message.setContentType("text/html");
-        message.setText(str);
-        return message;
+        this.messagesZone.add(message);
     }
+
+    public void addConnected(String user){
+        JTextArea connected = new MyTextArea(user+" connected");
+        connected.setForeground(MyColor.blue());
+        this.messagesZone.add(connected);
+    }
+
 
 
 }

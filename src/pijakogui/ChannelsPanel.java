@@ -2,6 +2,7 @@ package pijakogui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.HashMap;
 
 public class ChannelsPanel extends JPanel{
     public static JPanel listChannels;
@@ -22,9 +23,9 @@ public class ChannelsPanel extends JPanel{
         this.add( channels, BorderLayout.CENTER );
     }
 
-    public static ChannelPanel addChannels(String title){
+    public static ChannelPanel addChannels(String title, String user){
         listChannels.add(MyButton.createBGoChannel(cardChannels, channels, title));
-        ChannelPanel channel = new ChannelPanel(title, "id");
+        ChannelPanel channel = new ChannelPanel(title, "id", user);
         channels.add(channel,title);
         cardChannels.show(channels, title);
         return channel;
