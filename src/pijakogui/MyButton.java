@@ -191,7 +191,7 @@ public class MyButton extends JButton {
         bLogin.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                client.Client.getInstance().setUser(nickname.getText());
+                network.Client.getInstance().setUser(nickname.getText());
                 cardLayout.show(cardPanel, "menu");}
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
