@@ -133,15 +133,18 @@ public class Client implements SocketListener, Runnable {
         switch (payload.getType()) {
             case CONNECTION:
                 System.out.println(payload.getProps().get("user") + " connected.");
-                pijakogui.ChannelService.addMessage(payload.getProps().get("user") + " connected.", "Team Violetta");
+                pijakogui.Service.addUser(payload.getProps().get("user"), "Team Violetta");
+                pijakogui.Service.addMessage(" connected", payload.getProps().get("user"), "Team Violetta");
                 break;
             case DISCONNECTION:
-                System.out.println("Someone left.");
+                System.out.println(payload.getProps().get("user") + " left.");
+                pijakogui.Service.addMessage(" left", payload.getProps().get("user"), "Team Violetta");
+                pijakogui.Service.removeUser(payload.getProps().get("user"), "Team Violetta");
                 break;
             case MESSAGE:
                 // print message
                 System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
-                pijakogui.ChannelService.addMessage(payload.getProps().get("user") + ": " + payload.getProps().get("message"), "Team Violetta");
+                pijakogui.Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), "Team Violetta");
                 payloads.add(payload);
                 break;
         }
