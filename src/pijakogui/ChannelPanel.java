@@ -130,6 +130,6 @@ public class ChannelPanel extends JPanel {
             usersMap.put(user, button);
             listUser.add(button);
         }
-        this.validate();
+        this.listUser.validate();
     }
 }

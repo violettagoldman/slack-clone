@@ -10,7 +10,7 @@ public class PijakoWindow extends JFrame {
     public PijakoWindow() {
         super( "Pijako" );
 
-        if(System.getProperty("os.name").equals("Windows")){
+        if(System.getProperty("os.name").equals("Windows 10")){
             try {
                 UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
                 SwingUtilities.updateComponentTreeUI( this);
@@ -70,6 +70,8 @@ public class PijakoWindow extends JFrame {
 
         //Test ajout de message depuis le serveur
         Service.addChannel("Team Violetta", "Jeanne");
+        //Service.updateUsersConnected(new String[]{"Jeanne", "Violetta", "pierre"}, "Team Violetta");
+        //Service.updateUsersConnected(new String[]{"Jeanne"}, "Team Violetta");
         //Service.addMessage("test etst ", "Team Violetta");
         //ChannelService.addMessage("coucou la team !", "Team Violetta");
 
