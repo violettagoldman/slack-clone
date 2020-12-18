@@ -75,7 +75,6 @@ public class MyButton extends JButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 network.Client.getInstance().sendSmile("smile.png");
-                Service.updateUsersConnected(new String[]{"Jeanne"}, "Team Violetta");
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
