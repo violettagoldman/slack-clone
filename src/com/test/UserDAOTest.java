@@ -2,7 +2,7 @@ package com.test;
 
 import org.junit.jupiter.api.Test;
 
-import static com.controller.UserController.*;
+import static com.controllers.UserController.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
