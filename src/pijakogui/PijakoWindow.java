@@ -10,6 +10,8 @@ public class PijakoWindow extends JFrame {
     public PijakoWindow() {
         super( "Pijako" );
 
+        System.out.println(System.getProperty("os.name"));
+
         try {
             UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
             SwingUtilities.updateComponentTreeUI( this);
