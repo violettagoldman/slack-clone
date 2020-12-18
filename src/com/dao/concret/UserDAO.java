@@ -1,4 +1,4 @@
-package com.dao.concret;
+*/package com.dao.concret;
 
 import com.bean.User;
 import com.controller.UserController;
@@ -9,14 +9,18 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+<<<<<<< HEAD
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+=======
+import java.sql.SQLIntegrityConstraintViolationException;
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
 public class UserDAO implements DAO<User> {
 
-    public Optional<User> find(long id) throws SQLException {
+    public User find(long id) throws SQLException {
 
         ResultSet result = this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -26,12 +30,13 @@ public class UserDAO implements DAO<User> {
         );
 
         if (result.first()) {
-            return Optional.of(new User(
+            return new User(
                     id,
                     result.getString("username"),
                     result.getString("email"),
                     result.getString("hashed_password"),
                     result.getTimestamp("created_at")
+<<<<<<< HEAD
             ));
         }
         return Optional.empty();
@@ -126,6 +131,45 @@ public class UserDAO implements DAO<User> {
     }
 
     public Optional<User> create(User userObj) throws SQLException, NoSuchAlgorithmException {
+=======
+            );
+        }
+        return null;
+    }
+    public ResponseMessage<User> create(User userObj) {
+
+        if (this.isUsernameValid(userObj.getUsername()) && this.isEmailValid(userObj.getEmail()) && this.isPasswordValid(userObj.getPassword())) {
+
+            try {
+                PreparedStatement prepare = this.connect.prepareStatement(
+                        "INSERT INTO user (username,email,hashed_password,created_at) VALUES(?,?,?,?)"
+                );
+
+                prepare.setString(1,userObj.getUsername());
+                prepare.setString(2,userObj.getEmail());
+                prepare.setString(3, PasswordHelper.hashPassword(userObj.getPassword()));
+                prepare.setTimestamp(4,userObj.getCreatedAt());
+
+                prepare.executeUpdate();
+                userObj = this.findWithEmail(userObj.getEmail()).getData();
+
+                return new ResponseMessage<User>(userObj, ResponseMessage.messages.USER_CREATE, 200);
+
+            } catch (SQLIntegrityConstraintViolationException e) {
+                System.out.println(e);
+                return new ResponseMessage<User>(null, ResponseMessage.messages.USER_ALREADY_EXISTS, 409);
+            } catch (SQLException e) {
+                System.out.println(e);
+                return new ResponseMessage<User>(null, ResponseMessage.messages.ERR_BDD, 500);
+            } catch (NoSuchAlgorithmException e){
+                System.out.println(e);
+                return new ResponseMessage<User>(null, ResponseMessage.messages.ERR_HASHING, 500);
+            }
+        } else {
+            return new ResponseMessage<User>(null, ResponseMessage.messages.ERR_INFO_USER,000);
+        }
+    }
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
         PreparedStatement prepare = this.connect.prepareStatement(
                 "INSERT INTO user (username,email,hashed_password,created_at) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS
@@ -159,6 +203,7 @@ public class UserDAO implements DAO<User> {
                         + "WHERE id = " + userObj.getId()
         );
 
+<<<<<<< HEAD
         return this.find(userObj.getId());
     }
 
@@ -172,5 +217,9 @@ public class UserDAO implements DAO<User> {
         );
 
     }
+=======
 
 }
+
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
+

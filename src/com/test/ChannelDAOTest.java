@@ -3,6 +3,7 @@ package com.test;
 
 import org.junit.jupiter.api.Test;
 
+import static com.controller.ChannelController.isChannelNameValid;
 import static com.dao.concret.ChannelDAO.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;

@@ -24,7 +24,11 @@ public interface DAO<T> {
      * @param obj
      * @return
      */
+<<<<<<< HEAD
     public abstract Optional<T> create(T obj) throws NoSuchAlgorithmException, SQLException;
+=======
+    public abstract Optional<T> create(T obj) throws SQLException;
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
     /**
      * Update object in database
@@ -37,6 +41,10 @@ public interface DAO<T> {
      * Delete object in database
      * @param id
      */
+<<<<<<< HEAD
     public abstract void delete(long id) throws SQLException;
+=======
+    public abstract Optional<T> delete(long id) throws SQLException;
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
 }

@@ -5,8 +5,12 @@ import com.bean.ResponseMessage;
 import com.bean.User;
 import com.bean.UserChannel;
 import com.controller.UserController;
-/*import com.dao.concret.ChannelDAO;
-import com.dao.concret.UserChannelDAO;*/
+import com.dao.concret.ChannelDAO;
+import com.dao.concret.UserChannelDAO;
+import com.controller.ChannelController;
+import com.controller.UserChannelController;
+import com.dao.concret.ChannelDAO;
+import com.dao.concret.UserChannelDAO;
 import com.dao.concret.UserDAO;
 
 import java.security.NoSuchAlgorithmException;
@@ -21,13 +25,12 @@ public class Main {
 
         //.SQLIntegrityConstraintViolationException
 
-
         Scanner sc = new Scanner(System.in);
 
         UserDAO userDAO = new UserDAO();
         UserController userController = new UserController();
-/*        ChannelDAO channelDAO = new ChannelDAO();
-        UserChannelDAO userChannelDAO = new UserChannelDAO();*/
+        ChannelDAO channelDAO = new ChannelDAO();
+        UserChannelDAO userChannelDAO = new UserChannelDAO();
 
         String choice = "";
 
@@ -54,7 +57,19 @@ public class Main {
             switch (choice) {
                 case "1":   // SIGN UP
 
+<<<<<<< HEAD
                     Optional opUp = userController.signUp();
+=======
+        ChannelController channelController = new ChannelController();
+
+        System.out.println("1- Sign Up");
+        System.out.println("2- Sign In");
+        System.out.println("3- List User");
+        System.out.println("4- List Channel");
+        System.out.println("5- Create Channel");
+        System.out.println("6- Add User In A Channel");
+        System.out.println("7- List Of All User In A Channel");
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
                     if (opUp.isPresent()) {
                         System.out.println("See your informations :");
@@ -63,7 +78,19 @@ public class Main {
                         System.out.println("Error in creation");
                     }
 
+<<<<<<< HEAD
                     break;
+=======
+        switch (choice) {
+
+            case "1":
+                System.out.println("Username : "); //test
+                String usernameSU = sc.nextLine();
+                System.out.println("Email : "); //test@test.com
+                String emailSU = sc.nextLine();
+                System.out.println("Password : "); //Az0Er1Ty2
+                String passSU = sc.nextLine();
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
                 case "2":   // SIGN IN
 
@@ -90,6 +117,7 @@ public class Main {
 /*              case "4":
                     ChannelDAO cdao = new ChannelDAO();
 
+<<<<<<< HEAD
                     List<Channel> channels = channelDAO.findAll().getData();
                     for(int i = 0 ; i < channels.size() ; i++) {
                       System.out.println(channels.get(i));
@@ -101,13 +129,28 @@ public class Main {
                     String channelNameTest= sc.nextLine();
                     System.out.println("User admin id : ");
                     long channelAdminTest = Long.parseLong(sc.nextLine());
+=======
+            case "4":
+                ChannelController cdao = new ChannelController();
+
+                Optional<List<Channel>> channels = cdao.findAllChannel();
+                for(int i = 0 ; i < channels.stream().count() ; i++) {
+                    System.out.println(channels.equals(i));
+                }
+                break;
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
                     Channel channelTest = new Channel(11, channelAdminTest,channelNameTest);
 
                     System.out.println(channelDAO.create(channelTest).getMessage());
                     break;
 
+<<<<<<< HEAD
                 case "6":
+=======
+                System.out.println(channelDAO.create(channelTest));
+                break;
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
                     System.out.println("Id du user : ");
                     long userChannelId = Long.parseLong(sc.nextLine());
@@ -119,11 +162,19 @@ public class Main {
                     System.out.println(userChannelDAO.create(userChannelTest).getMessage());
                     break;
 
+<<<<<<< HEAD
                 case "7":
                     UserChannelDAO ucdao = new UserChannelDAO();
 
                     System.out.println("Id du channel : ");
                     long channelIdList = Long.parseLong(sc.nextLine());
+=======
+                System.out.println(userChannelDAO.create(userChannelTest));
+                break;
+
+            case "7":
+                UserChannelController ucdao = new UserChannelController();
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
                     List<UserChannel> userChannels = (List<UserChannel>) userChannelDAO.findAll(channelIdList).getData();
                     for(int i = 0 ; i < userChannels.size() ; i++) {
@@ -131,9 +182,17 @@ public class Main {
                     }
                     break;*/
 
+<<<<<<< HEAD
                 case "0":
                     System.out.println("Goodbye !");
                     break;
+=======
+                Optional<List<UserChannel>> userChannels = ucdao.findAllUserFromAChannel(channelIdList);
+                for(int i = 0 ; i < userChannels.stream().count() ; i++) {
+                    System.out.println(userChannels.equals(i));
+                }
+                break;
+>>>>>>> a870586e528964178f59cf0f76024e4a96efb1d4
 
                 default:
                     System.out.println("No such choice");

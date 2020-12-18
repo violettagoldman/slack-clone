@@ -55,4 +55,9 @@ public class Channel {
     public int hashCode() {
         return Objects.hash(channelId, admin_user_id, channelName, channelCreatedAt);
     }
+
+    public void setChannelId(long channelId) {
+        this.channelId = channelId;
+    }
+
 }

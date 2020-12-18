@@ -41,6 +41,10 @@ public class UserChannel extends Channel {
         return userChannelCreatedAt;
     }
 
+    public void setUserChannelId(long userChannelId) {
+        this.userChannelId = userChannelId;
+    }
+
     @Override
     public String toString() {
         return "UserChannel{" +
