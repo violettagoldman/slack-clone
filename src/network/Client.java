@@ -47,16 +47,17 @@ public class Client implements SocketListener, Runnable {
         while (scanner.hasNextLine()) {
             String message = scanner.nextLine();
             // Click send and get message
-            Payload payload = buildPayloadMessage(message);
+            Payload payload = buildPayloadMessage(message, false);
             sm.send(payload);
         }
         scanner.close();
     }
 
-    private Payload buildPayloadMessage(String message) {
+    private Payload buildPayloadMessage(String message, boolean isSmile) {
         Payload payload = new Payload(Payload.Type.MESSAGE);
         payload.addProperty("message", message);
         payload.addProperty("user", user);
+        payload.addProperty("smile", isSmile + "");
         return (payload);
     }
 
@@ -74,7 +75,7 @@ public class Client implements SocketListener, Runnable {
                     while (true) {
                         try {
                             String message = messages.take();
-                            Payload payload = buildPayloadMessage(message);
+                            Payload payload = buildPayloadMessage(message, false);
                             sm.send(payload);
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -87,6 +88,31 @@ public class Client implements SocketListener, Runnable {
         }, "Demon");
         daemonThread.setDaemon(true);
         daemonThread.start();
+    }
+
+    public void sendSmile(String smile) {
+        // Thread daemonThread = new Thread(new Runnable() {
+        //     @Override
+        //     public void run() {
+        //         try {
+        //             while (true) {
+        //                 try {
+        //                     String message = messages.take();
+        //                     Payload payload = buildPayloadMessage(message, true);
+        //                     sm.send(payload);
+        //                 } catch (Exception e) {
+        //                     e.printStackTrace();
+        //                 }
+        //             }
+        //         } finally {
+        //             System.out.println("Demon end");
+        //         }
+        //     }
+        // }, "Demon");
+        // daemonThread.setDaemon(true);
+        // daemonThread.start();
+        Payload payload = buildPayloadMessage(smile, true);
+        sm.send(payload);
     }
 
     public void sendConnection() {
@@ -140,9 +166,13 @@ public class Client implements SocketListener, Runnable {
                 // pijakogui.Service.removeUser(payload.getProps().get("user"), "Team Violetta");
                 break;
             case MESSAGE:
-                System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
-                pijakogui.Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), "Team Violetta");
-                payloads.add(payload);
+                if (payload.getProps().get("smile").equals("true")) {
+                    pijakogui.Service.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), "Team Violetta");
+                } else {
+                    System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
+                    pijakogui.Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), "Team Violetta");
+                    payloads.add(payload);
+                }
                 break;
             case ACTIVE_USERS:
                 System.out.println(payload.toString());

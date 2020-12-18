@@ -74,7 +74,7 @@ public class MyButton extends JButton {
         send.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                //client.Client.getInstance().publishSmiley("smile.png");
+                network.Client.getInstance().sendSmile("smile.png");
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
