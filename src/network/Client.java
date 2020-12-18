@@ -31,8 +31,8 @@ public class Client implements SocketListener, Runnable {
 
     public void start() {
         try {
-            Socket socket = new Socket("135.181.151.73", 6868);
-            // Socket socket = new Socket("localhost", 6868);
+            // Socket socket = new Socket("135.181.151.73", 6868);
+            Socket socket = new Socket("localhost", 6868);
             sm = new SocketManager(socket, this);
             thread = new Thread(sm);
             thread.start();
@@ -115,8 +115,6 @@ public class Client implements SocketListener, Runnable {
     public static void main(String[] argv) {
         new pijakogui.PijakoWindow().setVisible(true);
         Client cl = Client.getInstance();
-        // Client cl = new Client(argv[0]);
-        cl.setUser(argv[0]);
         cl.start();
         cl.sendConnection();
         cl.sendMessage();

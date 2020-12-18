@@ -16,7 +16,7 @@ all:
 	$(JC) $(CLASSES)
 
 run:
-	cd src; java network.Client guest
+	cd src; java network.Client
 	
 classes: $(CLASSES:.java=.class)
 
