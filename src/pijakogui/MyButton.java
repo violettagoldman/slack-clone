@@ -74,13 +74,7 @@ public class MyButton extends JButton {
         send.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                ImageIcon image = new ImageIcon( MyButton.class.getResource("smile.png"));
-                ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
-                JLabel jlabel = new JLabel(image2);
-                jlabel.setPreferredSize(new Dimension(20,20));
-                messagesZone.add(jlabel);
-                messagesZone.validate();
-                //client.Client.getInstance().publishMessage(str);
+                //client.Client.getInstance().publishSmiley("smile.png");
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });

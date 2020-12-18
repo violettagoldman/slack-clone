@@ -6,11 +6,32 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class ChannelPanel extends JPanel {
-    public final String title;
-    public final String id;
-    public final JPanel messagesZone;
-    public final JPanel listUser;
-    public final HashMap<String, MyButton> usersMap = new HashMap<>();
+    private final String title;
+
+    public String getTitle() {
+        return title;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public JPanel getMessagesZone() {
+        return messagesZone;
+    }
+
+    public JPanel getListUser() {
+        return listUser;
+    }
+
+    public HashMap<String, MyButton> getUsersMap() {
+        return usersMap;
+    }
+
+    private final String id;
+    private final JPanel messagesZone;
+    private final JPanel listUser;
+    private final HashMap<String, MyButton> usersMap = new HashMap<>();
 
     public ChannelPanel(String title, String id, String user){
         this.title = title;
@@ -71,21 +92,29 @@ public class ChannelPanel extends JPanel {
         this.add(write, BorderLayout.SOUTH );
     }
 
-    public void addMessages(String str, String nickname){
+    public void messages(String str, String nickname){
         JTextArea user = new MyTextArea(nickname);
         user.setForeground(MyColor.blue());
-        this.messagesZone.add(user);
+        messagesZone.add(user);
         JTextArea message = new MyTextArea(str);
         message.setForeground(MyColor.white());
-        this.messagesZone.add(message);
+        messagesZone.add(message);
     }
 
-    public void addConnected(String user){
+    public void connected(String user){
         JTextArea connected = new MyTextArea(user+" connected");
         connected.setForeground(MyColor.blue());
-        this.messagesZone.add(connected);
+        messagesZone.add(connected);
     }
 
-
-
+    public void smiley(String smiley, String nickname){
+        JTextArea user = new MyTextArea(nickname);
+        user.setForeground(MyColor.blue());
+        messagesZone.add(user);
+        ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
+        ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+        JLabel jlabel = new JLabel(image2);
+        jlabel.setPreferredSize(new Dimension(20,20));
+        messagesZone.add(jlabel);
+    }
 }
