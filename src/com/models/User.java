@@ -1,10 +1,11 @@
-package com.bean;
+package com.models;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class User {
-    private long id;
+public class User implements Serializable {
+    private int id;
     private String username;
     private String email;
     private Timestamp createdAt;
@@ -12,7 +13,7 @@ public class User {
 
     public User() {}
 
-    public User(long id, String username, String email, String password) {
+    public User(int id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -20,7 +21,7 @@ public class User {
         this.createdAt = new Timestamp(System.currentTimeMillis());;
     }
 
-    public User(long id, String username, String email, String password, Timestamp createAt) {
+    public User(int id, String username, String email, String password, Timestamp createAt) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -28,11 +29,11 @@ public class User {
         this.createdAt = createAt;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(int id) {
         this.id = id;
     }
 

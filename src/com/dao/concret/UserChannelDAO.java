@@ -1,13 +1,8 @@
 package com.dao.concret;
 
-import com.bean.Channel;
-import com.bean.ResponseMessage;
-import com.bean.UserChannel;
 import com.dao.DAO;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class UserChannelDAO implements DAO<UserChannel> {
@@ -40,8 +35,8 @@ public class UserChannelDAO implements DAO<UserChannel> {
                     "INSERT INTO userchannel (channel_id,user_id,created_at) VALUES(?,?,?)"
             );
 
-            prepare.setLong(1, userChannelObj.getChannel_id());
-            prepare.setLong(2, userChannelObj.getUser_id());
+            prepare.setLong(1, userChannelObj.getChannelId());
+            prepare.setLong(2, userChannelObj.getUserID());
             prepare.setTimestamp(3, userChannelObj.getUserChannelCreatedAt());
 
             prepare.executeUpdate();
@@ -59,8 +54,8 @@ public class UserChannelDAO implements DAO<UserChannel> {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE
             ).executeUpdate(
-                    "UPDATE userchannel SET channel_id = '" + userChannelObj.getChannel_id() + "', "
-                            + "user_id = '" + userChannelObj.getUser_id() + "' "
+                    "UPDATE userchannel SET channel_id = '" + userChannelObj.getChannelId() + "', "
+                            + "user_id = '" + userChannelObj.getUserID() + "' "
                             + "WHERE userChannelId = " + userChannelObj.getUserChannelId()
             );
 
