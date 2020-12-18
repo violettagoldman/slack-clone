@@ -1,13 +1,13 @@
 package com.dao;
 
-import com.bean.ResponseMessage;
 import com.jdbc.ConnectionSQL;
 
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.Optional;
 
-public abstract class DAO<T> {
+public interface DAO<T> {
 
     public Connection connect = ConnectionSQL.getInstance();
 
@@ -23,19 +23,19 @@ public abstract class DAO<T> {
      * @param obj
      * @return
      */
-    public abstract ResponseMessage<T> create(T obj);
+    public abstract Optional<T> create(T obj) throws NoSuchAlgorithmException, SQLException;
 
     /**
      * Update object in database
      * @param obj
      * @return
      */
-    public abstract ResponseMessage<T> update(T obj);
+    public abstract Optional<T> update(T obj) throws SQLException;
 
     /**
      * Delete object in database
      * @param id
      */
-    public abstract ResponseMessage<T> delete(long id);
+    public abstract Optional<T> delete(long id) throws SQLException;
 
 }

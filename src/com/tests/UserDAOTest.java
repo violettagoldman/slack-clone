@@ -2,7 +2,7 @@ package com.tests;
 
 import org.junit.jupiter.api.Test;
 
-import static com.dao.concret.UserDAO.*;
+import static com.controllers.UserController.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -32,3 +32,4 @@ public class UserDAOTest {
     }
 
 }
+*/
