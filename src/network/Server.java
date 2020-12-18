@@ -68,6 +68,7 @@ public class Server implements Runnable, SocketListener {
     @Override
     public void onMessage(SocketManager sm, Payload payload) {
         broadcast(payload);
+        System.out.println(payload.toString());
         if (payload.getType() == Payload.Type.CONNECTION) {
             activeUsers.put(sm, payload.getProps().get("user"));
             broadcastActiveUsers();
