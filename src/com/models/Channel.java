@@ -6,28 +6,28 @@ import java.util.ArrayList;
 import java.util.Objects;
 
 public class Channel implements Serializable {
-    private int ID;
+    private long ID;
     private Timestamp createdAt;
-    private int adminUserId;
+    private setInt adminUserId;
     private String name;
 
     public Channel() {}
 
-    public Channel(int ID, int adminUserId, String name) {
+    public Channel(long ID, int adminUserId, String name) {
         this.ID = ID;
         this.adminUserId = adminUserId;
         this.name = name;
         this.createdAt = new Timestamp(System.currentTimeMillis());;
     }
 
-    public Channel(int ID, int adminUserId, String name, Timestamp channelCreatedAt) {
+    public Channel(long ID, long adminUserId, String name, Timestamp channelCreatedAt) {
         this.ID = ID;
         this.adminUserId = adminUserId;
         this.name = name;
         this.createdAt = channelCreatedAt;
     }
 
-    public int getID() {
+    public long getID() {
         return ID;
     }
 

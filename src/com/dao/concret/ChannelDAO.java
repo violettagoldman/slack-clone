@@ -10,7 +10,7 @@ import static com.helpers.RegexHelper.isChannelNameValid;
 
 public class ChannelDAO implements DAO<Channel> {
 
-    public Optional<Channel> find(int channelId) throws SQLException{
+    public Optional<Channel> find(long channelId) throws SQLException{
 
         ResultSet result = this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -22,7 +22,7 @@ public class ChannelDAO implements DAO<Channel> {
         if(result.first()) {
             return Optional.of(new Channel(
                     channelId,
-                    result.getInt("admin_user_id"),
+                    result.getLong("admin_user_id"),
                     result.getString("name"),
                     result.getTimestamp("created_at")
             ));

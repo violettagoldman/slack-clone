@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class User implements Serializable {
-    private int id;
+    private long id;
     private String username;
     private String email;
     private Timestamp createdAt;
@@ -13,7 +13,7 @@ public class User implements Serializable {
 
     public User() {}
 
-    public User(int id, String username, String email, String password) {
+    public User(long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -21,7 +21,7 @@ public class User implements Serializable {
         this.createdAt = new Timestamp(System.currentTimeMillis());;
     }
 
-    public User(int id, String username, String email, String password, Timestamp createAt) {
+    public User(long id, String username, String email, String password, Timestamp createAt) {
         this.id = id;
         this.username = username;
         this.email = email;
@@ -29,7 +29,7 @@ public class User implements Serializable {
         this.createdAt = createAt;
     }
 
-    public int getId() {
+    public long getId() {
         return id;
     }
 
