@@ -1,28 +1,62 @@
 package com.main;
 
-import com.controllers.Controller;
-import com.controllers.UserController;
-import com.models.ResponseMessage;
-import com.models.User;
+import com.bean.ResponseMessage;
+import com.bean.User;
+import com.dao.concret.UserDAO;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.util.concurrent.CompletableFuture;
+import java.security.NoSuchAlgorithmException;
+import java.util.List;
+import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) {
-        try{
-            //Class.forName("com.mysql.jdbc.Driver");
-            Connection conn = DriverManager.getConnection("jdbc:mysql://localhost/slack?" +
-                    "user=slack&password=123");
-            //on set la connection dans la classe mère pour que tout les controlleurs puissent acceder à Connection
-            Controller.setConnexion(conn);
-            User user = new User("JohnSmith3","john@smith3.com","123");
-            ResponseMessage<User> res =  UserController.createUser(user);
-            System.out.println(res);
-        }catch (Exception e){
-            System.out.println(e);
+    public static void main(String[] args) throws NoSuchAlgorithmException {
+
+        /*
+        Scanner sc = new Scanner(System.in);
+
+        UserDAO userDAO = new UserDAO();
+
+        System.out.println("1- Sign Up");
+        System.out.println("2- Sign In");
+
+        String choice = sc.nextLine();
+
+        switch (choice) {
+            case "1":
+                System.out.println("Username : ");
+                String usernameSU = sc.nextLine();
+                System.out.println("Email : ");
+                String emailSU = sc.nextLine();
+                System.out.println("Password : ");
+                String passSU = sc.nextLine();
+
+                User userSU = new User(1212,usernameSU,emailSU,passSU);
+
+                System.out.println(userDAO.create(userSU).getMessage());
+                break;
+
+            case "2":
+                System.out.println("Username : ");
+                String usernameSI = sc.nextLine();
+                System.out.println("Password : ");
+                String passSI = sc.nextLine();
+
+                User userSI = userDAO.signIn(usernameSI,passSI).getData();
+
+                System.out.println(userSI);
+                break;
+
+            default:
+                System.out.println("No such choice");
         }
+         */
+
+        UserDAO udao = new UserDAO();
+        List<User> users = udao.findAll().getData();
+        for(int i = 0 ; i < users.size() ; i++) {
+            System.out.println(users.get(i));
+        }
+
     }
 }
