@@ -144,6 +144,10 @@ public class Client implements SocketListener, Runnable {
                 pijakogui.Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), "Team Violetta");
                 payloads.add(payload);
                 break;
+            case ACTIVE_USERS:
+                String users[] = payload.getProps().get("users").split(" ");
+                // Pouvoir set all users to users and remove all of them to refresh
+                break;
         }
     }
 }
