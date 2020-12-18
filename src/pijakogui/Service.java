@@ -11,6 +11,8 @@ public class Service {
     }
 
     public static void addMessage(String message, String user, String title){
+        System.out.println(title);
+        System.out.println(channelsMap.keySet());
         channelsMap.get(title).messages(message, user);
         channelsMap.get(title).getMessagesZone().validate();
     }
