@@ -9,7 +9,7 @@ import com.dao.DAO;
 import java.sql.*;
 import java.util.Optional;
 
-import static com.controllers.ChannelController.isChannelNameValid;
+import static com.controller.ChannelController.isChannelNameValid;
 
 public class ChannelDAO implements DAO<Channel> {
 

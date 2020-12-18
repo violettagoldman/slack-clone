@@ -1,6 +1,7 @@
-package com.controllers;
+package com.controller;
 
 import com.bean.User;
+import com.controllers.Controller;
 import com.dao.concret.UserDAO;
 import com.helpers.PasswordHelper;
 
@@ -10,7 +11,7 @@ import java.util.Optional;
 import java.util.Scanner;
 
 
-public class UserController {
+public class UserController extends Controller {
 
     private final UserDAO userDAO = new UserDAO();
 
@@ -62,30 +63,14 @@ public class UserController {
         return userDAO.create(user);
     }
 
+    public User enterInformation(){
+        return new User(1,"qs","s","s");
+    }
+
     /**
      * Allows to give username and password
      * @return This information in a User
      */
-    public User enterInformation() {
-
-        // USERNAME
-        System.out.println("Username : "); //test
-        String username = "";
-        while (!this.isUsernameValid(username)) {
-            System.out.println("Please, enter valid username.");
-            username = sc.nextLine();
-        }
-
-        // PASSWORD
-        System.out.println("Password : "); //Az0Er1Ty2
-        String pass = "";
-        while (!this.isPasswordValid(pass)) {
-            System.out.println("Please, enter valid password.");
-            pass = sc.nextLine();
-        }
-
-        return new User(1,username,"email@email.com",pass);
-    }
 
     /**********************
      *  IS VALID METHODS  *
