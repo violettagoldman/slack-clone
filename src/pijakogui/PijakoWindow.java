@@ -10,14 +10,23 @@ public class PijakoWindow extends JFrame {
     public PijakoWindow() {
         super( "Pijako" );
 
-        System.out.println(System.getProperty("os.name"));
-
-        try {
-            UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
-            SwingUtilities.updateComponentTreeUI( this);
-        } catch( Exception exception ) {
-            exception.printStackTrace();
+        if(System.getProperty("os.name").equals("Windows")){
+            try {
+                UIManager.setLookAndFeel( "com.sun.java.swing.plaf.windows.WindowsLookAndFeel" );
+                SwingUtilities.updateComponentTreeUI( this);
+            } catch( Exception exception ) {
+                exception.printStackTrace();
+            }
+        }else {
+            try {
+                UIManager.setLookAndFeel( "javax.swing.plaf.nimbus.NimbusLookAndFeel" );
+                SwingUtilities.updateComponentTreeUI( this);
+            } catch( Exception exception ) {
+                exception.printStackTrace();
+            }
         }
+
+
         this.setUndecorated(false);
         this.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
         this.setSize( 500, 500 );
