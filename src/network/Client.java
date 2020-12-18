@@ -34,7 +34,6 @@ public class Client implements SocketListener, Runnable {
         try {
             Socket socket = new Socket("135.181.151.73", 6868);
             // Socket socket = new Socket("localhost", 6868);
-            
             sm = new SocketManager(socket, this);
             thread = new Thread(sm);
             thread.start();
@@ -72,7 +71,7 @@ public class Client implements SocketListener, Runnable {
             @Override
             public void run() {
                 try {
-                    // while (true) {
+                    while (true) {
                         try {
                             String message = messages.take();
                             Payload payload = buildPayloadMessage(message);
@@ -80,7 +79,7 @@ public class Client implements SocketListener, Runnable {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    // }
+                    }
                 } finally {
                     System.out.println("Demon end");
                 }
