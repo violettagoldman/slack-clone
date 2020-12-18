@@ -1,3 +1,4 @@
+/*
 package com.dao.concret;
 
 import com.bean.Channel;
@@ -111,3 +112,4 @@ public class UserChannelDAO extends DAO<UserChannel> {
         }
     }
 }
+*/

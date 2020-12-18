@@ -1,3 +1,4 @@
+/*
 package com.dao.concret;
 
 import com.bean.ResponseMessage;
@@ -148,3 +149,4 @@ public class ChannelDAO extends DAO<Channel> {
 
 
 }
+*/
