@@ -4,17 +4,21 @@ import com.bean.Channel;
 import com.bean.ResponseMessage;
 import com.bean.User;
 import com.bean.UserChannel;
+import com.controller.ChannelController;
+import com.controller.UserChannelController;
 import com.dao.concret.ChannelDAO;
 import com.dao.concret.UserChannelDAO;
 import com.dao.concret.UserDAO;
 
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 
 public class Main {
 
-    public static void main(String[] args) throws NoSuchAlgorithmException {
+    public static void main(String[] args) throws NoSuchAlgorithmException, SQLException {
 
 
         Scanner sc = new Scanner(System.in);
@@ -22,6 +26,8 @@ public class Main {
         UserDAO userDAO = new UserDAO();
         ChannelDAO channelDAO = new ChannelDAO();
         UserChannelDAO userChannelDAO = new UserChannelDAO();
+
+        ChannelController channelController = new ChannelController();
 
         System.out.println("1- Sign Up");
         System.out.println("2- Sign In");
@@ -34,6 +40,7 @@ public class Main {
         String choice = sc.nextLine();
 
         switch (choice) {
+
             case "1":
                 System.out.println("Username : "); //test
                 String usernameSU = sc.nextLine();
@@ -68,11 +75,11 @@ public class Main {
                 break;
 
             case "4":
-                ChannelDAO cdao = new ChannelDAO();
+                ChannelController cdao = new ChannelController();
 
-                List<Channel> channels = channelDAO.findAll().getData();
-                for(int i = 0 ; i < channels.size() ; i++) {
-                    System.out.println(channels.get(i));
+                Optional<List<Channel>> channels = cdao.findAllChannel();
+                for(int i = 0 ; i < channels.stream().count() ; i++) {
+                    System.out.println(channels.equals(i));
                 }
                 break;
 
@@ -84,7 +91,7 @@ public class Main {
 
                 Channel channelTest = new Channel(11, channelAdminTest,channelNameTest);
 
-                System.out.println(channelDAO.create(channelTest).getMessage());
+                System.out.println(channelDAO.create(channelTest));
                 break;
 
             case "6":
@@ -96,18 +103,18 @@ public class Main {
 
                 UserChannel userChannelTest = new UserChannel(11, channelId, userChannelId);
 
-                System.out.println(userChannelDAO.create(userChannelTest).getMessage());
+                System.out.println(userChannelDAO.create(userChannelTest));
                 break;
 
             case "7":
-                UserChannelDAO ucdao = new UserChannelDAO();
+                UserChannelController ucdao = new UserChannelController();
 
                 System.out.println("Id du channel : ");
                 long channelIdList = Long.parseLong(sc.nextLine());
 
-                List<UserChannel> userChannels = (List<UserChannel>) userChannelDAO.findAll(channelIdList).getData();
-                for(int i = 0 ; i < userChannels.size() ; i++) {
-                    System.out.println(userChannels.get(i));
+                Optional<List<UserChannel>> userChannels = ucdao.findAllUserFromAChannel(channelIdList);
+                for(int i = 0 ; i < userChannels.stream().count() ; i++) {
+                    System.out.println(userChannels.equals(i));
                 }
                 break;
 

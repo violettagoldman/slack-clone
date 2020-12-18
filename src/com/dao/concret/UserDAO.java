@@ -1,7 +1,8 @@
-package com.dao.concret;
+*/package com.dao.concret;
 
 import com.bean.ResponseMessage;
 import com.bean.User;
+import com.controller.UserController;
 import com.dao.DAO;
 import com.helpers.PasswordHelper;
 
@@ -10,13 +11,10 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 public class UserDAO extends DAO<User> {
 
-    public Optional<User> find(long id) throws SQLException {
+    public User find(long id) throws SQLException {
 
         ResultSet result = this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -26,107 +24,16 @@ public class UserDAO extends DAO<User> {
         );
 
         if (result.first()) {
-            return Optional.of(new User(
+            return new User(
                     id,
                     result.getString("username"),
                     result.getString("email"),
                     result.getString("hashed_password"),
                     result.getTimestamp("created_at")
-            ));
-        }
-        return Optional.empty();
-    }
-
-
-
-    public ResponseMessage<ArrayList<User>> findAll () {
-
-        try {
-            ResultSet result = this.connect.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE
-            ).executeQuery(
-                    "SELECT * FROM user"
             );
-
-            List<User> users = new ArrayList<>();
-
-            while(result.next()) {
-                User user = new User(
-                        result.getLong("id"),
-                        result.getString("username"),
-                        result.getString("email"),
-                        result.getString("hashed_password"),
-                        result.getTimestamp("created_at")
-                );
-                users.add(user);
-            }
-
-            return new ResponseMessage(users,ResponseMessage.messages.ALL_USERS_FIND,200);
-
-        }catch (SQLException e) {
-            System.out.println(e);
-            return new ResponseMessage(null, ResponseMessage.messages.ERR_BDD, 500);
         }
-
+        return null;
     }
-
-    public ResponseMessage<User> findWithEmail(String email) {
-        User user = new User();
-        try {
-            ResultSet result = this.connect.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE
-            ).executeQuery(
-                    "SELECT * FROM user WHERE email = '" + email + "'"
-            );
-
-            if(result.first()) {
-                user = new User(
-                        result.getLong("id"),
-                        result.getString("username"),
-                        email,
-                        result.getString("hashed_password"),
-                        result.getTimestamp("created_at")
-                );
-            }
-
-            return new ResponseMessage<User>(user, ResponseMessage.messages.USER_FIND, 200);
-
-        } catch (SQLException e) {
-            System.out.println(e);
-            return new ResponseMessage<User>(null, ResponseMessage.messages.ERR_BDD, 500);
-        }
-    }
-
-    public ResponseMessage<User> findWithUsername(String username) {
-        User user = new User();
-        try {
-            ResultSet result = this.connect.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE
-            ).executeQuery(
-                    "SELECT * FROM user WHERE username = '" + username + "'"
-            );
-
-            if(result.first()) {
-                user = new User(
-                        result.getLong("id"),
-                        username,
-                        result.getString("email"),
-                        result.getString("hashed_password"),
-                        result.getTimestamp("created_at")
-                );
-            }
-
-            return new ResponseMessage<User>(user, ResponseMessage.messages.USER_FIND, 200);
-
-        } catch (SQLException e) {
-            System.out.println(e);
-            return new ResponseMessage<User>(null, ResponseMessage.messages.ERR_BDD, 500);
-        }
-    }
-
     public ResponseMessage<User> create(User userObj) {
 
         if (this.isUsernameValid(userObj.getUsername()) && this.isEmailValid(userObj.getEmail()) && this.isPasswordValid(userObj.getPassword())) {
@@ -204,19 +111,7 @@ public class UserDAO extends DAO<User> {
 
 
 
-    public static boolean isEmailValid(String email) {
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$";
-        return email.matches(regex);
-    }
-
-    public static boolean isUsernameValid(String username) {
-        String regex = "^[\\w-]{2,}$";
-        return username.matches(regex);
-    }
-
-    public static boolean isPasswordValid(String pass) {
-        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";
-        return pass.matches(regex);
-    }
 
 }
+
+

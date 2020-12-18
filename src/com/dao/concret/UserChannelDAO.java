@@ -8,46 +8,34 @@ import com.dao.DAO;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 public class UserChannelDAO extends DAO<UserChannel> {
 
-    public ResponseMessage<UserChannel> findAll(long channelId) {
-        try {
-            ResultSet result = this.connect.createStatement(
-                    ResultSet.TYPE_SCROLL_INSENSITIVE,
-                    ResultSet.CONCUR_UPDATABLE
-            ).executeQuery(
-                    "SELECT * FROM userchannel WHERE channel_id =" + channelId
-            );
 
-            List<UserChannel> userChannels = new ArrayList<>();
 
-            while(result.next()) {
-                UserChannel userChannel = new UserChannel(
-                        result.getLong("id"),
-                        result.getLong("channel_id"),
-                        result.getLong("user_id"),
-                        result.getTimestamp("created_at")
-                );
-                userChannels.add(userChannel);
-            }
+    public Optional<UserChannel> find(long id) throws SQLException{
 
-            return new ResponseMessage(userChannels,ResponseMessage.messages.ALL_CHANNELS_FIND,200);
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "SELECT * FROM userchannel WHERE id = " + id
+        );
 
-        }catch (SQLException e) {
-            System.out.println(e);
-            return new ResponseMessage(null, ResponseMessage.messages.ERR_BDD, 500);
+        if (result.first()) {
+            return Optional.of(new UserChannel(
+                    result.getLong("userChannelId"),
+                    result.getLong("channel_id"),
+                    result.getLong("user_id"),
+                    result.getTimestamp("created_at")
+            ));
         }
+        return Optional.empty();
     }
 
-    public ResponseMessage<UserChannel> find(long id) {
-        return null;
-    }
+    public Optional<UserChannel> create(UserChannel userChannelObj) throws SQLException{
 
-    @Override
-    public ResponseMessage<UserChannel> create(UserChannel userChannelObj) {
-
-        try {
             PreparedStatement prepare = this.connect.prepareStatement(
                     "INSERT INTO userchannel (channel_id,user_id,created_at) VALUES(?,?,?)"
             );
@@ -58,20 +46,14 @@ public class UserChannelDAO extends DAO<UserChannel> {
 
             prepare.executeUpdate();
 
-            return new ResponseMessage<UserChannel>(userChannelObj, ResponseMessage.messages.USER_ADD_TO_A_CHANNEL, 200);
-
-        } catch (SQLIntegrityConstraintViolationException e) {
-            System.out.println(e);
-            return new ResponseMessage<UserChannel>(null, ResponseMessage.messages.ERR_INFO_USER, 409);
-        } catch (SQLException e) {
-            System.out.println(e);
-            return new ResponseMessage<UserChannel>(null, ResponseMessage.messages.ERR_BDD, 500);
-        }
+            ResultSet rs = prepare.getGeneratedKeys();
+            if (rs.next()){
+                userChannelObj.setUserChannelId(rs.getLong(1));
+            }
+        return Optional.of(userChannelObj);
     }
 
-    @Override
-    public ResponseMessage<UserChannel> update(UserChannel userChannelObj) {
-        try {
+    public Optional<UserChannel> update(UserChannel userChannelObj) throws SQLException{
 
             this.connect.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -82,19 +64,10 @@ public class UserChannelDAO extends DAO<UserChannel> {
                             + "WHERE userChannelId = " + userChannelObj.getUserChannelId()
             );
 
-            userChannelObj = this.find(userChannelObj.getChannelId()).getData();
-
-            return new ResponseMessage<UserChannel>(userChannelObj, ResponseMessage.messages.CHANNEL_UPDATE, 200);
-
-        } catch (SQLException e) {
-            System.out.println(e);
-            return new ResponseMessage<UserChannel>(null, ResponseMessage.messages.ERR_BDD, 500);
-        }
+            return this.find(userChannelObj.getChannelId());
     }
 
-    @Override
-    public ResponseMessage<UserChannel> delete(long userChannelId) {
-        try {
+    public Optional<UserChannel> delete(long userChannelId) throws SQLException{
 
             this.connect.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -103,11 +76,6 @@ public class UserChannelDAO extends DAO<UserChannel> {
                     "DELETE FROM userchannel WHERE id = " + userChannelId
             );
 
-            return new ResponseMessage<UserChannel>(null, ResponseMessage.messages.CHANNEL_DELETE, 200);
-
-        } catch (SQLException e) {
-            System.out.println(e);
-            return new ResponseMessage<UserChannel>(null, ResponseMessage.messages.ERR_BDD, 500);
-        }
+            return this.find(userChannelId);
     }
 }
