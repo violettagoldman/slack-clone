@@ -123,6 +123,7 @@ public class ChannelPanel extends JPanel {
     public void updateLisUser(String [] users){
         for (Map.Entry mapentry : usersMap.entrySet()) {
              listUser.remove((Component) mapentry.getValue());
+             System.out.println(mapentry.getKey());
              this.validate();
         }
         usersMap.clear();
