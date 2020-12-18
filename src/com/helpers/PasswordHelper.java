@@ -12,24 +12,14 @@ public class PasswordHelper {
     }
 
     public static String hashPassword(String pass) throws NoSuchAlgorithmException {
-        String hashedPass=null;
         MessageDigest digest = MessageDigest.getInstance("SHA-256");
         byte[] hash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
         byte[] base64hash= Base64.getEncoder().encode(hash);
-        hashedPass=new String(base64hash);
-        return hashedPass;
+        return new String(base64hash);
     }
 
     public static boolean comparePassAndHashedPassword(String pass, String hashedPassword) throws NoSuchAlgorithmException {
-        MessageDigest digest = MessageDigest.getInstance("SHA-256");
-        byte[] hash = digest.digest(pass.getBytes(StandardCharsets.UTF_8));
-        byte[] base64hash=Base64.getEncoder().encode(hash);
-        if(Arrays.equals(base64hash,hashedPassword.getBytes())){
-            return true;
-        }else{
-            return false;
-        }
+        String hash = hashPassword(pass);
+        return hash.equals(hashedPassword);
     }
-
-
 }

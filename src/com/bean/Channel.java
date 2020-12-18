@@ -1,49 +1,58 @@
 package com.bean;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
+import java.util.Objects;
 
 public class Channel {
-    private int channelId;
-    private LocalDateTime createdAt;
-    private int admin_user_id;
+    private long channelId;
+    private Timestamp channelCreatedAt;
+    private long admin_user_id;
     private String channelName;
 
-    public Channel(int channelId, int admin_user_id, String channelName) {
+    public Channel() {}
+
+    public Channel(long channelId, long admin_user_id, String channelName) {
         this.channelId = channelId;
-        this.createdAt = LocalDateTime.now();
         this.admin_user_id = admin_user_id;
         this.channelName = channelName;
+        this.channelCreatedAt = new Timestamp(System.currentTimeMillis());;
     }
 
-    public int getChannelId() {
+    public Channel(long channelId, long admin_user_id, String channelName, Timestamp channelCreatedAt) {
+        this.channelId = channelId;
+        this.admin_user_id = admin_user_id;
+        this.channelName = channelName;
+        this.channelCreatedAt = channelCreatedAt;
+    }
+
+    public long getChannelId() {
         return channelId;
     }
 
-    public void setChannelId(int channelId) {
-        this.channelId = channelId;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public int getAdmin_user_id() {
+    public long getAdmin_user_id() {
         return admin_user_id;
-    }
-
-    public void setAdmin_user_id(int admin_user_id) {
-        this.admin_user_id = admin_user_id;
     }
 
     public String getChannelName() {
         return channelName;
     }
 
-    public void setChannelName(String channelName) {
-        this.channelName = channelName;
+    public Timestamp getChannelCreatedAt() {
+        return channelCreatedAt;
+    }
+
+    @Override
+    public String toString() {
+        return "Channel{" +
+                "channelId=" + channelId +
+                ", admin_user_id='" + admin_user_id + '\'' +
+                ", channelName='" + channelName + '\'' +
+                ", channelCreatedAt=" + channelCreatedAt +
+                '}';
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(channelId, admin_user_id, channelName, channelCreatedAt);
     }
 }
