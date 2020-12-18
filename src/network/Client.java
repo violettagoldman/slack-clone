@@ -134,11 +134,11 @@ public class Client implements SocketListener, Runnable {
         switch (payload.getType()) {
             case CONNECTION:
                 System.out.println(payload.getProps().get("user") + " connected.");
-                pijakogui.Service.addUser(payload.getProps().get("user"), "Team Violetta");
+                // pijakogui.Service.addUser(payload.getProps().get("user"), "Team Violetta");
                 break;
             case DISCONNECTION:
                 System.out.println(payload.getProps().get("user") + " left.");
-                pijakogui.Service.removeUser(payload.getProps().get("user"), "Team Violetta");
+                // pijakogui.Service.removeUser(payload.getProps().get("user"), "Team Violetta");
                 break;
             case MESSAGE:
                 System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
@@ -146,8 +146,9 @@ public class Client implements SocketListener, Runnable {
                 payloads.add(payload);
                 break;
             case ACTIVE_USERS:
-                // String users[] = payload.getProps().get("users").split(" ");
-                // Pouvoir set all users to users and remove all of them to refresh
+                System.out.println(payload.toString());
+                String users[] = payload.getProps().get("activeUsers").split("\2");
+                pijakogui.Service.updateUsersConnected(users, "Team Violetta");
                 break;
         }
     }
