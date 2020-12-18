@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import network.Payload.Type;
+
 public class Client implements SocketListener, Runnable {
     private SocketManager sm;
     private String user;
@@ -12,6 +14,7 @@ public class Client implements SocketListener, Runnable {
     private LinkedBlockingQueue<String> messages = new LinkedBlockingQueue<>();
     private LinkedBlockingQueue<Payload> payloads = new LinkedBlockingQueue<>();
     private static final Client client = new Client();
+    private String channel = "Team Violetta";
 
     public Client(String user) {
         this.user = user;
@@ -22,8 +25,10 @@ public class Client implements SocketListener, Runnable {
     }
 
     public void setUser(String user) {
+        Client cl = Client.getInstance();
         this.user = user;
-        Client.getInstance().sendConnection();
+        cl.sendConnection();
+        cl.sendChannel(channel);
     }
 
     public static Client getInstance() {
@@ -32,8 +37,8 @@ public class Client implements SocketListener, Runnable {
 
     public void start() {
         try {
-            Socket socket = new Socket("135.181.151.73", 6868);
-            // Socket socket = new Socket("localhost", 6868);
+            // Socket socket = new Socket("135.181.151.73", 6868);
+            Socket socket = new Socket("localhost", 6868);
             sm = new SocketManager(socket, this);
             thread = new Thread(sm);
             thread.start();
@@ -68,26 +73,6 @@ public class Client implements SocketListener, Runnable {
     }
 
     public void sendMessage(String message, String channel) {
-        // Thread daemonThread = new Thread(new Runnable() {
-        //     @Override
-        //     public void run() {
-        //         try {
-        //             while (true) {
-        //                 try {
-        //                     String message = messages.take();
-        //                     Payload payload = buildPayloadMessage(message, false);
-        //                     sm.send(payload);
-        //                 } catch (Exception e) {
-        //                     e.printStackTrace();
-        //                 }
-        //             }
-        //         } finally {
-        //             System.out.println("Demon end");
-        //         }
-        //     }
-        // }, "Demon");
-        // daemonThread.setDaemon(true);
-        // daemonThread.start();
         // String message = messages.take();
         Payload payload = buildPayloadMessage(message, false, channel);
         sm.send(payload);
@@ -98,26 +83,17 @@ public class Client implements SocketListener, Runnable {
         sm.send(payload);
     }
 
+    public void sendChannel(String channel) {
+        System.out.println(channel);
+        Payload payload = new Payload(Type.CHANNEL);
+        payload.addProperty("channel", channel);
+        this.channel = channel;
+        sm.send(payload);
+    }
+
     public void sendConnection() {
-        Thread daemonThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    // while (true) {
-                        try {
-                            Payload payload = buildPayloadConnection();
-                            sm.send(payload);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    // }
-                } finally {
-                    System.out.println("Demon end");
-                }
-            }
-        }, "Demon");
-        daemonThread.setDaemon(true);
-        daemonThread.start();
+        Payload payload = buildPayloadConnection();
+        sm.send(payload);
     }
 
     public void publishMessage(String message) {
@@ -157,8 +133,11 @@ public class Client implements SocketListener, Runnable {
                 break;
             case ACTIVE_USERS:
                 System.out.println(payload.toString());
-                String users[] = payload.getProps().get("activeUsers").split("\2");
-                pijakogui.Service.updateUsersConnected(users, "Team Violetta");
+                if (payload.getProps().get(this.channel) != null) {
+                    String users[] = payload.getProps().get(this.channel).split("\2");
+                    if (users != null && users.length != 0)
+                    pijakogui.Service.updateUsersConnected(users, this.channel);
+                }
                 break;
         }
     }

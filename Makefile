@@ -5,11 +5,7 @@ JC = javac
 .java.class:
 		$(JC) $*.java
 
-CLASSES = src/network/Client.java \
-        src/network/Payload.java \
-        src/network/Server.java \
-        src/network/SocketListener.java \
-        src/network/SocketManager.java \
+CLASSES = src/network/*.java \
 		src/pijakogui/*.java
 
 all:
