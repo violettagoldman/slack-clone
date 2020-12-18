@@ -46,18 +46,18 @@ public class Client implements SocketListener, Runnable {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String message = scanner.nextLine();
-            // Click send and get message
-            Payload payload = buildPayloadMessage(message, false);
+            Payload payload = buildPayloadMessage(message, false, "Team Violetta");
             sm.send(payload);
         }
         scanner.close();
     }
 
-    private Payload buildPayloadMessage(String message, boolean isSmile) {
+    private Payload buildPayloadMessage(String message, boolean isSmile, String channel) {
         Payload payload = new Payload(Payload.Type.MESSAGE);
         payload.addProperty("message", message);
         payload.addProperty("user", user);
         payload.addProperty("smile", isSmile + "");
+        payload.addProperty("channel", channel);
         return (payload);
     }
 
@@ -67,30 +67,7 @@ public class Client implements SocketListener, Runnable {
         return (payload);
     }
 
-    public void sendMessage() {
-        Thread daemonThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    while (true) {
-                        try {
-                            String message = messages.take();
-                            Payload payload = buildPayloadMessage(message, false);
-                            sm.send(payload);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                } finally {
-                    System.out.println("Demon end");
-                }
-            }
-        }, "Demon");
-        daemonThread.setDaemon(true);
-        daemonThread.start();
-    }
-
-    public void sendSmile(String smile) {
+    public void sendMessage(String message, String channel) {
         // Thread daemonThread = new Thread(new Runnable() {
         //     @Override
         //     public void run() {
@@ -98,7 +75,7 @@ public class Client implements SocketListener, Runnable {
         //             while (true) {
         //                 try {
         //                     String message = messages.take();
-        //                     Payload payload = buildPayloadMessage(message, true);
+        //                     Payload payload = buildPayloadMessage(message, false);
         //                     sm.send(payload);
         //                 } catch (Exception e) {
         //                     e.printStackTrace();
@@ -111,7 +88,13 @@ public class Client implements SocketListener, Runnable {
         // }, "Demon");
         // daemonThread.setDaemon(true);
         // daemonThread.start();
-        Payload payload = buildPayloadMessage(smile, true);
+        // String message = messages.take();
+        Payload payload = buildPayloadMessage(message, false, channel);
+        sm.send(payload);
+    }
+
+    public void sendSmile(String smile, String channel) {
+        Payload payload = buildPayloadMessage(smile, true, channel);
         sm.send(payload);
     }
 
@@ -145,7 +128,7 @@ public class Client implements SocketListener, Runnable {
         new pijakogui.PijakoWindow().setVisible(true);
         Client cl = Client.getInstance();
         cl.start();
-        cl.sendMessage();
+        // cl.sendMessage();
         cl.run();
     }
 
@@ -159,18 +142,16 @@ public class Client implements SocketListener, Runnable {
         switch (payload.getType()) {
             case CONNECTION:
                 System.out.println(payload.getProps().get("user") + " connected.");
-                // pijakogui.Service.addUser(payload.getProps().get("user"), "Team Violetta");
                 break;
             case DISCONNECTION:
                 System.out.println(payload.getProps().get("user") + " left.");
-                // pijakogui.Service.removeUser(payload.getProps().get("user"), "Team Violetta");
                 break;
             case MESSAGE:
                 if (payload.getProps().get("smile").equals("true")) {
-                    pijakogui.Service.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), "Team Violetta");
+                    pijakogui.Service.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
                 } else {
                     System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
-                    pijakogui.Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), "Team Violetta");
+                    pijakogui.Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
                     payloads.add(payload);
                 }
                 break;

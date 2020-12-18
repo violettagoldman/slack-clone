@@ -60,7 +60,7 @@ public class MyButton extends JButton {
                     //JButton bDeleteMessages = MyButton.createBDeleteMessage(messagesZone, message);
                    // messagesZone.add(bDeleteMessages);
                     messagesZone.validate();
-                    network.Client.getInstance().publishMessage(str);
+                    network.Client.getInstance().sendMessage(str, "Team Violetta");
                     write.setText("");
                 }
             }
@@ -74,8 +74,8 @@ public class MyButton extends JButton {
         send.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                network.Client.getInstance().sendSmile("smile.png");
-                Service.updateUsersConnected(new String[]{"Jeanne"}, "Team Violetta");
+                network.Client.getInstance().sendSmile("smile.png", "Team Violetta");
+                // Service.updateUsersConnected(new String[]{"Jeanne"}, "Team Violetta");
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
