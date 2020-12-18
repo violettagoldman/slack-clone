@@ -1,4 +1,3 @@
-/*
 package com.dao.concret;
 
 import com.bean.Channel;
@@ -11,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-public class UserChannelDAO extends DAO<UserChannel> {
+public class UserChannelDAO implements DAO<UserChannel> {
 
 
 
@@ -80,4 +79,3 @@ public class UserChannelDAO extends DAO<UserChannel> {
             return this.find(userChannelId);
     }
 }
-*/

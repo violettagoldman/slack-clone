@@ -1,4 +1,3 @@
-/*
 package com.dao.concret;
 
 import com.bean.ResponseMessage;
@@ -16,7 +15,7 @@ import java.util.Optional;
 
 import static com.controller.ChannelController.isChannelNameValid;
 
-public class ChannelDAO extends DAO<Channel> {
+public class ChannelDAO implements DAO<Channel> {
 
     public Optional<Channel> find(long channelId) throws SQLException{
 
@@ -90,4 +89,3 @@ public class ChannelDAO extends DAO<Channel> {
             return this.find(channelId);
     }
 }
-*/
