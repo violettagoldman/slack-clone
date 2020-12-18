@@ -23,6 +23,7 @@ public class Client implements SocketListener, Runnable {
 
     public void setUser(String user) {
         this.user = user;
+        Client.getInstance().sendConnection();
     }
 
     public static Client getInstance() {
@@ -31,8 +32,9 @@ public class Client implements SocketListener, Runnable {
 
     public void start() {
         try {
-            // Socket socket = new Socket("135.181.151.73", 6868);
-            Socket socket = new Socket("localhost", 6868);
+            Socket socket = new Socket("135.181.151.73", 6868);
+            // Socket socket = new Socket("localhost", 6868);
+            
             sm = new SocketManager(socket, this);
             thread = new Thread(sm);
             thread.start();
@@ -70,7 +72,7 @@ public class Client implements SocketListener, Runnable {
             @Override
             public void run() {
                 try {
-                    while (true) {
+                    // while (true) {
                         try {
                             String message = messages.take();
                             Payload payload = buildPayloadMessage(message);
@@ -78,7 +80,7 @@ public class Client implements SocketListener, Runnable {
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                    }
+                    // }
                 } finally {
                     System.out.println("Demon end");
                 }
@@ -93,14 +95,16 @@ public class Client implements SocketListener, Runnable {
             @Override
             public void run() {
                 try {
+                    // while (true) {
                         try {
                             Payload payload = buildPayloadConnection();
                             sm.send(payload);
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
+                    // }
                 } finally {
-                    System.out.println("Fin demon");
+                    System.out.println("Demon end");
                 }
             }
         }, "Demon");
@@ -116,7 +120,6 @@ public class Client implements SocketListener, Runnable {
         new pijakogui.PijakoWindow().setVisible(true);
         Client cl = Client.getInstance();
         cl.start();
-        cl.sendConnection();
         cl.sendMessage();
         cl.run();
     }
@@ -143,7 +146,7 @@ public class Client implements SocketListener, Runnable {
                 payloads.add(payload);
                 break;
             case ACTIVE_USERS:
-                String users[] = payload.getProps().get("users").split(" ");
+                // String users[] = payload.getProps().get("users").split(" ");
                 // Pouvoir set all users to users and remove all of them to refresh
                 break;
         }
