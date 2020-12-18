@@ -1,8 +1,6 @@
 package pijakogui;
 
-import java.nio.channels.Channel;
 import java.util.HashMap;
-import pijakogui.*;
 
 
 public class Service {
@@ -13,22 +11,28 @@ public class Service {
     }
 
     public static void addMessage(String message, String user, String title){
-        channelsMap.get(title).addMessages(message, user);
-        channelsMap.get(title).messagesZone.validate();
+        channelsMap.get(title).messages(message, user);
+        channelsMap.get(title).getMessagesZone().validate();
     }
+
+    public static void addSmiley(String smiley, String user, String title){
+        channelsMap.get(title).smiley(smiley, user);
+        channelsMap.get(title).getMessagesZone().validate();
+    }
+
 
     public static void addUser( String nickname, String title){
         MyButton button = MyButton.createBNameUser(nickname);
-        channelsMap.get(title).addConnected(nickname);
-        channelsMap.get(title).usersMap.put(nickname, button);
-        channelsMap.get(title).listUser.add(button);
+        channelsMap.get(title).connected(nickname);
+        channelsMap.get(title).getUsersMap().put(nickname, button);
+        channelsMap.get(title).getListUser().add(button);
         channelsMap.get(title).validate();
     }
 
     public static void removeUser( String nickname, String title){
         ChannelPanel channel = channelsMap.get(title);
-        channel.listUser.remove(channel.usersMap.get(nickname));
-        channel.usersMap.remove(nickname);
+        channel.getListUser().remove(channel.getUsersMap().get(nickname));
+        channel.getUsersMap().remove(nickname);
         channelsMap.get(title).validate();
     }
 

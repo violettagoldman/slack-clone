@@ -3,6 +3,7 @@ package pijakogui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
 
 public class PijakoWindow extends JFrame {
 
@@ -20,6 +21,14 @@ public class PijakoWindow extends JFrame {
         this.setSize( 500, 500 );
         this.setLocationRelativeTo( null );
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("pijakoIconWhite.png")));
+
+        //fermeture
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e ){
+                System.exit(1);
+            };
+        });
 
         final JPanel window = (JPanel) this.getContentPane();
         final CardLayout cardWindow = new CardLayout();
