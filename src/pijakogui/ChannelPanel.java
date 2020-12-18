@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.util.HashMap;
+import java.util.Map;
 
 public class ChannelPanel extends JPanel {
     private final String title;
@@ -116,5 +117,19 @@ public class ChannelPanel extends JPanel {
         JLabel jlabel = new JLabel(image2);
         jlabel.setPreferredSize(new Dimension(20,20));
         messagesZone.add(jlabel);
+        messagesZone.validate();
+    }
+
+    public void updateLisUser(String [] users){
+        for (Map.Entry mapentry : usersMap.entrySet()) {
+             listUser.remove((Component) mapentry.getValue());
+        }
+        usersMap.clear();
+        for (String user : users) {
+            MyButton button = MyButton.createBNameUser(user);
+            usersMap.put(user, button);
+            listUser.add(button);
+        }
+        this.validate();
     }
 }

@@ -17,7 +17,6 @@ public class Service {
 
     public static void addSmiley(String smiley, String user, String title){
         channelsMap.get(title).smiley(smiley, user);
-        channelsMap.get(title).getMessagesZone().validate();
     }
 
 
@@ -34,6 +33,10 @@ public class Service {
         channel.getListUser().remove(channel.getUsersMap().get(nickname));
         channel.getUsersMap().remove(nickname);
         channelsMap.get(title).validate();
+    }
+
+    public static void updateUsersConnected( String [] users, String title){
+        channelsMap.get(title).updateLisUser(users);
     }
 
 }
