@@ -5,9 +5,9 @@ import java.awt.*;
 import java.util.HashMap;
 
 public class ChannelsPanel extends JPanel{
-    public static JPanel listChannels;
-    public static JPanel channels;
-    public static CardLayout cardChannels;
+    private static JPanel listChannels;
+    private static JPanel channels;
+    private static CardLayout cardChannels;
 
     public ChannelsPanel(){
         this.setLayout( new BorderLayout() );

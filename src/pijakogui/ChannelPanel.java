@@ -123,6 +123,7 @@ public class ChannelPanel extends JPanel {
     public void updateLisUser(String [] users){
         for (Map.Entry mapentry : usersMap.entrySet()) {
              listUser.remove((Component) mapentry.getValue());
+             listUser.validate();
         }
         usersMap.clear();
         for (String user : users) {
@@ -131,5 +132,6 @@ public class ChannelPanel extends JPanel {
             listUser.add(button);
         }
         this.listUser.validate();
+        this.validate();
     }
 }
