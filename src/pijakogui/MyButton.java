@@ -50,7 +50,7 @@ public class MyButton extends JButton {
     }
 
 
-    public static MyButton createBSend(JTextArea write, JPanel messagesZone){
+    public static MyButton createBSend(JTextArea write, JPanel messagesZone, String title){
         MyButton send = new MyButton("Send");
         send.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
@@ -60,7 +60,7 @@ public class MyButton extends JButton {
                     //JButton bDeleteMessages = MyButton.createBDeleteMessage(messagesZone, message);
                    // messagesZone.add(bDeleteMessages);
                     messagesZone.validate();
-                    network.Client.getInstance().sendMessage(str, "Team Violetta");
+                    network.Client.getInstance().sendMessage(str, title);
                     write.setText("");
                 }
             }
@@ -69,12 +69,12 @@ public class MyButton extends JButton {
         return send;
     }
 
-    public static MyButton createBSmile(JPanel messagesZone){
+    public static MyButton createBSmile(JPanel messagesZone, String title){
         MyButton send = new MyButton(new ImageIcon(MyButton.class.getResource("smile.png")));
         send.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                network.Client.getInstance().sendSmile("smile.png", "Team Violetta");
+                network.Client.getInstance().sendSmile("smile.png", title);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -159,7 +159,9 @@ public class MyButton extends JButton {
         bSaveChannel.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                ChannelsPanel.addChannels(title.getText(), "user");
+                //ChannelsPanel.addChannels(title.getText(), "user");
+                //envoie de channel au serveur
+                //network.Client.getInstance().setUser(title.getText());
                 title.setText("Name of new channel");
                 cardLayout.show(cardPanel, "channels");
             }
