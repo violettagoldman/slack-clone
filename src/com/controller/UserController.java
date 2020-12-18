@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 package com.controller;
 
 import com.bean.User;
