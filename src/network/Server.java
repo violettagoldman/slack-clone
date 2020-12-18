@@ -45,7 +45,7 @@ public class Server implements Runnable, SocketListener {
         Payload payload = new Payload(Payload.Type.ACTIVE_USERS);
         String users = "";
         for (SocketManager sm : activeUsers.keySet()) {
-            users += activeUsers.get(sm) + " ";
+            users += activeUsers.get(sm) + "\2";
         }
         payload.addProperty("activeUsers", users);
         broadcast(payload);
