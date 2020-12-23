@@ -36,6 +36,6 @@ public interface DAO<T> {
      * Delete object in database
      * @param id
      */
-    public abstract Optional<T> delete(long id) throws SQLException;
+    public abstract void delete(long id) throws SQLException;
 
 }
