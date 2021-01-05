@@ -6,6 +6,8 @@ import java.awt.*;
 public class MyPanel extends JPanel {
     private JPanel panel;
     private JPanel south;
+    private JPanel north;
+    private static String avatarChoose;
     private MyPanel(){
         this.setBackground(MyColor.black());
         this.setLayout(new BorderLayout());
@@ -24,7 +26,7 @@ public class MyPanel extends JPanel {
         east.setBackground(MyColor.black());
         this.add(east, BorderLayout.EAST);
 
-        JPanel north = new JPanel();
+        north = new JPanel();
         north.setPreferredSize(new Dimension(100,100));
         north.setBackground(MyColor.black());
         north.setLayout(new BorderLayout());
@@ -40,24 +42,27 @@ public class MyPanel extends JPanel {
         south.setBackground(MyColor.black());
         this.add(south, BorderLayout.SOUTH);
 
-
     }
 
-    public static MyScroll profile(){
+    public static void setAvatarChoose(String str){
+        avatarChoose = str;
+    }
+
+    public static MyScroll profile(CardLayout cardLayout, JPanel cardPanel){
         MyPanel profile = new MyPanel();
-        JTextField mail = new JTextField("mail@gmail.com");
-        mail.setBorder(new RoundedBorderCorner());
-        mail.setBackground(new Color(50, 50, 50));
-        mail.setFont(new Font("Nirmala UI Semilight", 0, 15));
-        mail.setForeground(new Color(250,250,250));
+
+        ImageIcon image = new ImageIcon( profile.getClass().getResource( "avatar/0.png"));
+        ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
+        JLabel jlabel = new JLabel(image2, JLabel.CENTER);
+        profile.panel.add(jlabel);
+
+        profile.panel.add(MyButton.createBChangeAvatar(cardLayout, cardPanel));
+
+        JTextField mail = new MyTextField("mail@gmail.com");
         mail.setEditable(false);
         profile.panel.add(mail);
 
-        JTextField nickName = new JTextField("nickname");
-        nickName.setBorder(new RoundedBorderCorner());
-        nickName.setBackground(new Color(50, 50, 50));
-        nickName.setFont(new Font("Nirmala UI Semilight", 0, 15));
-        nickName.setForeground(new Color(250,250,250));
+        JTextField nickName = new MyTextField("nickname");
         profile.panel.add(nickName);
 
         profile.panel.add(MyButton.createBSaveNickName());
@@ -68,37 +73,25 @@ public class MyPanel extends JPanel {
     }
 
     public static MyScroll signIn(CardLayout cardLayout, JPanel cardPanel ){
-        MyPanel profile = new MyPanel();
-        JTextField mail = new JTextField("mail@gmail.com");
-        mail.setBorder(new RoundedBorderCorner());
-        mail.setBackground(new Color(50, 50, 50));
-        mail.setFont(new Font("Nirmala UI Semilight", 0, 15));
-        mail.setForeground(new Color(250,250,250));
+        MyPanel signIn = new MyPanel();
+        JTextField mail = new MyTextField("mail@gmail.com");
         mail.setEditable(false);
-        profile.panel.add(mail);
+        signIn.panel.add(mail);
 
-        JTextField nickName = new JTextField("nickname");
-        nickName.setBorder(new RoundedBorderCorner());
-        nickName.setBackground(new Color(50, 50, 50));
-        nickName.setFont(new Font("Nirmala UI Semilight", 0, 15));
-        nickName.setForeground(new Color(250,250,250));
-        profile.panel.add(nickName);
+        JTextField nickName = new MyTextField("nickname");
+        signIn.panel.add(nickName);
 
-        profile.panel.add(MyButton.createBNewProfile( cardLayout, cardPanel));
-        profile.panel.add(MyButton.createBGoToConnect( cardLayout, cardPanel));
+        signIn.panel.add(MyButton.createBNewProfile( cardLayout, cardPanel));
+        signIn.panel.add(MyButton.createBGoToConnect( cardLayout, cardPanel));
 
-        MyScroll scroll = MyScroll.createBlack(profile);
+        MyScroll scroll = MyScroll.createBlack(signIn);
         return scroll;
     }
 
     public static MyScroll newChannel(CardLayout cardLayout, JPanel cardPanel){
         MyPanel newChannel = new MyPanel();
 
-        JTextField title = new JTextField("Name of new channel");
-        title.setBorder(new RoundedBorderCorner());
-        title.setBackground(new Color(50, 50, 50));
-        title.setFont(new Font("Nirmala UI Semilight", 0, 15));
-        title.setForeground(new Color(250,250,250));
+        JTextField title = new MyTextField("Name of new channel");
         newChannel.panel.add(title);
         newChannel.south.setPreferredSize(new Dimension(400,400));
 
@@ -109,28 +102,38 @@ public class MyPanel extends JPanel {
     }
 
     public static MyScroll login(CardLayout cardLayout, JPanel cardPanel){
-        MyPanel profile = new MyPanel();
+        MyPanel login = new MyPanel();
 
 
-        JTextField nickname = new JTextField("Your nickname");
-        nickname.setBorder(new RoundedBorderCorner());
-        nickname.setBackground(new Color(50, 50, 50));
-        nickname.setFont(new Font("Nirmala UI Semilight", 0, 15));
-        nickname.setForeground(new Color(250,250,250));
-        profile.panel.add(nickname);
+        JTextField nickname = new MyTextField("Your nickname");
+        login.panel.add(nickname);
 
-        JTextField password = new JTextField("Your password");
-        password.setBorder(new RoundedBorderCorner());
-        password.setBackground(new Color(50, 50, 50));
-        password.setFont(new Font("MT Extra", 0, 15));
-        password.setForeground(new Color(250,250,250));
-        profile.panel.add(password);
-        profile.south.setPreferredSize(new Dimension(400,400));
+        JTextField password = new MyTextField("Your password");
+        login.panel.add(password);
+        login.south.setPreferredSize(new Dimension(400,400));
 
-        profile.panel.add(MyButton.createBLogin(cardLayout, cardPanel, nickname));
-        profile.panel.add(MyButton.createBSignIn(cardLayout, cardPanel));
+        login.panel.add(MyButton.createBLogin(cardLayout, cardPanel, nickname));
+        login.panel.add(MyButton.createBSignIn(cardLayout, cardPanel));
 
-        MyScroll scroll = MyScroll.createBlack(profile);
+        MyScroll scroll = MyScroll.createBlack(login);
+        return scroll;
+    }
+
+    public static MyScroll avatar(String avatarStr){
+        MyPanel avatar = new MyPanel();
+        avatar.north.remove(0);
+        ImageIcon image = new ImageIcon( avatar.getClass().getResource(avatarStr));
+        ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
+        JLabel jlabel = new JLabel(image2, JLabel.CENTER);
+        avatar.north.add(jlabel, BorderLayout.CENTER);
+        //avatar.north.add(MyButton.createBCSaveAvatar(), BorderLayout.SOUTH);
+        avatar.panel.setLayout(new GridLayout(4,6, 30, 30));
+
+        for(int i = 0; i<20 ; i++){
+            avatar.panel.add(MyButton.createBChooseAvatar("avatar/"+i+".png", avatar.north));
+            avatar.panel.validate();
+        }
+        MyScroll scroll = MyScroll.createBlack(avatar);
         return scroll;
     }
 }

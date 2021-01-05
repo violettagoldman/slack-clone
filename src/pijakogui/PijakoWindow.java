@@ -48,27 +48,23 @@ public class PijakoWindow extends JFrame {
         final CardLayout cardWindow = new CardLayout();
         final CardLayout cardHome = new CardLayout();
         window.setLayout(cardWindow);
-        JPanel home = new JPanel();
         JPanel menu = new JPanel();
+        JPanel home = new JPanel();
         menu.setLayout(new BorderLayout());
-        home.setLayout(cardHome);
-        home.add(new ChannelsPanel(), "channels");
         menu.add(new ToolsBars(cardHome, home, cardWindow, window), BorderLayout.NORTH);
         menu.add(home, BorderLayout.CENTER);
         window.add(MyPanel.login(cardWindow , window), "login");
         window.add(MyPanel.signIn(cardWindow , window), "sign in");
         window.add(menu, "menu");
+
+
+        home.setLayout(cardHome);
+        home.add(new ChannelsPanel(), "channels");
         cardWindow.show(window, "login");
         cardHome.show(home, "channels");
-        JPanel profile = new JPanel();
-        home.add(MyPanel.profile(), "profile");
+        home.add(MyPanel.profile(cardHome, home), "profile");
+        home.add(MyPanel.avatar("avatar/0.png"), "avatar");
         home.add(MyPanel.newChannel(cardHome, home), "new channel");
-
-        //Test ajout de police
-        //Font f = Font.createFont(Font.TRUETYPE_FONT, urlfs);
-        //GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-        //on l'ajoute a l'envirronement
-        //ge.registerFont(f);
 
         //Test ajout de message depuis le serveur
         Service.addChannel("Team Violetta", "Jeanne");
