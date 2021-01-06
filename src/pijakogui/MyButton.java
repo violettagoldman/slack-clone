@@ -139,8 +139,8 @@ public class MyButton extends JButton {
         return bProfile;
     }
 
-    public static MyButton createBSignUp(CardLayout cardLayout, JPanel cardPanel){
-        MyButton bSignUp = new MyButton("SignUp");
+    public static MyButton createBDeconnect(CardLayout cardLayout, JPanel cardPanel){
+        MyButton bSignUp = new MyButton("Deconnect");
         bSignUp.setPreferredSize(new Dimension(100,20));
         bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
@@ -150,19 +150,9 @@ public class MyButton extends JButton {
         return bSignUp;
     }
 
-    public static MyButton createBSaveNickName(){
-        MyButton bSaveNickName = new MyButton("Save nickName");
-        bSaveNickName.setPreferredSize(new Dimension(100,20));
-        bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
-            public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { }
-            public void mouseExited(java.awt.event.MouseEvent evt) { }
-        });
-        return bSaveNickName;
-    }
 
-    public static MyButton createBSavePassWord(){
-        MyButton bSaveNickName = new MyButton("Save password");
+    public static MyButton createBSaveInformation(){
+        MyButton bSaveNickName = new MyButton("Save information");
         bSaveNickName.setPreferredSize(new Dimension(100,20));
         bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
@@ -200,12 +190,12 @@ public class MyButton extends JButton {
         return bSaveChannel;
     }
 
-    public static MyButton createBSignIn(CardLayout cardLayout, JPanel cardPanel){
-        MyButton bSignIn = new MyButton("SignIn");
+    public static MyButton createBSignUp(CardLayout cardLayout, JPanel cardPanel){
+        MyButton bSignIn = new MyButton("SignUp");
         bSignIn.setPreferredSize(new Dimension(100,20));
         bSignIn.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "sign in");}
+            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "sign up");}
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bSignIn;

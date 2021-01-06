@@ -59,18 +59,16 @@ public class MyPanel extends JPanel {
         profile.panel.add(MyButton.createBChangeAvatar(cardLayout, cardPanel));
 
         JTextField mail = new MyTextField("mail@gmail.com");
-        mail.setEditable(false);
         profile.panel.add(mail);
 
         JTextField nickName = new MyTextField("nickname");
         profile.panel.add(nickName);
 
-        profile.panel.add(MyButton.createBSaveNickName());
 
         JTextField password = new MyTextField("password");
         profile.panel.add(password);
 
-        profile.panel.add(MyButton.createBSavePassWord());
+        profile.panel.add(MyButton.createBSaveInformation());
 
         profile.panel.add(MyButton.createBDeleteAccount());
 
@@ -78,7 +76,7 @@ public class MyPanel extends JPanel {
         return scroll;
     }
 
-    public static MyScroll signIn(CardLayout cardLayout, JPanel cardPanel ){
+    public static MyScroll signUp(CardLayout cardLayout, JPanel cardPanel ){
         MyPanel signIn = new MyPanel();
         JTextField mail = new MyTextField("mail@gmail.com");
         mail.setEditable(false);
@@ -119,7 +117,7 @@ public class MyPanel extends JPanel {
         login.south.setPreferredSize(new Dimension(400,400));
 
         login.panel.add(MyButton.createBLogin(cardLayout, cardPanel, nickname));
-        login.panel.add(MyButton.createBSignIn(cardLayout, cardPanel));
+        login.panel.add(MyButton.createBSignUp(cardLayout, cardPanel));
 
         MyScroll scroll = MyScroll.createBlack(login);
         return scroll;

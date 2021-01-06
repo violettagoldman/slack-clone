@@ -54,7 +54,7 @@ public class PijakoWindow extends JFrame {
         menu.add(new ToolsBars(cardHome, home, cardWindow, window), BorderLayout.NORTH);
         menu.add(home, BorderLayout.CENTER);
         window.add(MyPanel.login(cardWindow , window), "login");
-        window.add(MyPanel.signIn(cardWindow , window), "sign in");
+        window.add(MyPanel.signUp(cardWindow , window), "sign up");
         window.add(menu, "menu");
 
 
