@@ -23,13 +23,10 @@ public class MailerService{
         //email.setAuthenticator(new DefaultAuthenticator(MailerService.username, password));
         email.setAuthentication(MailerService.email, MailerService.password );
         email.setSSLOnConnect(true);
-
  */
-         email.setHostName("smtp.google.com");
+         email.setHostName("smtp.googlemail.com");
          email.setSmtpPort(465);
-         //email.setTLS(false);
          email.setAuthenticator(new DefaultAuthenticator(MailerService.email, MailerService.password));
-         //email.setAuthentication(MailerService.email, MailerService.password );
          email.setSSLOnConnect(true);
          email.setFrom(MailerService.email);
          email.setSubject("TestMail");
