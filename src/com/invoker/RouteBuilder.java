@@ -1,6 +1,5 @@
 package com.invoker;
 
-import com.controllers.Controller;
 import com.invoker.decorators.*;
 import com.invoker.tree.RouteItem;
 import com.invoker.tree.RouteTree;
@@ -38,7 +37,7 @@ public class RouteBuilder {
         System.out.println("building route tree...");
         Reflections reflections = new Reflections("com.controllers");
         Set<Class<?>> controllers = (reflections.getTypesAnnotatedWith(ControllerRoute.class));
-        RouteTree routeTree = new RouteTree(null, "GET");
+        RouteTree routeTree = new RouteTree(null, "root");
         for (Class<?> controller : controllers) {
             if (controller.isAnnotationPresent(ControllerRoute.class)) {
                 for (RouteItem routeItem : buildControllerRouteItems(controller)) {

@@ -1,9 +1,10 @@
 package com.bean;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class UserChannel {
+public class UserChannel implements Serializable {
     private long userChannelId;
     private long channel_id;
     private long user_id;

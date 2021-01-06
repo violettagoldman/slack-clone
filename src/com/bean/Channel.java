@@ -1,6 +1,7 @@
 package com.bean;
 
 import java.io.Serializable;
+import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Objects;
@@ -10,7 +11,8 @@ public class Channel implements Serializable {
     private Timestamp createdAt;
     private long adminUserId;
     private String name;
-
+    private ArrayList<User> users = new ArrayList<>();
+    private ArrayList<Message> messages = new ArrayList<>();
     public Channel() {}
 
     public Channel(long ID, long adminUserId, String name) {
