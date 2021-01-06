@@ -180,7 +180,7 @@ public class MyButton extends JButton {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 Service.addChannel(title.getText(), "user");
                 //envoie de channel au serveur
-                //network.Client.getInstance().setUser(title.getText());
+                network.Client.getInstance().sendChannel(title.getText());
                 title.setText("Name of new channel");
                 cardLayout.show(cardPanel, "channels");
             }
@@ -243,6 +243,7 @@ public class MyButton extends JButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 cardLayout.show(cardPanel, title);
+                network.Client.getInstance().sendChannel(title);
                  }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -254,7 +255,9 @@ public class MyButton extends JButton {
         bNameChannel.setPreferredSize(new Dimension(200,30));
         bNameChannel.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                network.Client.getInstance().sendChannel(title);
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bNameChannel;
