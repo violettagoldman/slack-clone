@@ -6,7 +6,7 @@ import org.junit.Test;
 public class MailerTest {
     @Test
     public void SendEmail(){
-        MailerService.sendResetEmail("japiko@yopmail.com");
+        MailerService.sendEmail("pijako@yopmail.com");
     }
     //test@yopmail.com
 }
