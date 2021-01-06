@@ -85,6 +85,12 @@ public class MyPanel extends JPanel {
         JTextField nickName = new MyTextField("nickname");
         signIn.panel.add(nickName);
 
+        JTextField password1 = new MyTextField("password");
+        signIn.panel.add(password1);
+
+        JTextField password2 = new MyTextField("confirm password");
+        signIn.panel.add(password2);
+
         signIn.panel.add(MyButton.createBNewProfile( cardLayout, cardPanel));
         signIn.panel.add(MyButton.createBGoToConnect( cardLayout, cardPanel));
 
