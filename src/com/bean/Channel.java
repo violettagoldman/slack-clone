@@ -2,9 +2,10 @@ package com.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Objects;
 
-public class Channel {
+public class Channel implements Serializable {
     private long ID;
     private Timestamp createdAt;
     private long adminUserId;
@@ -12,7 +13,7 @@ public class Channel {
 
     public Channel() {}
 
-    public Channel(long ID, int adminUserId, String name) {
+    public Channel(long ID, long adminUserId, String name) {
         this.ID = ID;
         this.adminUserId = adminUserId;
         this.name = name;

@@ -2,10 +2,9 @@ package com.helpers;
 
 public class RegexHelper {
 
-    public static boolean isChannelNameValid(String channelName) {
-        String regex = "^[\\w-]{2,20}$";
-        return channelName.matches(regex);
-    }
+    /**
+     * FOR USER
+     */
     public static boolean isEmailValid(String email) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"; // Autorise chiffres, lettres min et maj,
         // tiret underscore
@@ -24,5 +23,14 @@ public class RegexHelper {
         String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";  // Minimum 8 caractères avec au minimum
         // 1 lettre maj, 1 lettre min et un chiffre
         return pass.matches(regex);
+    }
+
+
+    /**
+     * FOR CHANNEL
+     */
+    public static boolean isChannelNameValid(String channelName) {
+        String regex = "^[\\w-]{2,20}$";
+        return channelName.matches(regex);
     }
 }

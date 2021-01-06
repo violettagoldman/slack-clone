@@ -1,9 +1,11 @@
-package com.dao.concret;
+package com.dao.impl;
 
 import com.dao.DAO;
 import com.bean.UserChannel;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserChannelDAO implements DAO<UserChannel> {
@@ -34,8 +36,8 @@ public class UserChannelDAO implements DAO<UserChannel> {
                     "INSERT INTO userchannel (channel_id,user_id,created_at) VALUES(?,?,?)"
             );
 
-            prepare.setLong(1, userChannelObj.getChannelId());
-            prepare.setLong(2, userChannelObj.getUserId());
+            prepare.setLong(1, userChannelObj.getChannel_id());
+            prepare.setLong(2, userChannelObj.getUser_id());
             prepare.setTimestamp(3, userChannelObj.getUserChannelCreatedAt());
 
             prepare.executeUpdate();
@@ -53,23 +55,44 @@ public class UserChannelDAO implements DAO<UserChannel> {
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE
             ).executeUpdate(
-                    "UPDATE userchannel SET channel_id = '" + userChannelObj.getChannelId() + "', "
-                            + "user_id = '" + userChannelObj.getUserId() + "' "
+                    "UPDATE userchannel SET channel_id = '" + userChannelObj.getChannel_id() + "', "
+                            + "user_id = '" + userChannelObj.getUser_id() + "' "
                             + "WHERE userChannelId = " + userChannelObj.getUserChannelId()
             );
 
-            return this.find(userChannelObj.getChannelId());
+            return this.find(userChannelObj.getChannel_id());
     }
 
-    public Optional<UserChannel> delete(long userChannelId) throws SQLException{
-
+    public void delete(long userChannelId) throws SQLException{
             this.connect.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE
             ).executeUpdate(
                     "DELETE FROM userchannel WHERE id = " + userChannelId
             );
+    }
 
-            return this.find(userChannelId);
+    public Optional<List<UserChannel>> findAllUserFromAChannel(long channelId) throws SQLException{
+
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "SELECT * FROM userchannel WHERE channel_id =" + channelId
+        );
+
+        List<UserChannel> userChannels = new ArrayList<>();
+
+        while(result.next()) {
+            UserChannel userChannel = new UserChannel(
+                    result.getLong("id"),
+                    result.getLong("channel_id"),
+                    result.getLong("user_id"),
+                    result.getTimestamp("created_at")
+            );
+            userChannels.add(userChannel);
+        }
+
+        return Optional.of(userChannels);
     }
 }

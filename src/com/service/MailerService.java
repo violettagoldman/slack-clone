@@ -30,7 +30,7 @@ public class MailerService{
          email.setSSLOnConnect(true);
          email.setFrom(MailerService.email);
          email.setSubject("TestMail");
-         email.setMsg("This is a test mail ... :-)");
+         email.setMsg("Votre inscription est bien enregistrée");
          email.addTo(emailString);
          System.out.println(email.send());
 
