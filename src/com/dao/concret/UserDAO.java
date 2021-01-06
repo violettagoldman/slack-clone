@@ -1,6 +1,6 @@
 package com.dao.concret;
 
-import com.models.User;
+import com.bean.User;
 import com.dao.DAO;
 import com.helpers.PasswordHelper;
 

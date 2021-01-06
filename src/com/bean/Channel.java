@@ -1,14 +1,13 @@
-package com.models;
+package com.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.util.ArrayList;
 import java.util.Objects;
 
-public class Channel implements Serializable {
+public class Channel {
     private long ID;
     private Timestamp createdAt;
-    private setInt adminUserId;
+    private long adminUserId;
     private String name;
 
     public Channel() {}

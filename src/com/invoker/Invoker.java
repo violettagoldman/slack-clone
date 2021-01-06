@@ -3,9 +3,6 @@ package com.invoker;
 import com.invoker.tree.RouteItem;
 import com.invoker.tree.RouteTree;
 import javassist.NotFoundException;
-import org.omg.CosNaming.NamingContextPackage.NotFound;
-
-import javax.xml.bind.SchemaOutputResolver;
 
 public class Invoker {
     private RouteTree routeTree;

@@ -1,8 +1,8 @@
 package com.controllers;
 
-import com.models.User;
+import com.bean.User;
 import com.dao.concret.UserDAO;
-import com.models.ResponseMessage;
+import com.dto.ResponseMessage;
 
 
 public class UserController extends Controller {

@@ -3,6 +3,7 @@ package com.tests;
 import org.junit.jupiter.api.Test;
 
 import static com.controllers.UserController.*;
+import static com.helpers.RegexHelper.*;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -32,4 +33,3 @@ public class UserDAOTest {
     }
 
 }
-*/

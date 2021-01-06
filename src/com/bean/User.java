@@ -1,10 +1,10 @@
-package com.models;
+package com.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class User implements Serializable {
+public class User{
     private long id;
     private String username;
     private String email;
@@ -33,7 +33,7 @@ public class User implements Serializable {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(long id) {
         this.id = id;
     }
 

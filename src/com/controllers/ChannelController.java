@@ -1,18 +1,34 @@
 package com.controllers;
 
-import com.models.Channel;
-import com.models.ResponseMessage;
+import com.bean.Channel;
+import com.dto.ChannelModel;
+import com.dto.ResponseMessage;
 import com.dao.concret.ChannelDAO;
 
-import java.util.ArrayList;
+import java.sql.SQLException;
+import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.Optional;
+
+import static com.helpers.RegexHelper.isChannelNameValid;
 
 public class ChannelController  extends Controller {
 
-    private final ChannelDAO channelDAO = new ChannelDAO();
+    private static final ChannelDAO channelDAO = new ChannelDAO();
 
-    public static ResponseMessage<ArrayList<Channel>> getChannelsByUserID(int userID){
+
+    public static ResponseMessage<ChannelModel> createChannel(Channel channel){
+        Optional<Channel> optional;
+        ChannelModel channelModel;
+        if (isChannelNameValid(channel.getName()));
+        try{
+            optional= channelDAO.create(channel);
+        }catch (SQLIntegrityConstraintViolationException e){
+           //return new ResponseMessage<>(channel,"Channel created", 200);
+        }
+        catch (SQLException e){
+
+        }
         return null;
     }
-
 
 }

@@ -1,13 +1,12 @@
 package com.dao.concret;
 
 import com.dao.DAO;
+import com.bean.UserChannel;
 
 import java.sql.*;
 import java.util.Optional;
 
 public class UserChannelDAO implements DAO<UserChannel> {
-
-
 
     public Optional<UserChannel> find(long id) throws SQLException{
 
@@ -36,7 +35,7 @@ public class UserChannelDAO implements DAO<UserChannel> {
             );
 
             prepare.setLong(1, userChannelObj.getChannelId());
-            prepare.setLong(2, userChannelObj.getUserID());
+            prepare.setLong(2, userChannelObj.getUserId());
             prepare.setTimestamp(3, userChannelObj.getUserChannelCreatedAt());
 
             prepare.executeUpdate();
@@ -55,7 +54,7 @@ public class UserChannelDAO implements DAO<UserChannel> {
                     ResultSet.CONCUR_UPDATABLE
             ).executeUpdate(
                     "UPDATE userchannel SET channel_id = '" + userChannelObj.getChannelId() + "', "
-                            + "user_id = '" + userChannelObj.getUserID() + "' "
+                            + "user_id = '" + userChannelObj.getUserId() + "' "
                             + "WHERE userChannelId = " + userChannelObj.getUserChannelId()
             );
 

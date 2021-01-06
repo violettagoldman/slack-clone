@@ -1,4 +1,4 @@
-package com.models;
+package com.dto;
 
 public class ResponseMessage<T> {
  private T data;
@@ -10,5 +10,4 @@ public class ResponseMessage<T> {
         this.message = message;
         this.status = status;
     }
-
 }

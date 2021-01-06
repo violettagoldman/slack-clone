@@ -1,6 +1,6 @@
 package com.dao.concret;
 
-import com.models.Channel;
+import com.bean.Channel;
 import com.dao.DAO;
 
 import java.sql.*;
@@ -32,7 +32,6 @@ public class ChannelDAO implements DAO<Channel> {
 
     public Optional<Channel> create(Channel channelObj) throws SQLException{
 
-        if (isChannelNameValid(channelObj.getName())) {
 
                 PreparedStatement prepare = this.connect.prepareStatement(
                         "INSERT INTO channel (name,admin_user_id,created_at) VALUES(?,?,?)"
@@ -49,9 +48,7 @@ public class ChannelDAO implements DAO<Channel> {
                     channelObj.setID(rs.getLong(1));
                 }
                 return Optional.of(channelObj);
-        } else {
-            return Optional.empty();
-        }
+
     }
 
 
