@@ -1,12 +1,15 @@
 package pijakogui;
 
 
+import com.jdbc.ConnectionSQL;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 // Classe principale de l'interface
 public class PijakoWindow extends JFrame {
     private static JPanel window;
+
 
     public PijakoWindow() {
         super( "Pijako" );

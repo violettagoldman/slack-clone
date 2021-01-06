@@ -16,7 +16,7 @@ import static com.bean.ResponseMessage.Messages.*;
 
 public class UserController extends Controller {
 
-    private final UserDAO userDAO = new UserDAO();
+    private final static UserDAO userDAO = new UserDAO();
 
     public ResponseMessage find(long id) throws SQLException {
 
@@ -119,7 +119,7 @@ public class UserController extends Controller {
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-    public ResponseMessage signUp(String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
+    public static ResponseMessage signUp(String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {

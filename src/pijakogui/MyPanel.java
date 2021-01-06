@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MyPanel extends JPanel {
-    private JPanel panel;
-    private JPanel south;
-    private JPanel north;
+    private final JPanel panel;
+    private final JPanel south;
+    private final JPanel north;
     private static String avatarChoose;
     private MyPanel(){
         this.setBackground(MyColor.black());
@@ -77,24 +77,32 @@ public class MyPanel extends JPanel {
     }
 
     public static MyScroll signUp(CardLayout cardLayout, JPanel cardPanel ){
-        MyPanel signIn = new MyPanel();
+        MyPanel signUp = new MyPanel();
+
+
+
+        JTextField information = MyTextField.BorderEmpty("Password : minimum 8 characters with at least 1 uppercase letter, 1 lowercase letter and 1 number");
+        signUp.panel.add(information);
+
+        JTextField error = MyTextField.BorderEmpty("");
+        signUp.panel.add(error);
+
         JTextField mail = new MyTextField("mail@gmail.com");
-        mail.setEditable(false);
-        signIn.panel.add(mail);
+        signUp.panel.add(mail);
 
         JTextField nickName = new MyTextField("nickname");
-        signIn.panel.add(nickName);
+        signUp.panel.add(nickName);
 
         JTextField password1 = new MyTextField("password");
-        signIn.panel.add(password1);
+        signUp.panel.add(password1);
 
         JTextField password2 = new MyTextField("confirm password");
-        signIn.panel.add(password2);
+        signUp.panel.add(password2);
 
-        signIn.panel.add(MyButton.createBNewProfile( cardLayout, cardPanel));
-        signIn.panel.add(MyButton.createBGoToConnect( cardLayout, cardPanel));
+        signUp.panel.add(MyButton.createBNewProfile( error,mail, nickName, password1, password2, cardLayout, cardPanel));
+        signUp.panel.add(MyButton.createBGoToConnect( cardLayout, cardPanel));
 
-        MyScroll scroll = MyScroll.createBlack(signIn);
+        MyScroll scroll = MyScroll.createBlack(signUp);
         return scroll;
     }
 
@@ -113,7 +121,6 @@ public class MyPanel extends JPanel {
 
     public static MyScroll login(CardLayout cardLayout, JPanel cardPanel){
         MyPanel login = new MyPanel();
-
 
         JTextField nickname = new MyTextField("Your nickname");
         login.panel.add(nickname);
