@@ -1,31 +1,38 @@
-package com.bean;
+package com.models;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Objects;
 
+<<<<<<< HEAD:src/com/bean/User.java
 public class User{
+=======
+public class User implements Serializable {
+>>>>>>> yoann:src/com/models/User.java
     private long id;
     private String username;
     private String email;
     private Timestamp createdAt;
     private String password;
+    private String icone;
 
     public User() {}
 
-    public User(long id, String username, String email, String password) {
+    public User(long id, String username, String email, String password, String icone) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.icone = icone;
         this.createdAt = new Timestamp(System.currentTimeMillis());;
     }
 
-    public User(long id, String username, String email, String password, Timestamp createAt) {
+    public User(long id, String username, String email, String password, Timestamp createAt, String icone) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.icone = icone;
         this.createdAt = createAt;
     }
 
@@ -57,6 +64,14 @@ public class User{
         return password;
     }
 
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getIcone() {
+        return icone;
+    }
+
     @Override
     public String toString() {
         return "User{" +
@@ -65,6 +80,7 @@ public class User{
                 ", email='" + email + '\'' +
                 ", createdAt=" + createdAt +
                 ", password='" + password + '\'' +
+                ", icone='" + icone + '\'' +
                 '}';
     }
 
@@ -80,6 +96,6 @@ public class User{
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, username, email, createdAt, password);
+        return Objects.hash(id, username, email, createdAt, password, icone);
     }
 }

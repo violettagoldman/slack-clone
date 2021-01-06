@@ -1,6 +1,6 @@
-package com.dao.concret;
+package com.dao.impl;
 
-import com.bean.User;
+import com.models.User;
 import com.dao.DAO;
 import com.helpers.PasswordHelper;
 
@@ -30,7 +30,8 @@ public class UserDAO implements DAO<User> {
                     result.getString("username"),
                     result.getString("email"),
                     result.getString("hashed_password"),
-                    result.getTimestamp("created_at")
+                    result.getTimestamp("created_at"),
+                    result.getString("icone")
             ));
         }
         return Optional.empty();
@@ -42,7 +43,7 @@ public class UserDAO implements DAO<User> {
      * @return List of all users
      * @throws SQLException
      */
-    public Optional<List<User>> findAll() throws SQLException { // OPTIONAL AVEC LIST
+    public Optional<List<User>> findAll() throws SQLException {
 
         ResultSet result = this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -59,7 +60,8 @@ public class UserDAO implements DAO<User> {
                     result.getString("username"),
                     result.getString("email"),
                     result.getString("hashed_password"),
-                    result.getTimestamp("created_at")
+                    result.getTimestamp("created_at"),
+                    result.getString("icone")
             );
             users.add(user);
         }
@@ -90,7 +92,9 @@ public class UserDAO implements DAO<User> {
                     result.getString("username"),
                     email,
                     result.getString("hashed_password"),
-                    result.getTimestamp("created_at")
+                    result.getTimestamp("created_at"),
+                    result.getString("icone")
+
             ));
         }
 
@@ -119,7 +123,8 @@ public class UserDAO implements DAO<User> {
                     username,
                     result.getString("email"),
                     result.getString("hashed_password"),
-                    result.getTimestamp("created_at")
+                    result.getTimestamp("created_at"),
+                    result.getString("icone")
             ));
         }
 
@@ -130,13 +135,16 @@ public class UserDAO implements DAO<User> {
     public Optional<User> create(User userObj) throws SQLException, NoSuchAlgorithmException {
 
         PreparedStatement prepare = this.connect.prepareStatement(
-                "INSERT INTO user (username,email,hashed_password,created_at) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS
+                "INSERT INTO user (username,email,hashed_password,created_at,icone) VALUES(?,?,?,?,?)", Statement.RETURN_GENERATED_KEYS
         );
+
+        userObj.setPassword(PasswordHelper.hashPassword(userObj.getPassword()));
 
         prepare.setString(1, userObj.getUsername());
         prepare.setString(2, userObj.getEmail());
-        prepare.setString(3, PasswordHelper.hashPassword(userObj.getPassword()));
+        prepare.setString(3, userObj.getPassword());
         prepare.setTimestamp(4, userObj.getCreatedAt());
+        prepare.setString(5, userObj.getIcone());
 
         prepare.executeUpdate();
 
@@ -157,20 +165,20 @@ public class UserDAO implements DAO<User> {
         ).executeUpdate(
                 "UPDATE user SET username = '" + userObj.getUsername() + "', "
                         + "email = '" + userObj.getEmail() + "', "
-                        + "hashed_password = '" + userObj.getPassword() + "' "
+                        + "hashed_password = '" + userObj.getPassword() + "', "
+                        + "icone = '" + userObj.getIcone() + "' "
                         + "WHERE id = " + userObj.getId()
         );
 
         return this.find(userObj.getId());
     }
 
-    public Optional<User> delete(long id) throws SQLException {
+    public void delete(long id) throws SQLException {
         this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE
         ).executeUpdate(
                 "DELETE FROM user WHERE id = " + id
         );
-        return null;
     }
 }

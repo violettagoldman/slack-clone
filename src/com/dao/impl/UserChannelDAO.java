@@ -1,7 +1,11 @@
-package com.dao.concret;
+package com.dao.impl;
 
 import com.dao.DAO;
+<<<<<<< HEAD:src/com/dao/concret/UserChannelDAO.java
 import com.bean.UserChannel;
+=======
+import com.models.UserChannel;
+>>>>>>> yoann:src/com/dao/impl/UserChannelDAO.java
 
 import java.sql.*;
 import java.util.Optional;
@@ -58,18 +62,39 @@ public class UserChannelDAO implements DAO<UserChannel> {
                             + "WHERE userChannelId = " + userChannelObj.getUserChannelId()
             );
 
-            return this.find(userChannelObj.getChannelId());
+            return this.find(userChannelObj.getChannel_id());
     }
 
-    public Optional<UserChannel> delete(long userChannelId) throws SQLException{
-
+    public void delete(long userChannelId) throws SQLException{
             this.connect.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE
             ).executeUpdate(
                     "DELETE FROM userchannel WHERE id = " + userChannelId
             );
+    }
 
-            return this.find(userChannelId);
+    public Optional<List<UserChannel>> findAllUserFromAChannel(long channelId) throws SQLException{
+
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "SELECT * FROM userchannel WHERE channel_id =" + channelId
+        );
+
+        List<UserChannel> userChannels = new ArrayList<>();
+
+        while(result.next()) {
+            UserChannel userChannel = new UserChannel(
+                    result.getLong("id"),
+                    result.getLong("channel_id"),
+                    result.getLong("user_id"),
+                    result.getTimestamp("created_at")
+            );
+            userChannels.add(userChannel);
+        }
+
+        return Optional.of(userChannels);
     }
 }

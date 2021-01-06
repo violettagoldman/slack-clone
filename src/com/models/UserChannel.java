@@ -1,9 +1,13 @@
-package com.bean;
+package com.models;
 
 import java.sql.Timestamp;
 import java.util.Objects;
 
+<<<<<<< HEAD:src/com/bean/UserChannel.java
 public class UserChannel{
+=======
+public class UserChannel {
+>>>>>>> yoann:src/com/models/UserChannel.java
     private long userChannelId;
     private long channelId;
     private long userId;
@@ -58,5 +62,9 @@ public class UserChannel{
 
     public void setUserChannelId(long channelId) {
         this.channelId=channelId;
+    }
+
+    public void setUserChannelId(long userChannelId) {
+        this.userChannelId = userChannelId;
     }
 }

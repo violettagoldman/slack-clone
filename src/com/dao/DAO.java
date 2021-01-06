@@ -9,33 +9,33 @@ import java.util.Optional;
 
 public interface DAO<T> {
 
-    public Connection connect = ConnectionSQL.getInstance();
+    Connection connect = ConnectionSQL.getInstance();
 
     /**
      * Find object with ID
      * @param id
-     * @return
+     * @return optional
      */
-    public abstract Optional<T> find(long id) throws SQLException;
+    Optional<T> find(long id) throws SQLException;
 
     /**
      * Create object in database
      * @param obj
-     * @return
+     * @return optional
      */
-    public abstract Optional<T> create(T obj) throws NoSuchAlgorithmException, SQLException;
+    Optional<T> create(T obj) throws NoSuchAlgorithmException, SQLException;
 
     /**
      * Update object in database
      * @param obj
-     * @return
+     * @return optional
      */
-    public abstract Optional<T> update(T obj) throws SQLException;
+    Optional<T> update(T obj) throws SQLException;
 
     /**
      * Delete object in database
      * @param id
      */
-    public abstract Optional<T> delete(long id) throws SQLException;
+    void delete(long id) throws SQLException;
 
 }
