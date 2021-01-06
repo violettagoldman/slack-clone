@@ -84,8 +84,6 @@ public class ChannelPanel extends JPanel {
         writeScript.setForeground(MyColor.white());
         write.add(MyButton.createBSend(writeScript, messagesZone, title), BorderLayout.EAST );
         write.add(MyButton.createBSeeSmile(smiley,"smileybutton/smile.png"), BorderLayout.WEST );
-
-        this.messages("Coucou !!! Comment ça va ?", "Jeanne Barriere");
         this.add(write, BorderLayout.SOUTH );
     }
 
