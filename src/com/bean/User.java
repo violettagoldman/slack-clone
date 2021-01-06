@@ -2,6 +2,7 @@ package com.bean;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class User implements Serializable {
@@ -11,6 +12,7 @@ public class User implements Serializable {
     private Timestamp createdAt;
     private String password;
     private String icone;
+    private ArrayList<Channel> channels;
 
     public User() {}
 

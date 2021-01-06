@@ -1,6 +1,8 @@
 package com.bean;
 
-public class ResponseMessage<T> {
+import java.io.Serializable;
+
+public class ResponseMessage<T> implements Serializable {
     private T data;
     private Messages message;
     private int status;
