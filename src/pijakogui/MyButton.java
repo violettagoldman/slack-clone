@@ -161,6 +161,17 @@ public class MyButton extends JButton {
         return bSaveNickName;
     }
 
+    public static MyButton createBSavePassWord(){
+        MyButton bSaveNickName = new MyButton("Save password");
+        bSaveNickName.setPreferredSize(new Dimension(100,20));
+        bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
+            public void mouseEntered(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) { }
+            public void mouseExited(java.awt.event.MouseEvent evt) { }
+        });
+        return bSaveNickName;
+    }
+
     public static MyButton createBDeleteAccount(){
         MyButton bDeleteAccount = new MyButton("Delete Account");
         bDeleteAccount.setPreferredSize(new Dimension(100,20));
@@ -328,7 +339,9 @@ public class MyButton extends JButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 MyPanel.setAvatarChoose(avatar);
-                north.remove(0);
+                north.removeAll();
+                north.validate();
+                north.add(MyButton.createBCSaveAvatar(), BorderLayout.SOUTH);
                 ImageIcon image = new ImageIcon( chooseAvatar.getClass().getResource(avatar));
                 ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
                 JLabel jlabel = new JLabel(image2, JLabel.CENTER);

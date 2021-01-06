@@ -26,6 +26,7 @@ public class ChannelPanel extends JPanel {
     private final JPanel messagesZone;
     private final JPanel listUser;
     private final HashMap<String, MyButton> usersMap = new HashMap<>();
+    private final  JScrollPane scrollMessages;
 
     public ChannelPanel(String title, String id, String user){
         this.title = title;
@@ -67,7 +68,7 @@ public class ChannelPanel extends JPanel {
         JPanel smiley = new Smiley(messagesZone,title );
         smiley.setVisible(false);
         containerMessage.add(smiley, BorderLayout.SOUTH);
-        JScrollPane scrollMessages = MyScroll.createGray(containerMessage);
+        scrollMessages = MyScroll.createGray(containerMessage);
         this.add(scrollMessages , BorderLayout.CENTER );
 
         //Zone de saisie des messages
@@ -141,6 +142,9 @@ public class ChannelPanel extends JPanel {
         message.setForeground(MyColor.white());
         messageStruct.add(message, BorderLayout.CENTER);
         messagesZone.add(messageStruct);
+        messagesZone.validate();
+        scrollMessages.validate();
+        downVerticalScroll();
     }
 
     public void connected(String user){
@@ -161,7 +165,15 @@ public class ChannelPanel extends JPanel {
         panel.setBackground(MyColor.gray());
         messageStruct.add(panel, BorderLayout.CENTER);
         messagesZone.add(messageStruct);
+
+        JPanel south = new JPanel();
+        south.setPreferredSize(new Dimension(0,30));
+        south.setBackground(MyColor.gray());
+        messageStruct.add(south, BorderLayout.SOUTH);
+
         messagesZone.validate();
+        scrollMessages.validate();
+        downVerticalScroll();
     }
 
     public void updateLisUser(String [] users){
@@ -178,5 +190,9 @@ public class ChannelPanel extends JPanel {
         }
         this.listUser.validate();
         this.validate();
+    }
+
+    public void downVerticalScroll(){
+        scrollMessages.getVerticalScrollBar().setValue(scrollMessages.getVerticalScrollBar().getMaximum());
     }
 }

@@ -66,6 +66,12 @@ public class MyPanel extends JPanel {
         profile.panel.add(nickName);
 
         profile.panel.add(MyButton.createBSaveNickName());
+
+        JTextField password = new MyTextField("password");
+        profile.panel.add(password);
+
+        profile.panel.add(MyButton.createBSavePassWord());
+
         profile.panel.add(MyButton.createBDeleteAccount());
 
         MyScroll scroll = MyScroll.createBlack(profile);
@@ -126,7 +132,6 @@ public class MyPanel extends JPanel {
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
         JLabel jlabel = new JLabel(image2, JLabel.CENTER);
         avatar.north.add(jlabel, BorderLayout.CENTER);
-        //avatar.north.add(MyButton.createBCSaveAvatar(), BorderLayout.SOUTH);
         avatar.panel.setLayout(new GridLayout(4,6, 30, 30));
 
         for(int i = 0; i<20 ; i++){
