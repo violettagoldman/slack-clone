@@ -1,8 +1,8 @@
 package com.controllers;
 
-import com.bean.ResponseMessage;
-import com.bean.User;
 import com.dao.impl.UserDAO;
+import com.models.ResponseMessage;
+import com.models.User;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -12,7 +12,7 @@ import java.util.Optional;
 import static com.helpers.PasswordHelper.comparePassAndHashedPassword;
 import static com.helpers.PasswordHelper.hashPassword;
 import static com.helpers.RegexHelper.*;
-import static com.bean.ResponseMessage.Messages.*;
+import static com.models.ResponseMessage.Messages.*;
 
 public class UserController extends Controller {
 
@@ -32,7 +32,7 @@ public class UserController extends Controller {
 
     public ResponseMessage findAll() throws SQLException {
 
-        List<User> usersOp = userDAO.findAll().get();
+        List<com.models.User> usersOp = userDAO.findAll().get();
 
         if (usersOp.size() < 1) {
             return new ResponseMessage(null, NO_USER_IN_DB, 400);
@@ -119,7 +119,7 @@ public class UserController extends Controller {
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-    public ResponseMessage signUp(String username, String email, String pass) throws SQLException, NoSuchAlgorithmException {
+    public ResponseMessage signUp(String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {
@@ -145,7 +145,7 @@ public class UserController extends Controller {
         }
 
             // We create the user and add them to the DB
-        User user = new User(1,username,email,pass);
+        User user = new User(1,username,email,pass,icone);
         Optional createdUser = userDAO.create(user);
 
         if (createdUser.isEmpty()) {
@@ -165,7 +165,7 @@ public class UserController extends Controller {
      * @return Data, message, status
      * @throws SQLException
      */
-    public ResponseMessage update(User actualUser, String username, String email, String pass) throws SQLException, NoSuchAlgorithmException {
+    public ResponseMessage update(User actualUser, String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {
@@ -208,9 +208,12 @@ public class UserController extends Controller {
         } else {
             pass = hashPassword(pass);
         }
+        if (icone == null) {
+            icone = actualUser.getIcone();
+        }
 
             // We update the user in DB
-        User userToUpdate = new User(actualUser.getId(), username, email, pass);
+        User userToUpdate = new User(actualUser.getId(), username, email, pass, icone);
         Optional updatedUser = userDAO.update(userToUpdate);
 
         if (updatedUser.isEmpty()) {
@@ -220,5 +223,4 @@ public class UserController extends Controller {
         return new ResponseMessage(updatedUser.get(), INFORMATION_USER_UPDATED, 200);
 
     }
-
 }

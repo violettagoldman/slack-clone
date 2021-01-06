@@ -5,7 +5,6 @@ public class RegexHelper {
     /**
      * FOR USER
      */
-
     public static boolean isEmailValid(String email) {
         String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"; // Autorise chiffres, lettres min et maj,
         // tiret underscore
@@ -30,10 +29,8 @@ public class RegexHelper {
     /**
      * FOR CHANNEL
      */
-
     public static boolean isChannelNameValid(String channelName) {
         String regex = "^[\\w-]{2,20}$";
         return channelName.matches(regex);
     }
-
 }

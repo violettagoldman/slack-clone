@@ -1,7 +1,6 @@
 package com.threads;
 
-import com.bean.ResponseMessage;
-import com.bean.User;
+import com.models.ResponseMessage;
 
 import java.sql.PreparedStatement;
 import java.sql.Connection;

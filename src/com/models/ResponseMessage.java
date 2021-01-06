@@ -1,8 +1,5 @@
-package com.bean;
-/*
-* La classe qui encapsulera l'envoie du serveur(la classe T).
-*
-* */
+package com.models;
+
 public class ResponseMessage<T> {
     private T data;
     private Messages message;
@@ -36,7 +33,10 @@ public class ResponseMessage<T> {
         ERROR_CREATION_CHANNEL,
         ERROR_UPDATE_CHANNEL,
         INFORMATION_CHANNEL_UPDATED,
-        NO_CHANNEL_IN_DB
+        NO_CHANNEL_IN_DB,
+
+        USER_CHANNEL_FOUND,
+        USER_CHANNEL_NOT_FOUND
     }
 
     public ResponseMessage(T data, Messages message, int status) {
@@ -60,4 +60,5 @@ public class ResponseMessage<T> {
     public String toString(){
         return status+ ":"+message;
     }
+
 }

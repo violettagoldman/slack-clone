@@ -1,14 +1,14 @@
 package com.dao.impl;
 
-import com.bean.UserChannel;
 import com.dao.DAO;
+import com.models.UserChannel;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class UserChannelDAO implements DAO<UserChannel> {
-
-
 
     public Optional<UserChannel> find(long id) throws SQLException{
 
@@ -60,7 +60,7 @@ public class UserChannelDAO implements DAO<UserChannel> {
                             + "WHERE userChannelId = " + userChannelObj.getUserChannelId()
             );
 
-            return this.find(userChannelObj.getChannelId());
+            return this.find(userChannelObj.getChannel_id());
     }
 
     public void delete(long userChannelId) throws SQLException{
@@ -70,5 +70,29 @@ public class UserChannelDAO implements DAO<UserChannel> {
             ).executeUpdate(
                     "DELETE FROM userchannel WHERE id = " + userChannelId
             );
+    }
+
+    public Optional<List<UserChannel>> findAllUserFromAChannel(long channelId) throws SQLException{
+
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "SELECT * FROM userchannel WHERE channel_id =" + channelId
+        );
+
+        List<UserChannel> userChannels = new ArrayList<>();
+
+        while(result.next()) {
+            UserChannel userChannel = new UserChannel(
+                    result.getLong("id"),
+                    result.getLong("channel_id"),
+                    result.getLong("user_id"),
+                    result.getTimestamp("created_at")
+            );
+            userChannels.add(userChannel);
+        }
+
+        return Optional.of(userChannels);
     }
 }

@@ -1,14 +1,14 @@
 package com.controllers;
 
-import com.bean.Channel;
-import com.bean.ResponseMessage;
+import com.models.Channel;
 import com.dao.impl.ChannelDAO;
+import com.models.ResponseMessage;
 
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
-import static com.bean.ResponseMessage.Messages.*;
+import static com.models.ResponseMessage.Messages.*;
 import static com.helpers.RegexHelper.isChannelNameValid;
 
 public class ChannelController extends Controller {
@@ -63,14 +63,14 @@ public class ChannelController extends Controller {
 
             // We check if values to update are null
         if (name == null) {
-            name = actualChannel.getChannelName();
+            name = actualChannel.getName();
         }
         if (adminId == 0) {
-            adminId = actualChannel.getAdmin_user_id();
+            adminId = actualChannel.getAdminUserId();
         }
 
             // We update the user in DB
-        Channel channelToUpdate = new Channel(actualChannel.getChannelId(), adminId, name);
+        Channel channelToUpdate = new Channel(actualChannel.getID(), adminId, name);
         Optional updatedChannel = channelDAO.update(channelToUpdate);
 
         if (updatedChannel.isEmpty()) {

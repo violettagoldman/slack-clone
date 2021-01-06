@@ -1,9 +1,9 @@
-package com.bean;
+package com.models;
 
 import java.sql.Timestamp;
 import java.util.Objects;
 
-public class UserChannel extends Channel {
+public class UserChannel {
     private long userChannelId;
     private long channel_id;
     private long user_id;
@@ -41,10 +41,6 @@ public class UserChannel extends Channel {
         return userChannelCreatedAt;
     }
 
-    public void setUserChannelId(long userChannelId) {
-        this.userChannelId = userChannelId;
-    }
-
     @Override
     public String toString() {
         return "UserChannel{" +
@@ -58,5 +54,9 @@ public class UserChannel extends Channel {
     @Override
     public int hashCode() {
         return Objects.hash(userChannelId, channel_id, user_id, userChannelCreatedAt);
+    }
+
+    public void setUserChannelId(long userChannelId) {
+        this.userChannelId = userChannelId;
     }
 }
