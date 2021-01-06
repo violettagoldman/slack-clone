@@ -1,15 +1,14 @@
-package com.dao.concret;
+package com.dao.impl;
 
-import com.bean.ResponseMessage;
 import com.bean.Channel;
-import com.bean.User;
-import com.bean.UserChannel;
 import com.dao.DAO;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static com.controller.ChannelController.isChannelNameValid;
+import static com.helpers.RegexHelper.isChannelNameValid;
 
 public class ChannelDAO implements DAO<Channel> {
 
@@ -31,6 +30,31 @@ public class ChannelDAO implements DAO<Channel> {
             ));
         }
         return Optional.empty();
+    }
+
+    public Optional<List<Channel>> findAll () throws SQLException{
+
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "SELECT * FROM channel"
+        );
+
+        List<Channel> channels = new ArrayList<>();
+
+        while(result.next()) {
+            Channel channel = new Channel(
+                    result.getLong("id"),
+                    result.getLong("admin_user_id"),
+                    result.getString("name"),
+                    result.getTimestamp("created_at")
+            );
+            channels.add(channel);
+        }
+
+        return Optional.of(channels);
+
     }
 
     public Optional<Channel> create(Channel channelObj) throws SQLException{
@@ -57,8 +81,6 @@ public class ChannelDAO implements DAO<Channel> {
         }
     }
 
-
-
     public Optional<Channel> update(Channel channelObj) throws SQLException{
 
             this.connect.createStatement(
@@ -73,15 +95,12 @@ public class ChannelDAO implements DAO<Channel> {
             return this.find(channelObj.getChannelId());
     }
 
-    public Optional<Channel> delete(long channelId) throws SQLException{
-
+    public void delete(long channelId) throws SQLException{
             this.connect.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE
             ).executeUpdate(
                     "DELETE FROM channel WHERE id = " + channelId
             );
-
-            return this.find(channelId);
     }
 }

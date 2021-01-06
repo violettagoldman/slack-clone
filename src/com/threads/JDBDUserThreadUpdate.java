@@ -16,7 +16,7 @@ public class JDBDUserThreadUpdate implements Callable<ResponseMessage<User>> {
     }
 
     public ResponseMessage<User> call() throws Exception{
-            return new ResponseMessage<User>(null, ResponseMessage.messages.USER_ALREADY_EXISTS, 409);
+            return new ResponseMessage<User>(null, ResponseMessage.Messages.USER_ALREADY_EXISTS, 409);
 
     }
 }

@@ -1,98 +1,224 @@
-package com.controller;
+package com.controllers;
 
+import com.bean.ResponseMessage;
 import com.bean.User;
-import com.controllers.Controller;
-import com.dao.concret.UserDAO;
-import com.helpers.PasswordHelper;
+import com.dao.impl.UserDAO;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
+import static com.helpers.PasswordHelper.comparePassAndHashedPassword;
+import static com.helpers.PasswordHelper.hashPassword;
+import static com.helpers.RegexHelper.*;
+import static com.bean.ResponseMessage.Messages.*;
 
 public class UserController extends Controller {
 
     private final UserDAO userDAO = new UserDAO();
 
-    Scanner sc = new Scanner(System.in);
+    public ResponseMessage find(long id) throws SQLException {
+
+        Optional userOp = userDAO.find(id);
+
+        if (userOp.isEmpty()) {
+            return new ResponseMessage(null, USER_NOT_FOUND, 400);
+        }
+
+        return new ResponseMessage(userOp.get(), USER_FOUND, 200);
+
+    }
+
+    public ResponseMessage findAll() throws SQLException {
+
+        List<User> usersOp = userDAO.findAll().get();
+
+        if (usersOp.size() < 1) {
+            return new ResponseMessage(null, NO_USER_IN_DB, 400);
+        }
+
+        return new ResponseMessage(usersOp, ALL_USERS_FOUND, 200);
+
+    }
+
+    public ResponseMessage findWithEmail(String email) throws SQLException {
+
+        Optional userOp = userDAO.findWithEmail(email);
+
+        if (userOp.isEmpty()) {
+            return new ResponseMessage(null, USER_NOT_FOUND, 400);
+        }
+
+        return new ResponseMessage(userOp.get(), USER_FOUND, 200);
+
+    }
+
+    public ResponseMessage findWithUsername(String username) throws SQLException {
+
+        Optional userOp = userDAO.findWithUsername(username);
+
+        if (userOp.isEmpty()) {
+            return new ResponseMessage(null, USER_NOT_FOUND, 400);
+        }
+
+        return new ResponseMessage(userOp.get(), USER_FOUND, 200);
+
+    }
+
+    public ResponseMessage delete(long id) throws SQLException {
+
+        userDAO.delete(id);
+
+        return new ResponseMessage(null, USER_DELETED, 200);
+
+    }
 
     /**
      * Find user with username and compare password
-     * @return All information attached to the username
+     * @param username
+     * @param pass
+     * @return Data, message and status
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-    public Optional<User> signIn() throws SQLException, NoSuchAlgorithmException {
+    public ResponseMessage signIn(String username, String pass) throws SQLException, NoSuchAlgorithmException {
 
-        User user = this.enterInformation();
-
-        Optional<User> op = userDAO.findWithUsername(user.getUsername());
-
-        if (op.isPresent()) {
-            User userVerif = op.get();
-
-            if (PasswordHelper.comparePassAndHashedPassword(user.getPassword(), userVerif.getPassword())) {
-                return Optional.of(userVerif);
-            }
+            // We check if the information is valid
+        if (!isUsernameValid(username)) {
+            return new ResponseMessage(null, USERNAME_NOT_VALID, 400);
+        } else if (!isPasswordValid(pass)) {
+            return new ResponseMessage(null, PASSWORD_NOT_VALID, 400);
         }
 
-        return Optional.empty();
+        Optional userOp = userDAO.findWithUsername(username);
+
+            // We check if the user exists
+        if (userOp.isEmpty()) {
+            return new ResponseMessage(null, USER_NOT_FOUND, 400);
+        }
+
+        User user = (User) userOp.get();
+
+            // We check if the password matches the hashed password
+        if (!comparePassAndHashedPassword(pass, user.getPassword())) {
+            return new ResponseMessage(null, INCORRECT_PASSWORD, 400);
+        }
+
+            // The information is correct - the user is identified
+        return new ResponseMessage(user, USER_IDENTIFIED, 200);
+
     }
 
     /**
      * Create user and add to DB
-     * @return All information of the user
+     * @param username
+     * @param email
+     * @param pass
+     * @return Data, message, status
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-    public Optional<User> signUp() throws SQLException, NoSuchAlgorithmException {
+    public ResponseMessage signUp(String username, String email, String pass) throws SQLException, NoSuchAlgorithmException {
 
-        User user = this.enterInformation();
-
-        // EMAIL
-        System.out.println("Email : "); //test@test.com
-        String email = "";
-        while (!this.isEmailValid(email)) {
-            System.out.println("Please, enter valid email.");
-            email = sc.nextLine();
+            // We check if the information is valid
+        if (!isUsernameValid(username)) {
+            return new ResponseMessage(null, USERNAME_NOT_VALID, 400);
+        } else if (!isPasswordValid(pass)) {
+            return new ResponseMessage(null, PASSWORD_NOT_VALID, 400);
+        } else if (!isEmailValid(email)) {
+            return new ResponseMessage(null, EMAIL_NOT_VALID, 400);
         }
 
-        user.setEmail(email);
+        Optional userOp;
 
-        return userDAO.create(user);
-    }
+            // We check if the username is already taken by another user
+        userOp = userDAO.findWithUsername(username);
+        if (userOp.isPresent()) {
+            return new ResponseMessage(null, USERNAME_ALREADY_TAKEN, 400);
+        }
 
-    public User enterInformation(){
-        return new User(1,"qs","s","s");
+            // We check if the email is already taken by another user
+        userOp = userDAO.findWithEmail(email);
+        if (userOp.isPresent()) {
+            return new ResponseMessage(null, EMAIL_ALREADY_TAKEN, 400);
+        }
+
+            // We create the user and add them to the DB
+        User user = new User(1,username,email,pass);
+        Optional createdUser = userDAO.create(user);
+
+        if (createdUser.isEmpty()) {
+            return new ResponseMessage(null, ERROR_CREATION_USER, 400);
+        }
+
+        return new ResponseMessage(createdUser.get(), USER_CREATED, 200);
+
     }
 
     /**
-     * Allows to give username and password
-     * @return This information in a User
+     * Update user information in DB
+     * @param actualUser
+     * @param username
+     * @param email
+     * @param pass
+     * @return Data, message, status
+     * @throws SQLException
      */
+    public ResponseMessage update(User actualUser, String username, String email, String pass) throws SQLException, NoSuchAlgorithmException {
 
-    /**********************
-     *  IS VALID METHODS  *
-     **********************/
+            // We check if the information is valid
+        if (!isUsernameValid(username)) {
+            return new ResponseMessage(null, USERNAME_NOT_VALID, 400);
+        } else if (!isPasswordValid(pass)) {
+            return new ResponseMessage(null, PASSWORD_NOT_VALID, 400);
+        } else if (!isEmailValid(email)) {
+            return new ResponseMessage(null, EMAIL_NOT_VALID, 400);
+        }
 
-    public static boolean isEmailValid(String email) {
-        String regex = "^[\\w-_\\.+]*[\\w-_\\.]\\@([\\w]+\\.)+[\\w]+[\\w]$"; // Autorise chiffres, lettres min et maj,
-                                                                            // tiret underscore
-                                                                            // et court et point, et rend obligatoire @ ainsi que
-                                                                            // le point + domaine
-        return email.matches(regex);
+        Optional userOp;
+
+            // We check if the username is already taken by another user
+        userOp = userDAO.findWithUsername(username);
+        if (userOp.isPresent()) {
+            User userOpGet = (User) userOp.get();
+            if (userOpGet.getId() != actualUser.getId()) {
+                return new ResponseMessage(null, USERNAME_ALREADY_TAKEN, 400);
+            }
+        }
+
+            // We check if the email is already taken by another user
+        userOp = userDAO.findWithEmail(email);
+        if (userOp.isPresent()) {
+            User userOpGet = (User) userOp.get();
+            if (userOpGet.getId() != actualUser.getId()) {
+                return new ResponseMessage(null, EMAIL_ALREADY_TAKEN, 400);
+            }
+        }
+
+            // We check if values to update are null
+        if (username == null) {
+            username = actualUser.getUsername();
+        }
+        if (email == null) {
+            email = actualUser.getEmail();
+        }
+        if (pass == null) {
+            pass = actualUser.getPassword();
+        } else {
+            pass = hashPassword(pass);
+        }
+
+            // We update the user in DB
+        User userToUpdate = new User(actualUser.getId(), username, email, pass);
+        Optional updatedUser = userDAO.update(userToUpdate);
+
+        if (updatedUser.isEmpty()) {
+            return new ResponseMessage(null, ERROR_UPDATE_USER, 400);
+        }
+
+        return new ResponseMessage(updatedUser.get(), INFORMATION_USER_UPDATED, 200);
+
     }
 
-    public static boolean isUsernameValid(String username) {
-        String regex = "^[\\w-]{2,}$";  // Minimum 2 caractères autorisant lettres maj, lettres min,
-                                        // chiffres, tiret underscore et tiret court
-        return username.matches(regex);
-    }
-
-    public static boolean isPasswordValid(String pass) {
-        String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";  // Minimum 8 caractères avec au minimum
-                                                                                // 1 lettre maj, 1 lettre min et un chiffre
-        return pass.matches(regex);
-    }
 }

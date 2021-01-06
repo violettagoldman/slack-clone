@@ -1,4 +1,4 @@
-package com.dao.concret;
+package com.dao.impl;
 
 import com.bean.User;
 import com.dao.DAO;
@@ -42,7 +42,7 @@ public class UserDAO implements DAO<User> {
      * @return List of all users
      * @throws SQLException
      */
-    public Optional<List<User>> findAll() throws SQLException { // OPTIONAL AVEC LIST
+    public Optional<List<User>> findAll() throws SQLException {
 
         ResultSet result = this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
@@ -133,9 +133,11 @@ public class UserDAO implements DAO<User> {
                 "INSERT INTO user (username,email,hashed_password,created_at) VALUES(?,?,?,?)", Statement.RETURN_GENERATED_KEYS
         );
 
+        userObj.setPassword(PasswordHelper.hashPassword(userObj.getPassword()));
+
         prepare.setString(1, userObj.getUsername());
         prepare.setString(2, userObj.getEmail());
-        prepare.setString(3, PasswordHelper.hashPassword(userObj.getPassword()));
+        prepare.setString(3, userObj.getPassword());
         prepare.setTimestamp(4, userObj.getCreatedAt());
 
         prepare.executeUpdate();
@@ -164,13 +166,12 @@ public class UserDAO implements DAO<User> {
         return this.find(userObj.getId());
     }
 
-    public Optional<User> delete(long id) throws SQLException {
+    public void delete(long id) throws SQLException {
         this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE
         ).executeUpdate(
                 "DELETE FROM user WHERE id = " + id
         );
-        return null;
     }
 }

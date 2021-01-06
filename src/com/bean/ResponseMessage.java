@@ -5,31 +5,41 @@ package com.bean;
 * */
 public class ResponseMessage<T> {
     private T data;
-    private messages message;
+    private Messages message;
     private int status;
 
-    public enum messages { // M Maj
-        ERR_BDD,
-        ERR_HASHING,
-        USER_FIND,
-        ALL_USERS_FIND,
-        USER_CREATE,
+    public enum Messages {
+        ALL_USERS_FOUND,
+        EMAIL_ALREADY_TAKEN,
+        EMAIL_NOT_VALID,
+        ERROR_CREATION_USER,
+        ERROR_UPDATE_USER,
+        INCORRECT_PASSWORD,
+        INFORMATION_USER_UPDATED,
+        NO_USER_IN_DB,
+        PASSWORD_NOT_VALID,
         USER_ALREADY_EXISTS,
-        USER_UPDATE,
-        ERR_INFO_USER,
-        USER_DELETE,
-        USER_SIGN_IN,
+        USER_CREATED,
+        USER_DELETED,
+        USER_FOUND,
+        USER_IDENTIFIED,
+        USER_NOT_FOUND,
+        USERNAME_ALREADY_TAKEN,
+        USERNAME_NOT_VALID,
 
-        CHANNEL_CREATE,
-        CHANNEL_ALREADY_EXISTS,
-        CHANNEL_UPDATE,
-        CHANNEL_FIND,
-        ALL_CHANNELS_FIND,
-        USER_ADD_TO_A_CHANNEL,
-        CHANNEL_DELETE
+        ALL_CHANNELS_FOUND,
+        CHANNEL_CREATED,
+        CHANNEL_DELETED,
+        CHANNEL_FOUND,
+        CHANNELNAME_NOT_VALID,
+        CHANNEL_NOT_FOUND,
+        ERROR_CREATION_CHANNEL,
+        ERROR_UPDATE_CHANNEL,
+        INFORMATION_CHANNEL_UPDATED,
+        NO_CHANNEL_IN_DB
     }
 
-    public ResponseMessage(T data, messages message, int status) {
+    public ResponseMessage(T data, Messages message, int status) {
         this.data = data;
         this.message = message;
         this.status = status;
@@ -39,7 +49,7 @@ public class ResponseMessage<T> {
         return data;
     }
 
-    public messages getMessage() {
+    public Messages getMessage() {
         return message;
     }
 

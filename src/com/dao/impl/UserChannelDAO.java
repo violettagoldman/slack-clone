@@ -1,13 +1,9 @@
-package com.dao.concret;
+package com.dao.impl;
 
-import com.bean.Channel;
-import com.bean.ResponseMessage;
 import com.bean.UserChannel;
 import com.dao.DAO;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 public class UserChannelDAO implements DAO<UserChannel> {
@@ -67,15 +63,12 @@ public class UserChannelDAO implements DAO<UserChannel> {
             return this.find(userChannelObj.getChannelId());
     }
 
-    public Optional<UserChannel> delete(long userChannelId) throws SQLException{
-
+    public void delete(long userChannelId) throws SQLException{
             this.connect.createStatement(
                     ResultSet.TYPE_SCROLL_INSENSITIVE,
                     ResultSet.CONCUR_UPDATABLE
             ).executeUpdate(
                     "DELETE FROM userchannel WHERE id = " + userChannelId
             );
-
-            return this.find(userChannelId);
     }
 }
