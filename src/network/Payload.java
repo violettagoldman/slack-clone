@@ -45,7 +45,6 @@ public final class Payload {
     public Type getType() {
         return (type);
     }
-
     public Map<String, String> getProps() {
         return (new HashMap<>(props));
     }
@@ -57,3 +56,29 @@ message=Hello
 channel=general
 ...
 */
+
+
+/*
+RequestObject:{
+    url: /get/channel/all
+    args:[Object] = 3
+}
+onMessage(){
+    Object response =  Invoker(/get/users/all,args) =
+    payload = serialize(response)
+    payload send:
+}
+
+*
+ Client -> requestobject: objet
+*
+*
+*
+* */
+
+/**
+
+ User:
+ []: Channel
+ []:message
+ */
