@@ -10,6 +10,7 @@ public final class Payload {
         CONNECTION,
         DISCONNECTION,
         ACTIVE_USERS,
+        CHANNEL,
     }
 
     private final Type type;

@@ -3,36 +3,30 @@ package pijakogui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChannelPanel extends JPanel {
     private final String title;
 
-    public String getTitle() {
-        return title;
-    }
+    public String getTitle() { return title; }
 
-    public String getId() {
-        return id;
-    }
+    public String getId() { return id; }
 
-    public JPanel getMessagesZone() {
-        return messagesZone;
-    }
+    public JPanel getMessagesZone() { return messagesZone; }
 
-    public JPanel getListUser() {
-        return listUser;
-    }
+    public JPanel getListUser() {return listUser; }
 
-    public HashMap<String, MyButton> getUsersMap() {
-        return usersMap;
-    }
+    public HashMap<String, MyButton> getUsersMap() {return usersMap; }
 
     private final String id;
     private final JPanel messagesZone;
     private final JPanel listUser;
     private final HashMap<String, MyButton> usersMap = new HashMap<>();
+    private final  JScrollPane scrollMessages;
 
     public ChannelPanel(String title, String id, String user){
         this.title = title;
@@ -54,17 +48,14 @@ public class ChannelPanel extends JPanel {
         this.add(listUser , BorderLayout.EAST );
 
         //Ajout nouvel utilisateur dans la conversation
-        JTextField addUser = new JTextField("add user in this channel");
-        addUser.setBorder(new RoundedBorderCorner());
-        addUser.setBackground(new Color(50, 50, 50));
-        addUser.setFont(new Font("Nirmala UI Semilight", 0, 12));
-        addUser.setForeground(new Color(250,250,250));
-        addUser.setPreferredSize(new Dimension(200, 30));
+        JTextField addUser = new MyTextField("add user in this channel");
         menu.add(addUser);
         menu.add(MyButton.createBAddUser(addUser, listUser));
         this.add(menu, BorderLayout.NORTH);
 
         //Zone des messages
+        JPanel containerMessage = new JPanel();
+        containerMessage.setLayout(new BorderLayout());
         messagesZone = new JPanel();
         messagesZone.setLayout(new BoxLayout(messagesZone, BoxLayout.PAGE_AXIS));
         messagesZone.setBackground(MyColor.gray());
@@ -73,7 +64,11 @@ public class ChannelPanel extends JPanel {
                 " \n\n**************************************\n\n Send news messages !! "+
                 "\n\n**************************************\n\n See the other users at right ->\n\n"
         ));
-        JScrollPane scrollMessages = MyScroll.createGray(messagesZone);
+        containerMessage.add(messagesZone, BorderLayout.CENTER);
+        JPanel smiley = new Smiley(messagesZone,title );
+        smiley.setVisible(false);
+        containerMessage.add(smiley, BorderLayout.SOUTH);
+        scrollMessages = MyScroll.createGray(containerMessage);
         this.add(scrollMessages , BorderLayout.CENTER );
 
         //Zone de saisie des messages
@@ -87,19 +82,69 @@ public class ChannelPanel extends JPanel {
         writeScript.setBackground(MyColor.black());
         writeScript.setFont(new Font("SansSerif", Font.PLAIN, 15));
         writeScript.setForeground(MyColor.white());
-        write.add(MyButton.createBSend(writeScript, messagesZone), BorderLayout.EAST );
-        write.add(MyButton.createBSmile(messagesZone), BorderLayout.WEST );
+        write.add(MyButton.createBSend(writeScript, messagesZone, title), BorderLayout.EAST );
+        write.add(MyButton.createBSeeSmile(smiley,"smileybutton/smile.png"), BorderLayout.WEST );
 
+        this.messages("Coucou !!! Comment ça va ?", "Jeanne Barriere");
         this.add(write, BorderLayout.SOUTH );
     }
 
-    public void messages(String str, String nickname){
-        JTextArea user = new MyTextArea(nickname);
+    public JPanel messagesStructure(String nickname){
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+
+
+        //utilisateur et avatar
+        JPanel userPlace = new JPanel();
+        userPlace.setLayout(new BorderLayout());
+        userPlace.setBackground(MyColor.gray());
+
+        JTextArea user = MyTextArea.user(nickname+" :");
         user.setForeground(MyColor.blue());
-        messagesZone.add(user);
-        JTextArea message = new MyTextArea(str);
+        user.setPreferredSize(new Dimension(0,25));
+        ImageIcon image = new ImageIcon( MyButton.class.getResource("avatar/0.png"));
+        ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
+        JLabel jlabel = new JLabel(image2);
+        userPlace.add(jlabel, BorderLayout.WEST);
+        userPlace.add(user, BorderLayout.CENTER);
+
+        //date
+        DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Date myDate = new Date();
+        JTextArea date = MyTextArea.date(format.format(myDate));
+
+        //zone information
+        JPanel north = new JPanel();
+        north.setLayout(new GridLayout(0,1));
+        north.add(userPlace);
+        north.add(date);
+        north.setBackground(MyColor.gray());
+        north.setPreferredSize(new Dimension(0, 50));
+        panel.add(north, BorderLayout.NORTH);
+
+        //zone de suppression message
+        JPanel zoneButton = new JPanel();
+        zoneButton.setPreferredSize(new Dimension(17,0));
+        JButton bDeleteMessages = MyButton.createBDeleteMessage(messagesZone, panel);
+        zoneButton.add(bDeleteMessages);
+        zoneButton.setBackground(MyColor.gray());
+        panel.add(zoneButton, BorderLayout.WEST);
+
+        panel.setBackground(MyColor.gray());
+        panel.setBorder(new EmptyBorder(2, 10, 0, 0));
+
+        return panel;
+    }
+
+    public void messages(String str, String nickname){
+        JPanel messageStruct = messagesStructure(nickname);
+        JTextArea message = MyTextArea.message(str);
         message.setForeground(MyColor.white());
-        messagesZone.add(message);
+        messageStruct.add(message, BorderLayout.CENTER);
+        messagesZone.add(messageStruct);
+        messagesZone.validate();
+        scrollMessages.validate();
+        downVerticalScroll();
     }
 
     public void connected(String user){
@@ -109,21 +154,33 @@ public class ChannelPanel extends JPanel {
     }
 
     public void smiley(String smiley, String nickname){
-        JTextArea user = new MyTextArea(nickname);
-        user.setForeground(MyColor.blue());
-        messagesZone.add(user);
+        JPanel messageStruct = messagesStructure(nickname);
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
-        ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(20, 20, Image.SCALE_DEFAULT));
+        ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         JLabel jlabel = new JLabel(image2);
-        jlabel.setPreferredSize(new Dimension(20,20));
-        messagesZone.add(jlabel);
+        jlabel.setPreferredSize(new Dimension(30,30));
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        panel.add(jlabel, BorderLayout.WEST);
+        panel.setBackground(MyColor.gray());
+        messageStruct.add(panel, BorderLayout.CENTER);
+        messagesZone.add(messageStruct);
+
+        JPanel south = new JPanel();
+        south.setPreferredSize(new Dimension(0,30));
+        south.setBackground(MyColor.gray());
+        messageStruct.add(south, BorderLayout.SOUTH);
+
         messagesZone.validate();
+        scrollMessages.validate();
+        downVerticalScroll();
     }
 
     public void updateLisUser(String [] users){
         for (Map.Entry mapentry : usersMap.entrySet()) {
              listUser.remove((Component) mapentry.getValue());
-             listUser.validate();
+             System.out.println(mapentry.getKey());
+             this.validate();
         }
         usersMap.clear();
         for (String user : users) {
@@ -133,5 +190,9 @@ public class ChannelPanel extends JPanel {
         }
         this.listUser.validate();
         this.validate();
+    }
+
+    public void downVerticalScroll(){
+        scrollMessages.getVerticalScrollBar().setValue(scrollMessages.getVerticalScrollBar().getMaximum());
     }
 }

@@ -4,20 +4,24 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.ExecutorService; 
 import java.util.concurrent.Executors; 
 
 public class Server implements Runnable, SocketListener {
     private final List<SocketManager> sockets;
     private final ExecutorService pool;
-    private final Map<SocketManager, String> activeUsers;
+    private final Map<SocketManager, network.User> activeUsers;
+    private final Set<String> channels;
 
     public Server() {
         sockets = new ArrayList<SocketManager>();
-        activeUsers = new HashMap<SocketManager, String>();
+        activeUsers = new HashMap<SocketManager, network.User>();
         this.pool = Executors.newCachedThreadPool();
+        this.channels = new HashSet<String>();
     }
 
     public void run() {
@@ -43,11 +47,15 @@ public class Server implements Runnable, SocketListener {
 
     public void broadcastActiveUsers() {
         Payload payload = new Payload(Payload.Type.ACTIVE_USERS);
-        String users = "";
-        for (SocketManager sm : activeUsers.keySet()) {
-            users += activeUsers.get(sm) + "\2";
+        for (String ch : channels) {
+            String users = "";
+            for (SocketManager sm : activeUsers.keySet()) {
+                if (activeUsers.get(sm) != null && activeUsers.get(sm).getChannel() != null && activeUsers.get(sm).getChannel().equals(ch)) {
+                    users += activeUsers.get(sm).getName() + "\2";
+                }
+            }
+            payload.addProperty(ch, users);   
         }
-        payload.addProperty("activeUsers", users);
         broadcast(payload);
     }
 
@@ -70,7 +78,12 @@ public class Server implements Runnable, SocketListener {
         broadcast(payload);
         System.out.println(payload.toString());
         if (payload.getType() == Payload.Type.CONNECTION) {
-            activeUsers.put(sm, payload.getProps().get("user"));
+            activeUsers.put(sm, new network.User(payload.getProps().get("user")));
+            broadcastActiveUsers();
+        }
+        if (payload.getType() == Payload.Type.CHANNEL && activeUsers.get(sm) != null) {
+            activeUsers.get(sm).setChannel(payload.getProps().get("channel"));
+            channels.add(payload.getProps().get("channel"));
             broadcastActiveUsers();
         }
     }

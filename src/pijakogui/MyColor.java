@@ -26,8 +26,8 @@ public class MyColor extends Color {
         return gray;
     }
 
-    public static MyColor grayWith(){
-        MyColor grayWith = new MyColor(205,205,205);
+    public static MyColor grayWithe(){
+        MyColor grayWith = new MyColor(180,180,180);
         return grayWith;
     }
 
