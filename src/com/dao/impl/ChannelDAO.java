@@ -1,5 +1,6 @@
 package com.dao.impl;
 
+import com.bean.Message;
 import com.dao.DAO;
 import com.bean.Channel;
 
@@ -80,6 +81,8 @@ public class ChannelDAO implements DAO<Channel> {
         return Optional.of(channelObj);
 
     }
+
+
 
     public Optional<Channel> update(Channel channelObj) throws SQLException{
 

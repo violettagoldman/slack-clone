@@ -1,5 +1,7 @@
 package network;
 
+import com.bean.ResponseMessage;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -11,10 +13,30 @@ public final class Payload {
         DISCONNECTION,
         ACTIVE_USERS,
         CHANNEL,
+        REQUEST
     }
 
     private final Type type;
     private final Map<String, String> props = new ConcurrentHashMap<>();
+    private Object args;
+    private ResponseMessage<Object> response;
+    private long from;
+    public ResponseMessage<?> getResponse() {
+        return response;
+    }
+
+    public void setResponse(ResponseMessage<Object> response) {
+        this.response = response;
+    }
+
+    public Object getArgs() {
+        return args;
+    }
+
+    public void setArgs(Object args) {
+        this.args = args;
+    }
+
 
     public Payload(Type type) {
         this.type = type;

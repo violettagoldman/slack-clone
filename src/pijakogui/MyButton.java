@@ -4,12 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.bean.ResponseMessage;
 import com.controllers.UserController;
-import com.jdbc.ConnectionSQL;
+import pijakogui.services.Service;
 
 public class MyButton extends JButton {
     public MyButton(String str){

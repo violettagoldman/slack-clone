@@ -6,6 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Payload.Type;
+import pijakogui.services.Service;
 
 public class Client implements SocketListener, Runnable {
     private SocketManager sm;
@@ -124,10 +125,10 @@ public class Client implements SocketListener, Runnable {
                 break;
             case MESSAGE:
                 if (payload.getProps().get("smile").equals("true")) {
-                    pijakogui.Service.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
+                    Service.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
                 } else {
                     System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
-                    pijakogui.Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
+                    Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
                     payloads.add(payload);
                 }
                 break;
@@ -136,9 +137,12 @@ public class Client implements SocketListener, Runnable {
                 if (payload.getProps().get(this.channel) != null) {
                     String users[] = payload.getProps().get(this.channel).split("\2");
                     if (users != null && users.length != 0)
-                    pijakogui.Service.updateUsersConnected(users, this.channel);
+                    Service.updateUsersConnected(users, this.channel);
                 }
                 break;
+            case REQUEST:
+
+
         }
     }
 }

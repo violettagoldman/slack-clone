@@ -1,7 +1,7 @@
 package pijakogui;
 
 
-import com.jdbc.ConnectionSQL;
+import pijakogui.services.Service;
 
 import javax.swing.*;
 import java.awt.*;

@@ -26,7 +26,7 @@ public class SocketManager implements Runnable {
 
     public void send(Payload payload) {
         try {
-            oos.writeObject(payload.toString());
+            oos.writeObject(payload);
         } catch (IOException e) {
             System.out.println("OIS error send");
         }
@@ -35,8 +35,8 @@ public class SocketManager implements Runnable {
     public void run() {
         try {
             while (true) {
-                String message = (String)ois.readObject();
-                this.listener.onMessage(this, new Payload(message));
+                Payload message = (Payload) ois.readObject();
+                this.listener.onMessage(this, message);
             }
         }
         catch (IOException e) {
