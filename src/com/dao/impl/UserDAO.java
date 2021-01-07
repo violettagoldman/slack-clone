@@ -1,5 +1,6 @@
 package com.dao.impl;
 
+import com.bean.Channel;
 import com.bean.User;
 import com.dao.DAO;
 import com.helpers.PasswordHelper;
@@ -39,7 +40,6 @@ public class UserDAO implements DAO<User> {
 
     /**
      * Find all registered users
-     *
      * @return List of all users
      * @throws SQLException
      */
@@ -72,7 +72,6 @@ public class UserDAO implements DAO<User> {
 
     /**
      * Find user with email
-     *
      * @param email
      * @return User attached to the email
      * @throws SQLException
@@ -103,7 +102,6 @@ public class UserDAO implements DAO<User> {
 
     /**
      * Find user with username
-     *
      * @param username
      * @return User attached to the username
      * @throws SQLException
@@ -165,12 +163,23 @@ public class UserDAO implements DAO<User> {
         ).executeUpdate(
                 "UPDATE user SET username = '" + userObj.getUsername() + "', "
                         + "email = '" + userObj.getEmail() + "', "
-                        + "hashed_password = '" + userObj.getPassword() + "', "
-                        + "icone = '" + userObj.getIcone() + "' "
+                        + "hashed_password = '" + userObj.getPassword() + "' "
                         + "WHERE id = " + userObj.getId()
         );
 
-        return this.find(userObj.getId());
+        return Optional.of(userObj);
+    }
+
+    public Optional<User> updateIcone(User userObj) throws SQLException {
+        this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeUpdate(
+                "UPDATE user SET icone = '" + userObj.getIcone() + "' "
+                    + "WHERE id = " + userObj.getId()
+        );
+
+        return Optional.of(userObj);
     }
 
     public void delete(long id) throws SQLException {

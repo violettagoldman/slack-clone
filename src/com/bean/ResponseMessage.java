@@ -12,12 +12,12 @@ public class ResponseMessage<T> implements Serializable {
         EMAIL_ALREADY_TAKEN,
         EMAIL_NOT_VALID,
         ERROR_CREATION_USER,
-        ERROR_UPDATE_USER,
+        ICONE_USER_UPDATED,
         INCORRECT_PASSWORD,
         INFORMATION_USER_UPDATED,
+        PASSES_NOT_IDENTICAL,
         NO_USER_IN_DB,
         PASSWORD_NOT_VALID,
-        USER_ALREADY_EXISTS,
         USER_CREATED,
         USER_DELETED,
         USER_FOUND,
@@ -35,10 +35,7 @@ public class ResponseMessage<T> implements Serializable {
         ERROR_CREATION_CHANNEL,
         ERROR_UPDATE_CHANNEL,
         INFORMATION_CHANNEL_UPDATED,
-        NO_CHANNEL_IN_DB,
-
-        USER_CHANNEL_FOUND,
-        USER_CHANNEL_NOT_FOUND
+        NO_CHANNEL_IN_DB
     }
 
     public ResponseMessage(T data, Messages message, int status) {

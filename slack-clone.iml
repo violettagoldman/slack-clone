@@ -4,9 +4,8 @@
     <content url="file://$MODULE_DIR$/src">
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
     </content>
-    <orderEntry type="jdk" jdkName="11" jdkType="JavaSDK" />
+    <orderEntry type="jdk" jdkName="15" jdkType="JavaSDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="jboss-javassist-javassist-rel_3_27_0_ga-6-g1c4e31b" level="project" />
     <orderEntry type="library" name="lib" level="project" />
   </component>
 </module>

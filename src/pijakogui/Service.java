@@ -38,7 +38,7 @@ public class Service {
     }
 
     public static void updateUsersConnected( String [] users, String title){
-        channelsMap.get(title).updateLisUser(users);
+        channelsMap.get(title).updateListUser(users);
     }
 
 }

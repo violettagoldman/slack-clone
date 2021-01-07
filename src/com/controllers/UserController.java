@@ -108,16 +108,18 @@ public class UserController extends Controller {
 
     }
 
+    // EN STATIC PARCE QU'APPELER DANS MYBUTTON.JAVA. A CHANGER SI BESOIN.
     /**
      * Create user and add to DB
      * @param username
      * @param email
      * @param pass
+     * @param secondPass
      * @return Data, message, status
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-    public static ResponseMessage signUp(String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
+    public static ResponseMessage signUp(String username, String email, String pass, String secondPass) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {
@@ -142,8 +144,13 @@ public class UserController extends Controller {
             return new ResponseMessage(null, EMAIL_ALREADY_TAKEN, 400);
         }
 
+            // We check if the two passes are identical
+        if (!pass.equals(secondPass)) {
+            return new ResponseMessage(null, PASSES_NOT_IDENTICAL, 400);
+        }
+
             // We create the user and add them to the DB
-        User user = new User(1,username,email,pass,icone);
+        User user = new User(1,username,email,pass);
         Optional createdUser = userDAO.create(user);
 
         if (createdUser.isEmpty()) {
@@ -163,7 +170,7 @@ public class UserController extends Controller {
      * @return Data, message, status
      * @throws SQLException
      */
-    public ResponseMessage update(User actualUser, String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
+    public ResponseMessage update(User actualUser, String username, String email, String pass) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {
@@ -206,19 +213,29 @@ public class UserController extends Controller {
         } else {
             pass = hashPassword(pass);
         }
-        if (icone == null) {
-            icone = actualUser.getIcone();
-        }
 
             // We update the user in DB
-        User userToUpdate = new User(actualUser.getId(), username, email, pass, icone);
-        Optional updatedUser = userDAO.update(userToUpdate);
-
-        if (updatedUser.isEmpty()) {
-            return new ResponseMessage(null, ERROR_UPDATE_USER, 400);
-        }
+        actualUser.setUsername(username);
+        actualUser.setEmail(email);
+        actualUser.setPassword(pass);
+        Optional updatedUser = userDAO.update(actualUser);
 
         return new ResponseMessage(updatedUser.get(), INFORMATION_USER_UPDATED, 200);
 
+    }
+
+    /**
+     * Update user icone in DB
+     * @param actualUser
+     * @param icone
+     * @return Data, message, status
+     * @throws SQLException
+     */
+    public ResponseMessage updateIcone(User actualUser, String icone) throws SQLException {
+
+        actualUser.setIcone(icone);
+        Optional updatedUser = userDAO.updateIcone(actualUser);
+
+        return new ResponseMessage(updatedUser.get(), ICONE_USER_UPDATED, 200);
     }
 }
