@@ -1,6 +1,9 @@
 package network;
 
+import com.invoker.Invoker;
+
 import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -86,5 +89,15 @@ public class Server implements Runnable, SocketListener {
             channels.add(payload.getProps().get("channel"));
             broadcastActiveUsers();
         }
+        if(payload.getType() == Payload.Type.HTTP ) {
+            String req = payload.getProps().get("req");
+            String argsSerialized = payload.getProps().get("args");
+            //bjectInputStream objectInputStream = new ObjectInputStream();
+            //Object args = ObjectInputStream.readObject(argsSerialized.getBytes());
+        }
+    }
+    public void onMessage(SocketManager sm, Request payload) {
+        Object response = Invoker.getInstance().invoke(payload.getReq(),payload.getArgs());
+        sm.send(response);
     }
 }

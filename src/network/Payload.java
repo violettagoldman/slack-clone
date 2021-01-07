@@ -11,6 +11,7 @@ public final class Payload {
         DISCONNECTION,
         ACTIVE_USERS,
         CHANNEL,
+        HTTP
     }
 
     private final Type type;

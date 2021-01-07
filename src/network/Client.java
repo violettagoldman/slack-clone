@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Payload.Type;
-
+import com.bean.ResponseMessage;
 public class Client implements SocketListener, Runnable {
     private SocketManager sm;
     private String user;
@@ -91,6 +91,7 @@ public class Client implements SocketListener, Runnable {
         sm.send(payload);
     }
 
+
     public void sendConnection() {
         Payload payload = buildPayloadConnection();
         sm.send(payload);
@@ -141,4 +142,8 @@ public class Client implements SocketListener, Runnable {
                 break;
         }
     }
+    public void onMessage(SocketManager sm, Request payload) {
+
+    }
+
 }

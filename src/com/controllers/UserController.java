@@ -21,11 +21,9 @@ public class UserController extends Controller {
     public ResponseMessage find(long id) throws SQLException {
 
         Optional userOp = userDAO.find(id);
-
         if (userOp.isEmpty()) {
             return new ResponseMessage(null, USER_NOT_FOUND, 400);
         }
-
         return new ResponseMessage(userOp.get(), USER_FOUND, 200);
 
     }
