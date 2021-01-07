@@ -4,6 +4,7 @@ import com.bean.ResponseMessage;
 import com.invoker.Invoker;
 
 import java.io.IOException;
+import java.io.*;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -98,5 +99,9 @@ public class Server implements Runnable, SocketListener {
 
             }
         }
+    }
+    public void onMessage(SocketManager sm, Request payload) {
+        Object response = Invoker.getInstance().invoke(payload.getReq(),payload.getArgs());
+        sm.send(response);
     }
 }

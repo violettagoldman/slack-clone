@@ -15,7 +15,7 @@ import static com.helpers.PasswordHelper.comparePassAndHashedPassword;
 import static com.helpers.PasswordHelper.hashPassword;
 import static com.helpers.RegexHelper.*;
 import static com.bean.ResponseMessage.Messages.*;
-@ControllerRoute("User")
+@ControllerRoute("users")
 public class UserController extends Controller {
 
     private final static UserDAO userDAO = new UserDAO();
@@ -23,11 +23,10 @@ public class UserController extends Controller {
     public static ResponseMessage find(long id) throws SQLException {
 
         Optional userOp = userDAO.find(id);
-       // Optional channels =
+
         if (userOp.isEmpty()) {
             return new ResponseMessage(null, USER_NOT_FOUND, 400);
         }
-
         return new ResponseMessage(userOp.get(), USER_FOUND, 200);
 
     }

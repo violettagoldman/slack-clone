@@ -2,12 +2,14 @@ package network;
 
 import com.bean.ResponseMessage;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class Payload {
-    enum Type {
+    public enum Type {
         MESSAGE,
         CONNECTION,
         DISCONNECTION,
@@ -18,7 +20,7 @@ public final class Payload {
 
     private final Type type;
     private final Map<String, String> props = new ConcurrentHashMap<>();
-    private Object args;
+    private List<Object> args = new ArrayList<>();
     private ResponseMessage<Object> response;
     private long from;
     public ResponseMessage<?> getResponse() {
@@ -29,12 +31,12 @@ public final class Payload {
         this.response = response;
     }
 
-    public Object getArgs() {
+    public List<Object> getArgs() {
         return args;
     }
 
-    public void setArgs(Object args) {
-        this.args = args;
+    public void addArgs(Object arg) {
+        this.args.add(arg);
     }
 
 

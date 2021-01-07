@@ -92,6 +92,7 @@ public class Client implements SocketListener, Runnable {
         sm.send(payload);
     }
 
+
     public void sendConnection() {
         Payload payload = buildPayloadConnection();
         sm.send(payload);
@@ -145,4 +146,8 @@ public class Client implements SocketListener, Runnable {
 
         }
     }
+    public void onMessage(SocketManager sm, Request payload) {
+
+    }
+
 }

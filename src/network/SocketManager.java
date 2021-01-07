@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.lang.Runnable;
-
+import com.invoker.Invoker;
 public class SocketManager implements Runnable {
     // private Socket socket;
     private ObjectOutputStream oos;
@@ -23,7 +23,6 @@ public class SocketManager implements Runnable {
             System.out.println("IO error");
         }
     }
-
     public void send(Payload payload) {
         try {
             oos.writeObject(payload);
@@ -31,7 +30,13 @@ public class SocketManager implements Runnable {
             System.out.println("OIS error send");
         }
     }
-
+    public void send(Object object){
+        try {
+            oos.writeObject(object);
+        } catch (IOException e) {
+            System.out.println("OIS error send");
+        }
+    }
     public void run() {
         try {
             while (true) {
