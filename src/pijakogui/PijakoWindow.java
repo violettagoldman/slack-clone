@@ -1,11 +1,8 @@
 package pijakogui;
 
-
-<<<<<<< HEAD
 import com.bean.User;
-=======
 import pijakogui.services.Service;
->>>>>>> dev3
+
 
 import javax.swing.*;
 import java.awt.*;
@@ -15,7 +12,7 @@ public class PijakoWindow extends JFrame {
     private static JPanel window;
     private static User user;
     private static MyPanel profile;
-    private static MyPanel signUp;
+    private static SignUp signUp;
 
 
     public PijakoWindow() {
@@ -93,5 +90,9 @@ public class PijakoWindow extends JFrame {
 
     public static MyPanel getProfile() {
         return profile;
+    }
+
+    public static SignUp getSignUp() {
+        return signUp;
     }
 }
