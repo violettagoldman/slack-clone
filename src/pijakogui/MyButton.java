@@ -3,6 +3,13 @@ package pijakogui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.bean.ResponseMessage;
+import com.controllers.UserController;
+import com.jdbc.ConnectionSQL;
 
 public class MyButton extends JButton {
     public MyButton(String str){
@@ -214,12 +221,27 @@ public class MyButton extends JButton {
         return bLogin;
     }
 
-    public static MyButton createBNewProfile(CardLayout cardLayout, JPanel cardPanel){
+    public static MyButton createBNewProfile(JTextField error, JTextField mail, JTextField nickname, JTextField password1, JTextField password2, CardLayout cardLayout, JPanel cardPanel){
         MyButton bNewProfile = new MyButton("Save profile");
         bNewProfile.setPreferredSize(new Dimension(100,20));
         bNewProfile.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "menu"); }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                String mailStr = mail.getText();
+                String nicknameStr = nickname.getText();
+                String password1Str = password1.getText();
+                String password2Str = password2.getText();
+                ResponseMessage res ;
+                try {
+                    res = UserController.signUp(nicknameStr, mailStr, password1Str, password2Str);
+                    error.setText(String.valueOf(res.getMessage()));
+                    if(res.getStatus()==200)cardLayout.show(cardPanel, "menu");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bNewProfile;
