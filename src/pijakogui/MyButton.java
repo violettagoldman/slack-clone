@@ -233,38 +233,6 @@ public class MyButton extends JButton {
                 String nicknameStr = nickname.getText();
                 String password1Str = password1.getText();
                 String password2Str = password2.getText();
-                ResponseMessage res ;
-                try {
-                    res = UserController.signUp(nicknameStr, mailStr, password1Str, password2Str);
-                    switch (res.getMessage()){
-                        case EMAIL_NOT_VALID:
-                            error.setText("The mail is not valid");
-                            break;
-                        case USERNAME_NOT_VALID:
-                            error.setText("The username is not valid");
-                            break;
-                        case PASSWORD_NOT_VALID:
-                            error.setText("The password is not valid");
-                            break;
-                        case USERNAME_ALREADY_TAKEN:
-                            error.setText("This username already exist");
-                            break;
-                        case EMAIL_ALREADY_TAKEN:
-                            error.setText("This mail already exist");
-                            break;
-                        case ERROR_CREATION_USER:
-                            error.setText("an error occurred");
-                            break;
-                        case USER_CREATED:
-                            PijakoWindow.setUser((User) res.getData());
-                            cardLayout.show(cardPanel, "menu");
-                            break;
-                    }
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                } catch (NoSuchAlgorithmException e) {
-                    e.printStackTrace();
-                }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
