@@ -1,7 +1,7 @@
 package pijakogui;
 
 
-import com.jdbc.ConnectionSQL;
+import com.bean.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -9,6 +9,9 @@ import java.awt.event.WindowAdapter;
 // Classe principale de l'interface
 public class PijakoWindow extends JFrame {
     private static JPanel window;
+    private static User user;
+    private static MyPanel profile;
+    private static MyPanel signUp;
 
 
     public PijakoWindow() {
@@ -57,7 +60,8 @@ public class PijakoWindow extends JFrame {
         menu.add(new ToolsBars(cardHome, home, cardWindow, window), BorderLayout.NORTH);
         menu.add(home, BorderLayout.CENTER);
         window.add(MyPanel.login(cardWindow , window), "login");
-        window.add(MyPanel.signUp(cardWindow , window), "sign up");
+        signUp = new SignUp(cardWindow , window);
+        window.add(MyScroll.createBlack(signUp), "sign up");
         window.add(menu, "menu");
 
 
@@ -65,7 +69,8 @@ public class PijakoWindow extends JFrame {
         home.add(new ChannelsPanel(), "channels");
         cardWindow.show(window, "login");
         cardHome.show(home, "channels");
-        home.add(MyPanel.profile(cardHome, home), "profile");
+        profile = new Profile(cardHome, home);
+        home.add(MyScroll.createBlack(profile), "profile");
         home.add(MyPanel.avatar("avatar/0.png"), "avatar");
         home.add(MyPanel.newChannel(cardHome, home), "new channel");
 
@@ -74,4 +79,15 @@ public class PijakoWindow extends JFrame {
 
     }
 
+    public static User getUser() {
+        return user;
+    }
+
+    public static void setUser(User user) {
+        PijakoWindow.user = user;
+    }
+
+    public static MyPanel getProfile() {
+        return profile;
+    }
 }

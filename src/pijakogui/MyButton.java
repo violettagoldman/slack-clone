@@ -4,12 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.security.NoSuchAlgorithmException;
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import com.bean.ResponseMessage;
+import com.bean.User;
 import com.controllers.UserController;
-import com.jdbc.ConnectionSQL;
 
 public class MyButton extends JButton {
     public MyButton(String str){
@@ -234,8 +233,30 @@ public class MyButton extends JButton {
                 ResponseMessage res ;
                 try {
                     res = UserController.signUp(nicknameStr, mailStr, password1Str, password2Str);
-                    error.setText(String.valueOf(res.getMessage()));
-                    if(res.getStatus()==200)cardLayout.show(cardPanel, "menu");
+                    switch (res.getMessage()){
+                        case EMAIL_NOT_VALID:
+                            error.setText("The mail is not valid");
+                            break;
+                        case USERNAME_NOT_VALID:
+                            error.setText("The username is not valid");
+                            break;
+                        case PASSWORD_NOT_VALID:
+                            error.setText("The password is not valid");
+                            break;
+                        case USERNAME_ALREADY_TAKEN:
+                            error.setText("This username already exist");
+                            break;
+                        case EMAIL_ALREADY_TAKEN:
+                            error.setText("This mail already exist");
+                            break;
+                        case ERROR_CREATION_USER:
+                            error.setText("an error occurred");
+                            break;
+                        case USER_CREATED:
+                            PijakoWindow.setUser((User) res.getData());
+                            cardLayout.show(cardPanel, "menu");
+                            break;
+                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 } catch (NoSuchAlgorithmException e) {

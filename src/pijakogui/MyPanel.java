@@ -4,11 +4,11 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MyPanel extends JPanel {
-    private final JPanel panel;
-    private final JPanel south;
-    private final JPanel north;
-    private static String avatarChoose;
-    private MyPanel(){
+    protected final JPanel panel;
+    protected final JPanel south;
+    protected final JPanel north;
+    protected static String avatarChoose;
+    public MyPanel(){
         this.setBackground(MyColor.black());
         this.setLayout(new BorderLayout());
         panel = new JPanel();
@@ -46,64 +46,6 @@ public class MyPanel extends JPanel {
 
     public static void setAvatarChoose(String str){
         avatarChoose = str;
-    }
-
-    public static MyScroll profile(CardLayout cardLayout, JPanel cardPanel){
-        MyPanel profile = new MyPanel();
-
-        ImageIcon image = new ImageIcon( profile.getClass().getResource( "avatar/0.png"));
-        ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
-        JLabel jlabel = new JLabel(image2, JLabel.CENTER);
-        profile.panel.add(jlabel);
-
-        profile.panel.add(MyButton.createBChangeAvatar(cardLayout, cardPanel));
-
-        JTextField mail = new MyTextField("mail@gmail.com");
-        profile.panel.add(mail);
-
-        JTextField nickName = new MyTextField("nickname");
-        profile.panel.add(nickName);
-
-
-        JTextField password = new MyTextField("password");
-        profile.panel.add(password);
-
-        profile.panel.add(MyButton.createBSaveInformation());
-
-        profile.panel.add(MyButton.createBDeleteAccount());
-
-        MyScroll scroll = MyScroll.createBlack(profile);
-        return scroll;
-    }
-
-    public static MyScroll signUp(CardLayout cardLayout, JPanel cardPanel ){
-        MyPanel signUp = new MyPanel();
-
-
-
-        JTextField information = MyTextField.BorderEmpty("Password : minimum 8 characters with at least 1 uppercase letter, 1 lowercase letter and 1 number");
-        signUp.panel.add(information);
-
-        JTextField error = MyTextField.BorderEmpty("");
-        signUp.panel.add(error);
-
-        JTextField mail = new MyTextField("mail@gmail.com");
-        signUp.panel.add(mail);
-
-        JTextField nickName = new MyTextField("nickname");
-        signUp.panel.add(nickName);
-
-        JTextField password1 = new MyTextField("password");
-        signUp.panel.add(password1);
-
-        JTextField password2 = new MyTextField("confirm password");
-        signUp.panel.add(password2);
-
-        signUp.panel.add(MyButton.createBNewProfile( error,mail, nickName, password1, password2, cardLayout, cardPanel));
-        signUp.panel.add(MyButton.createBGoToConnect( cardLayout, cardPanel));
-
-        MyScroll scroll = MyScroll.createBlack(signUp);
-        return scroll;
     }
 
     public static MyScroll newChannel(CardLayout cardLayout, JPanel cardPanel){

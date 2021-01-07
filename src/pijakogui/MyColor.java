@@ -41,5 +41,10 @@ public class MyColor extends Color {
         return white;
     }
 
+    public static MyColor red(){
+        MyColor red = new MyColor(186,0,0);
+        return red;
+    }
+
 
 }

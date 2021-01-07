@@ -174,7 +174,7 @@ public class ChannelPanel extends JPanel {
         downVerticalScroll();
     }
 
-    public void updateLisUser(String [] users){
+    public void updateListUser(String [] users){
         for (Map.Entry mapentry : usersMap.entrySet()) {
              listUser.remove((Component) mapentry.getValue());
              System.out.println(mapentry.getKey());
