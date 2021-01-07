@@ -3,6 +3,13 @@ package pijakogui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.security.NoSuchAlgorithmException;
+import java.sql.Connection;
+import java.sql.SQLException;
+
+import com.bean.ResponseMessage;
+import com.controllers.UserController;
+import com.jdbc.ConnectionSQL;
 
 public class MyButton extends JButton {
     public MyButton(String str){
@@ -139,8 +146,8 @@ public class MyButton extends JButton {
         return bProfile;
     }
 
-    public static MyButton createBSignUp(CardLayout cardLayout, JPanel cardPanel){
-        MyButton bSignUp = new MyButton("SignUp");
+    public static MyButton createBDeconnect(CardLayout cardLayout, JPanel cardPanel){
+        MyButton bSignUp = new MyButton("Deconnect");
         bSignUp.setPreferredSize(new Dimension(100,20));
         bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
@@ -150,19 +157,9 @@ public class MyButton extends JButton {
         return bSignUp;
     }
 
-    public static MyButton createBSaveNickName(){
-        MyButton bSaveNickName = new MyButton("Save nickName");
-        bSaveNickName.setPreferredSize(new Dimension(100,20));
-        bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
-            public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { }
-            public void mouseExited(java.awt.event.MouseEvent evt) { }
-        });
-        return bSaveNickName;
-    }
 
-    public static MyButton createBSavePassWord(){
-        MyButton bSaveNickName = new MyButton("Save password");
+    public static MyButton createBSaveInformation(){
+        MyButton bSaveNickName = new MyButton("Save information");
         bSaveNickName.setPreferredSize(new Dimension(100,20));
         bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
@@ -200,12 +197,12 @@ public class MyButton extends JButton {
         return bSaveChannel;
     }
 
-    public static MyButton createBSignIn(CardLayout cardLayout, JPanel cardPanel){
-        MyButton bSignIn = new MyButton("SignIn");
+    public static MyButton createBSignUp(CardLayout cardLayout, JPanel cardPanel){
+        MyButton bSignIn = new MyButton("SignUp");
         bSignIn.setPreferredSize(new Dimension(100,20));
         bSignIn.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "sign in");}
+            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "sign up");}
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bSignIn;
@@ -224,12 +221,27 @@ public class MyButton extends JButton {
         return bLogin;
     }
 
-    public static MyButton createBNewProfile(CardLayout cardLayout, JPanel cardPanel){
+    public static MyButton createBNewProfile(JTextField error, JTextField mail, JTextField nickname, JTextField password1, JTextField password2, CardLayout cardLayout, JPanel cardPanel){
         MyButton bNewProfile = new MyButton("Save profile");
         bNewProfile.setPreferredSize(new Dimension(100,20));
         bNewProfile.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "menu"); }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                String mailStr = mail.getText();
+                String nicknameStr = nickname.getText();
+                String password1Str = password1.getText();
+                String password2Str = password2.getText();
+                ResponseMessage res ;
+                try {
+                    res = UserController.signUp(nicknameStr, mailStr, password1Str, "avatar/1.png");
+                    error.setText(String.valueOf(res.getMessage()));
+                    if(res.getStatus()==200)cardLayout.show(cardPanel, "menu");
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                } catch (NoSuchAlgorithmException e) {
+                    e.printStackTrace();
+                }
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bNewProfile;

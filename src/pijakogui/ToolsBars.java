@@ -11,7 +11,7 @@ public class ToolsBars extends JPanel {
         this.add( MyButton.createBProfile( cardLayout, cardPanel) );
         this.add( MyButton.createBChannels(cardLayout, cardPanel) );
         this.add( MyButton.createBNewChannel(cardLayout, cardPanel));
-        this.add( MyButton.createBSignUp(cardLayout2, cardPanel2) );
+        this.add( MyButton.createBDeconnect(cardLayout2, cardPanel2) );
     }
 
 }

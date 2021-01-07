@@ -1,12 +1,15 @@
 package pijakogui;
 
 
+import com.jdbc.ConnectionSQL;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 // Classe principale de l'interface
 public class PijakoWindow extends JFrame {
     private static JPanel window;
+
 
     public PijakoWindow() {
         super( "Pijako" );
@@ -54,7 +57,7 @@ public class PijakoWindow extends JFrame {
         menu.add(new ToolsBars(cardHome, home, cardWindow, window), BorderLayout.NORTH);
         menu.add(home, BorderLayout.CENTER);
         window.add(MyPanel.login(cardWindow , window), "login");
-        window.add(MyPanel.signIn(cardWindow , window), "sign in");
+        window.add(MyPanel.signUp(cardWindow , window), "sign up");
         window.add(menu, "menu");
 
 

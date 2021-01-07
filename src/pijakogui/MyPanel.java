@@ -4,9 +4,9 @@ import javax.swing.*;
 import java.awt.*;
 
 public class MyPanel extends JPanel {
-    private JPanel panel;
-    private JPanel south;
-    private JPanel north;
+    private final JPanel panel;
+    private final JPanel south;
+    private final JPanel north;
     private static String avatarChoose;
     private MyPanel(){
         this.setBackground(MyColor.black());
@@ -59,18 +59,16 @@ public class MyPanel extends JPanel {
         profile.panel.add(MyButton.createBChangeAvatar(cardLayout, cardPanel));
 
         JTextField mail = new MyTextField("mail@gmail.com");
-        mail.setEditable(false);
         profile.panel.add(mail);
 
         JTextField nickName = new MyTextField("nickname");
         profile.panel.add(nickName);
 
-        profile.panel.add(MyButton.createBSaveNickName());
 
         JTextField password = new MyTextField("password");
         profile.panel.add(password);
 
-        profile.panel.add(MyButton.createBSavePassWord());
+        profile.panel.add(MyButton.createBSaveInformation());
 
         profile.panel.add(MyButton.createBDeleteAccount());
 
@@ -78,19 +76,33 @@ public class MyPanel extends JPanel {
         return scroll;
     }
 
-    public static MyScroll signIn(CardLayout cardLayout, JPanel cardPanel ){
-        MyPanel signIn = new MyPanel();
+    public static MyScroll signUp(CardLayout cardLayout, JPanel cardPanel ){
+        MyPanel signUp = new MyPanel();
+
+
+
+        JTextField information = MyTextField.BorderEmpty("Password : minimum 8 characters with at least 1 uppercase letter, 1 lowercase letter and 1 number");
+        signUp.panel.add(information);
+
+        JTextField error = MyTextField.BorderEmpty("");
+        signUp.panel.add(error);
+
         JTextField mail = new MyTextField("mail@gmail.com");
-        mail.setEditable(false);
-        signIn.panel.add(mail);
+        signUp.panel.add(mail);
 
         JTextField nickName = new MyTextField("nickname");
-        signIn.panel.add(nickName);
+        signUp.panel.add(nickName);
 
-        signIn.panel.add(MyButton.createBNewProfile( cardLayout, cardPanel));
-        signIn.panel.add(MyButton.createBGoToConnect( cardLayout, cardPanel));
+        JTextField password1 = new MyTextField("password");
+        signUp.panel.add(password1);
 
-        MyScroll scroll = MyScroll.createBlack(signIn);
+        JTextField password2 = new MyTextField("confirm password");
+        signUp.panel.add(password2);
+
+        signUp.panel.add(MyButton.createBNewProfile( error,mail, nickName, password1, password2, cardLayout, cardPanel));
+        signUp.panel.add(MyButton.createBGoToConnect( cardLayout, cardPanel));
+
+        MyScroll scroll = MyScroll.createBlack(signUp);
         return scroll;
     }
 
@@ -110,7 +122,6 @@ public class MyPanel extends JPanel {
     public static MyScroll login(CardLayout cardLayout, JPanel cardPanel){
         MyPanel login = new MyPanel();
 
-
         JTextField nickname = new MyTextField("Your nickname");
         login.panel.add(nickname);
 
@@ -119,7 +130,7 @@ public class MyPanel extends JPanel {
         login.south.setPreferredSize(new Dimension(400,400));
 
         login.panel.add(MyButton.createBLogin(cardLayout, cardPanel, nickname));
-        login.panel.add(MyButton.createBSignIn(cardLayout, cardPanel));
+        login.panel.add(MyButton.createBSignUp(cardLayout, cardPanel));
 
         MyScroll scroll = MyScroll.createBlack(login);
         return scroll;
