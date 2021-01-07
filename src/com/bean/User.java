@@ -11,18 +11,17 @@ public class User implements Serializable {
     private String email;
     private Timestamp createdAt;
     private String password;
-    private String icone;
+    private String icone = "avatar/1.png";
     private ArrayList<Channel> channels;
 
     public User() {}
 
-    public User(long id, String username, String email, String password, String icone) {
+    public User(long id, String username, String email, String password) {
         this.id = id;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.icone = icone;
-        this.createdAt = new Timestamp(System.currentTimeMillis());;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
     }
 
     public User(long id, String username, String email, String password, Timestamp createAt, String icone) {
@@ -30,8 +29,8 @@ public class User implements Serializable {
         this.username = username;
         this.email = email;
         this.password = password;
-        this.icone = icone;
         this.createdAt = createAt;
+        this.icone = icone;
     }
 
     public long getId() {
@@ -44,6 +43,10 @@ public class User implements Serializable {
 
     public String getUsername() {
         return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {
@@ -68,6 +71,10 @@ public class User implements Serializable {
 
     public String getIcone() {
         return icone;
+    }
+
+    public void setIcone(String icone) {
+        this.icone = icone;
     }
 
     @Override
