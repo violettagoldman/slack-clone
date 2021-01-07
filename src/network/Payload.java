@@ -15,14 +15,23 @@ public final class Payload {
         DISCONNECTION,
         ACTIVE_USERS,
         CHANNEL,
-        REQUEST
+        HTTP
     }
 
     private final Type type;
     private final Map<String, String> props = new ConcurrentHashMap<>();
     private List<Object> args = new ArrayList<>();
     private ResponseMessage<Object> response;
-    private long from;
+    private String senderID;
+
+    public String getSenderID() {
+        return senderID;
+    }
+
+    public void setSenderID(String senderID) {
+        this.senderID = senderID;
+    }
+
     public ResponseMessage<?> getResponse() {
         return response;
     }

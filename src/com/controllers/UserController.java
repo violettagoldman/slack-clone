@@ -5,6 +5,7 @@ import com.dao.impl.UserDAO;
 import com.bean.ResponseMessage;
 import com.bean.User;
 import com.invoker.decorators.ControllerRoute;
+import com.invoker.decorators.MethodRoute;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -126,7 +127,7 @@ public class UserController extends Controller {
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-
+    @MethodRoute("signup")
     public static ResponseMessage signUp(String username, String email, String pass, String secondPass) throws SQLException, NoSuchAlgorithmException {
 
 

@@ -4,7 +4,6 @@ import com.bean.ResponseMessage;
 import com.invoker.Invoker;
 
 import java.io.IOException;
-import java.io.*;
 import java.net.ServerSocket;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -90,7 +89,7 @@ public class Server implements Runnable, SocketListener {
             channels.add(payload.getProps().get("channel"));
             broadcastActiveUsers();
         }
-        if(payload.getType()==Payload.Type.REQUEST){
+        if(payload.getType()==Payload.Type.HTTP){
             try{
                 ResponseMessage<Object> res= (ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getProps().get("route"), 5 );
                 payload.setResponse(res);

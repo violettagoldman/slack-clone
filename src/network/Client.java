@@ -6,6 +6,8 @@ import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Payload.Type;
+import pijakogui.Main;
+import pijakogui.invoker.Invoker;
 import pijakogui.services.Service;
 
 public class Client implements SocketListener, Runnable {
@@ -14,7 +16,7 @@ public class Client implements SocketListener, Runnable {
     private Thread thread;
     private LinkedBlockingQueue<String> messages = new LinkedBlockingQueue<>();
     private LinkedBlockingQueue<Payload> payloads = new LinkedBlockingQueue<>();
-    private static final Client client = new Client();
+    public static final Client client = new Client();
     private String channel = "Team Violetta";
 
     public Client(String user) {
@@ -83,7 +85,9 @@ public class Client implements SocketListener, Runnable {
         Payload payload = buildPayloadMessage(smile, true, channel);
         sm.send(payload);
     }
-
+    public void sendPayload(Payload payload){
+        sm.send(payload);
+    }
     public void sendChannel(String channel) {
         System.out.println(channel);
         Payload payload = new Payload(Type.CHANNEL);
@@ -141,8 +145,11 @@ public class Client implements SocketListener, Runnable {
                     Service.updateUsersConnected(users, this.channel);
                 }
                 break;
-            case REQUEST:
-
+            case HTTP:
+                if(!payload.getSenderID().equals(Main.instanceID)){
+                    return;
+                }
+                Invoker.getInstance().invoke(payload.get)
 
         }
     }
