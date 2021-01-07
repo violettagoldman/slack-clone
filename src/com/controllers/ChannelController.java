@@ -3,6 +3,8 @@ package com.controllers;
 import com.bean.Channel;
 import com.dao.impl.ChannelDAO;
 import com.bean.ResponseMessage;
+import com.invoker.decorators.ControllerRoute;
+import com.invoker.decorators.MethodRoute;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -11,11 +13,12 @@ import java.util.Optional;
 import static com.bean.ResponseMessage.Messages.*;
 import static com.helpers.RegexHelper.isChannelNameValid;
 
+@ControllerRoute("Channel")
 public class ChannelController extends Controller {
 
-    private final ChannelDAO channelDAO = new ChannelDAO();
-
-    public ResponseMessage find(long id) throws SQLException {
+    private final static ChannelDAO channelDAO = new ChannelDAO();
+    @MethodRoute("find")
+    public static  ResponseMessage find(long id) throws SQLException {
         Optional channelOp = channelDAO.find(id);
 
         if (channelOp.isEmpty()) {
@@ -26,7 +29,8 @@ public class ChannelController extends Controller {
 
     }
 
-    public ResponseMessage findAll() throws SQLException {
+    @MethodRoute("findAll")
+    public static ResponseMessage findAll() throws SQLException {
 
         List<Channel> channelsOp = channelDAO.findAll().get();
 
@@ -38,7 +42,8 @@ public class ChannelController extends Controller {
 
     }
 
-    public ResponseMessage create(Channel channelObj) throws SQLException {
+    @MethodRoute("create")
+    public static  ResponseMessage create(Channel channelObj) throws SQLException {
         Optional channelOp = channelDAO.create(channelObj);
 
         if (channelOp.isEmpty()) {
@@ -48,12 +53,14 @@ public class ChannelController extends Controller {
         return new ResponseMessage(channelOp.get(), CHANNEL_CREATED, 200);
     }
 
-    public ResponseMessage delete(long id) throws SQLException {
+    @MethodRoute("delete")
+    public static ResponseMessage delete(long id) throws SQLException {
         channelDAO.delete(id);
 
         return new ResponseMessage(null, CHANNEL_DELETED, 200);
     }
 
+    @MethodRoute("updateInformation")
     public ResponseMessage updateInformation(Channel actualChannel, String name, long adminId) throws SQLException {
 
             // We check if the information is valid

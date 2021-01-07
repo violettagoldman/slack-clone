@@ -1,21 +1,44 @@
 package network;
 
+import com.bean.ResponseMessage;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class Payload {
-    enum Type {
+    public enum Type {
         MESSAGE,
         CONNECTION,
         DISCONNECTION,
         ACTIVE_USERS,
         CHANNEL,
-        HTTP
+        REQUEST
     }
 
     private final Type type;
     private final Map<String, String> props = new ConcurrentHashMap<>();
+    private List<Object> args = new ArrayList<>();
+    private ResponseMessage<Object> response;
+    private long from;
+    public ResponseMessage<?> getResponse() {
+        return response;
+    }
+
+    public void setResponse(ResponseMessage<Object> response) {
+        this.response = response;
+    }
+
+    public List<Object> getArgs() {
+        return args;
+    }
+
+    public void addArgs(Object arg) {
+        this.args.add(arg);
+    }
+
 
     public Payload(Type type) {
         this.type = type;

@@ -3,13 +3,40 @@ package com.dao.impl;
 import com.dao.DAO;
 import com.bean.Message;
 
+import javax.swing.text.html.Option;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class MessageDAO implements DAO<Message> {
+
+    public Optional<List<Message>> findChannelMessages (int  channelID) throws SQLException{
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "SELECT * FROM channelmessage WHERE channel_id = " + channelID
+        );
+
+        List messages = new ArrayList();
+        while(result.next()){
+            messages.add(new Message(
+                    result.getLong("id"),
+                    result.getLong("transmitter_id"),
+                    result.getLong("channel_id"),
+                    result.getTimestamp("created_at"),
+                    result.getString("message"))
+            );
+        }
+        if (messages.isEmpty()) {
+            return Optional.empty();
+        }
+        return Optional.of(messages);
+    }
 
     public Optional<Message> find(long messageId) throws SQLException {
 

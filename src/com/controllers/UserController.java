@@ -1,8 +1,10 @@
 package com.controllers;
 
+import com.dao.impl.ChannelDAO;
 import com.dao.impl.UserDAO;
 import com.bean.ResponseMessage;
 import com.bean.User;
+import com.invoker.decorators.ControllerRoute;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
@@ -13,14 +15,15 @@ import static com.helpers.PasswordHelper.comparePassAndHashedPassword;
 import static com.helpers.PasswordHelper.hashPassword;
 import static com.helpers.RegexHelper.*;
 import static com.bean.ResponseMessage.Messages.*;
-
+@ControllerRoute("users")
 public class UserController extends Controller {
 
     private final static UserDAO userDAO = new UserDAO();
-
-    public ResponseMessage find(long id) throws SQLException {
+    @ControllerRoute("find")
+    public static ResponseMessage find(long id) throws SQLException {
 
         Optional userOp = userDAO.find(id);
+
         if (userOp.isEmpty()) {
             return new ResponseMessage(null, USER_NOT_FOUND, 400);
         }
@@ -28,7 +31,8 @@ public class UserController extends Controller {
 
     }
 
-    public ResponseMessage findAll() throws SQLException {
+    @ControllerRoute("findAll")
+    public static ResponseMessage findAll() throws SQLException {
 
         List<com.bean.User> usersOp = userDAO.findAll().get();
 
@@ -40,7 +44,8 @@ public class UserController extends Controller {
 
     }
 
-    public ResponseMessage findWithEmail(String email) throws SQLException {
+    @ControllerRoute("findWithEmail")
+    public static ResponseMessage findWithEmail(String email) throws SQLException {
 
         Optional userOp = userDAO.findWithEmail(email);
 
@@ -51,8 +56,8 @@ public class UserController extends Controller {
         return new ResponseMessage(userOp.get(), USER_FOUND, 200);
 
     }
-
-    public ResponseMessage findWithUsername(String username) throws SQLException {
+    @ControllerRoute("findWithUsername")
+    public static ResponseMessage findWithUsername(String username) throws SQLException {
 
         Optional userOp = userDAO.findWithUsername(username);
 
@@ -64,7 +69,8 @@ public class UserController extends Controller {
 
     }
 
-    public ResponseMessage delete(long id) throws SQLException {
+    @ControllerRoute("delete")
+    public static ResponseMessage delete(long id) throws SQLException {
 
         userDAO.delete(id);
 
@@ -80,7 +86,8 @@ public class UserController extends Controller {
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-    public ResponseMessage signIn(String username, String pass) throws SQLException, NoSuchAlgorithmException {
+    @ControllerRoute("signIn")
+    public static  ResponseMessage signIn(String username, String pass) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {
@@ -119,7 +126,9 @@ public class UserController extends Controller {
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
+
     public static ResponseMessage signUp(String username, String email, String pass, String secondPass) throws SQLException, NoSuchAlgorithmException {
+
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {
@@ -170,7 +179,9 @@ public class UserController extends Controller {
      * @return Data, message, status
      * @throws SQLException
      */
-    public ResponseMessage update(User actualUser, String username, String email, String pass) throws SQLException, NoSuchAlgorithmException {
+
+    @ControllerRoute("update")
+    public ResponseMessage update(User actualUser, String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {

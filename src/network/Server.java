@@ -1,5 +1,6 @@
 package network;
 
+import com.bean.ResponseMessage;
 import com.invoker.Invoker;
 
 import java.io.IOException;
@@ -88,6 +89,15 @@ public class Server implements Runnable, SocketListener {
             activeUsers.get(sm).setChannel(payload.getProps().get("channel"));
             channels.add(payload.getProps().get("channel"));
             broadcastActiveUsers();
+        }
+        if(payload.getType()==Payload.Type.REQUEST){
+            try{
+                ResponseMessage<Object> res= (ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getProps().get("route"), 5 );
+                payload.setResponse(res);
+                broadcast(payload);
+            }catch(Exception e){
+
+            }
         }
     }
     public void onMessage(SocketManager sm, Request payload) {

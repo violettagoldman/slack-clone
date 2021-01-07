@@ -1,4 +1,8 @@
-package pijakogui;
+package pijakogui.services;
+
+import pijakogui.ChannelPanel;
+import pijakogui.ChannelsPanel;
+import pijakogui.MyButton;
 
 import java.util.HashMap;
 
@@ -20,7 +24,6 @@ public class Service {
     public static void addSmiley(String smiley, String user, String title){
         channelsMap.get(title).smiley(smiley, user);
     }
-
 
     public static void addUser( String nickname, String title){
         MyButton button = MyButton.createBNameUser(nickname);

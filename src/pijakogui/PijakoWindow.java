@@ -1,7 +1,11 @@
 package pijakogui;
 
 
+<<<<<<< HEAD
 import com.bean.User;
+=======
+import pijakogui.services.Service;
+>>>>>>> dev3
 
 import javax.swing.*;
 import java.awt.*;
