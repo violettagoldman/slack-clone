@@ -1,8 +1,10 @@
 package com.controllers;
 
 import com.bean.Channel;
+import com.bean.User;
 import com.dao.impl.ChannelDAO;
 import com.bean.ResponseMessage;
+import com.dao.impl.UserChannelDAO;
 import com.invoker.decorators.ControllerRoute;
 import com.invoker.decorators.MethodRoute;
 
@@ -17,8 +19,10 @@ import static com.helpers.RegexHelper.isChannelNameValid;
 public class ChannelController extends Controller {
 
     private final static ChannelDAO channelDAO = new ChannelDAO();
+    private final static UserChannelDAO userChannelDAO = new UserChannelDAO();
+
     @MethodRoute("find")
-    public static  ResponseMessage find(long id) throws SQLException {
+    public static ResponseMessage find(long id) throws SQLException {
         Optional channelOp = channelDAO.find(id);
 
         if (channelOp.isEmpty()) {
@@ -28,6 +32,7 @@ public class ChannelController extends Controller {
         return new ResponseMessage(channelOp.get(), CHANNEL_FOUND, 200);
 
     }
+
 
     @MethodRoute("findAll")
     public static ResponseMessage findAll() throws SQLException {
@@ -41,6 +46,18 @@ public class ChannelController extends Controller {
         return new ResponseMessage(channelsOp, ALL_CHANNELS_FOUND, 200);
 
     }
+
+    @MethodRoute("getchannelsbyuserid")
+    public static  ResponseMessage getChannelsByUserId(long id) throws SQLException {
+        Optional channelOp = channelDAO.findChannelsbyUserId(id);
+
+        if (channelOp.isEmpty()) {
+            return new ResponseMessage(null, CHANNEL_NOT_FOUND, 400);
+        }
+
+        return new ResponseMessage(channelOp.get(), CHANNEL_FOUND, 200);
+    }
+
 
     @MethodRoute("create")
     public static  ResponseMessage create(Channel channelObj) throws SQLException {
@@ -56,11 +73,11 @@ public class ChannelController extends Controller {
     @MethodRoute("delete")
     public static ResponseMessage delete(long id) throws SQLException {
         channelDAO.delete(id);
-
+        userChannelDAO.deleteByChannelID(id);
         return new ResponseMessage(null, CHANNEL_DELETED, 200);
     }
 
-    @MethodRoute("updateInformation")
+    @MethodRoute("updateinformation")
     public ResponseMessage updateInformation(Channel actualChannel, String name, long adminId) throws SQLException {
 
             // We check if the information is valid

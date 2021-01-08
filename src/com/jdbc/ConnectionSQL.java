@@ -6,9 +6,9 @@ import java.sql.SQLException;
 
 public class ConnectionSQL {
 
-    private static final String URL = "jdbc:mysql://135.181.151.73:3306/slack";
+    private static final String URL = "jdbc:mysql://localhost/slack";
     private static final String USER = "root";
-    private static final String PASSWRD = "1234";
+    private static final String PASSWRD = "1253";
 
     private static Connection connect;
 

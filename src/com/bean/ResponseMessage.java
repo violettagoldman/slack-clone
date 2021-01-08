@@ -35,7 +35,9 @@ public class ResponseMessage<T> implements Serializable {
         ERROR_CREATION_CHANNEL,
         ERROR_UPDATE_CHANNEL,
         INFORMATION_CHANNEL_UPDATED,
-        NO_CHANNEL_IN_DB
+        NO_CHANNEL_IN_DB,
+
+        MESSAGE_CREATED
     }
 
     public ResponseMessage(T data, Messages message, int status) {

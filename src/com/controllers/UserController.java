@@ -1,14 +1,16 @@
 package com.controllers;
 
+import com.bean.*;
 import com.dao.impl.ChannelDAO;
+import com.dao.impl.MessageDAO;
 import com.dao.impl.UserDAO;
-import com.bean.ResponseMessage;
-import com.bean.User;
 import com.invoker.decorators.ControllerRoute;
 import com.invoker.decorators.MethodRoute;
+import org.apache.commons.cli.Option;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +22,8 @@ import static com.bean.ResponseMessage.Messages.*;
 public class UserController extends Controller {
 
     private final static UserDAO userDAO = new UserDAO();
+    private final static ChannelDAO channelDAO = new ChannelDAO();
+    private final static MessageDAO messageDAO = new MessageDAO();
     @ControllerRoute("find")
     public static ResponseMessage find(long id) throws SQLException {
 
@@ -28,7 +32,15 @@ public class UserController extends Controller {
         if (userOp.isEmpty()) {
             return new ResponseMessage(null, USER_NOT_FOUND, 400);
         }
-        return new ResponseMessage(userOp.get(), USER_FOUND, 200);
+        User user =(User) userOp.get();
+        ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
+        for(Channel channel : userChannels){
+            channel.setMessages(
+                    (ArrayList< Message >)messageDAO.findChannelMessages(channel.getID()).get()
+            );
+        }
+        user.setChannels(userChannels);
+        return new ResponseMessage(user, USER_FOUND, 200);
 
     }
 
@@ -87,7 +99,7 @@ public class UserController extends Controller {
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-    @ControllerRoute("signIn")
+
     public static  ResponseMessage signIn(String username, String pass) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
@@ -106,6 +118,13 @@ public class UserController extends Controller {
 
         User user = (User) userOp.get();
 
+        ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
+        for(Channel channel : userChannels){
+            channel.setMessages(
+                    (ArrayList< Message >)messageDAO.findChannelMessages(channel.getID()).get()
+            );
+        }
+        user.setChannels(userChannels);
             // We check if the password matches the hashed password
         if (!comparePassAndHashedPassword(pass, user.getPassword())) {
             return new ResponseMessage(null, INCORRECT_PASSWORD, 400);

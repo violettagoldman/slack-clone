@@ -33,6 +33,30 @@ public class ChannelDAO implements DAO<Channel> {
         return Optional.empty();
     }
 
+    public Optional<List<Channel>> findChannelsbyUserId (long userID) throws SQLException{
+
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "select * from slack.channel ch where exists (select * from userchannel uch where uch.user_id="+userID+" and uch.channel_id=ch.id);"
+        );
+
+        List<Channel> channels = new ArrayList<>();
+
+        while(result.next()) {
+            Channel channel = new Channel(
+                    result.getLong("id"),
+                    result.getLong("admin_user_id"),
+                    result.getString("name"),
+                    result.getTimestamp("created_at")
+            );
+            channels.add(channel);
+        }
+
+        return Optional.of(channels);
+
+    }
     public Optional<List<Channel>> findAll () throws SQLException{
 
         ResultSet result = this.connect.createStatement(
@@ -57,6 +81,8 @@ public class ChannelDAO implements DAO<Channel> {
         return Optional.of(channels);
 
     }
+
+
 
     public Optional<Channel> create(Channel channelObj) throws SQLException{
 

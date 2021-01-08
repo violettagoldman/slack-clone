@@ -9,6 +9,23 @@ import java.util.Objects;
 public class Channel implements Serializable {
     private long ID;
     private Timestamp createdAt;
+
+    public ArrayList<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(ArrayList<User> users) {
+        this.users = users;
+    }
+
+    public ArrayList<Message> getMessages() {
+        return messages;
+    }
+
+    public void setMessages(ArrayList<Message> messages) {
+        this.messages = messages;
+    }
+
     private long adminUserId;
     private String name;
     private ArrayList<User> users = new ArrayList<>();

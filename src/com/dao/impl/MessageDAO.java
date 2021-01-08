@@ -14,12 +14,12 @@ import java.util.Optional;
 
 public class MessageDAO implements DAO<Message> {
 
-    public Optional<List<Message>> findChannelMessages (int  channelID) throws SQLException{
+    public Optional<List<Message>> findChannelMessages (long  channelID) throws SQLException{
         ResultSet result = this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE
         ).executeQuery(
-                "SELECT * FROM channelmessage WHERE channel_id = " + channelID
+                "SELECT * FROM channelmessage WHERE channel_id = " + channelID+";"
         );
 
         List messages = new ArrayList();
@@ -105,4 +105,5 @@ public class MessageDAO implements DAO<Message> {
         );
 
     }
+
 }

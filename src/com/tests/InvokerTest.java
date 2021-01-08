@@ -1,23 +1,20 @@
 package com.tests;
 
+import com.bean.ResponseMessage;
+import com.bean.User;
 import com.invoker.Invoker;
 import com.invoker.tree.RouteItem;
 import com.invoker.tree.RouteTree;
 import org.junit.Test;
 
+import java.sql.SQLOutput;
+import java.util.ArrayList;
+
 public class InvokerTest {
 
     public InvokerTest(){}
 
-    @Test
-    public void testTree(){
-        RouteTree rt = new RouteTree(null, "GET");
-        rt.insert(new RouteItem("user/getall",null));
-        rt.insert(new RouteItem("user/getall2",null));
-        rt.insert(new RouteItem("how/are/you",null));
-        System.out.println(rt);
 
-    }
     @Test
     public void testTree2(){
         RouteTree rt = new RouteTree(null, "GET");
@@ -29,9 +26,14 @@ public class InvokerTest {
 
     @Test
     public void invoker(){
-        Invoker.getInstance().invoke("channel/getAll");
-        Invoker.getInstance().invoke("Wrongpath/getAll");
-
+        ArrayList<Object> args = new ArrayList<>();
+        args.add("mail@gmail.com");
+        args.add("nickname");
+        args.add("Paulius123");
+        args.add("Paulius123");
+        Object[] array = args.toArray();
+        ResponseMessage res = (ResponseMessage<User>)Invoker.getInstance().invoke("users/signup",array);
+        System.out.println(res);
     }
 
     @Test

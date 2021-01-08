@@ -17,7 +17,10 @@ public class Invoker {
         }catch (NullPointerException e){
             System.err.println(e);
             System.err.println("Method invoked might not be static");
-        }catch (Exception e){
+        }catch (IllegalArgumentException e){
+            System.err.println("Illegal args");
+        }
+        catch (Exception e){
             System.err.println(e);
         }
         return result;

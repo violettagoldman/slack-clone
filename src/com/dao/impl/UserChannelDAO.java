@@ -71,7 +71,14 @@ public class UserChannelDAO implements DAO<UserChannel> {
                     "DELETE FROM userchannel WHERE id = " + userChannelId
             );
     }
-
+    public void deleteByChannelID(long channelID) throws SQLException{
+        this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeUpdate(
+                "DELETE FROM userchannel WHERE channel_id = " + channelID
+        );
+    }
     public Optional<List<UserChannel>> findAllUserFromAChannel(long channelId) throws SQLException{
 
         ResultSet result = this.connect.createStatement(

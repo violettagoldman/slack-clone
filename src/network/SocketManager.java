@@ -34,6 +34,7 @@ public class SocketManager implements Runnable {
         try {
             oos.writeObject(object);
         } catch (IOException e) {
+            System.err.println(e);
             System.out.println("OIS error send");
         }
     }

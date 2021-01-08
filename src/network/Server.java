@@ -91,7 +91,7 @@ public class Server implements Runnable, SocketListener {
         }
         if(payload.getType()==Payload.Type.HTTP){
             try{
-                ResponseMessage<Object> res= (ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getProps().get("route"), 5 );
+                ResponseMessage<Object> res= (ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getRoute(), payload.getArgs().toArray() );
                 payload.setResponse(res);
                 broadcast(payload);
             }catch(Exception e){
@@ -99,8 +99,8 @@ public class Server implements Runnable, SocketListener {
             }
         }
     }
-    public void onMessage(SocketManager sm, Request payload) {
+    /*public void onMessage(SocketManager sm, Request payload) {
         Object response = Invoker.getInstance().invoke(payload.getReq(),payload.getArgs());
         sm.send(response);
-    }
+    }*/
 }

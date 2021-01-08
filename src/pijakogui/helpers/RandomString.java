@@ -1,4 +1,4 @@
-package pijakogui.Helpers;
+package pijakogui.helpers;
 
 
 import java.security.SecureRandom;

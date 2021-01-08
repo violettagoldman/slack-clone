@@ -2,13 +2,14 @@ package network;
 
 import com.bean.ResponseMessage;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-public final class Payload {
+public final class Payload implements Serializable {
     public enum Type {
         MESSAGE,
         CONNECTION,
@@ -17,12 +18,47 @@ public final class Payload {
         CHANNEL,
         HTTP
     }
-
+    public enum RequestType {
+        USER_LOGIN,
+        USER_SIGNUP,
+        USER_EDIT,
+        USER_DELETE,
+        USER_FIND,
+        CHANNEL_FINDALL,
+        CHANNEL_EDIT,
+        CHANNEL_DELETE,
+        CHANNEL_MESSAGES,
+        CHANNEL_CREATE,
+        MESSAGE_POST
+    }
     private final Type type;
+    private RequestType requestType;
     private final Map<String, String> props = new ConcurrentHashMap<>();
     private List<Object> args = new ArrayList<>();
     private ResponseMessage<Object> response;
     private String senderID;
+    private String route;
+
+
+    public void setArgs(List<Object> args) {
+        this.args = args;
+    }
+
+    public RequestType getRequestType() {
+        return requestType;
+    }
+
+    public void setRequestType(RequestType requestType) {
+        this.requestType = requestType;
+    }
+
+    public String getRoute() {
+        return route;
+    }
+
+    public void setRoute(String route) {
+        this.route = route;
+    }
 
     public String getSenderID() {
         return senderID;
@@ -48,6 +84,11 @@ public final class Payload {
         this.args.add(arg);
     }
 
+
+    public Payload(Type type, RequestType requestType) {
+        this.type = type;
+        this.requestType=requestType;
+    }
 
     public Payload(Type type) {
         this.type = type;

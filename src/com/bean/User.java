@@ -14,6 +14,14 @@ public class User implements Serializable {
     private String icone = "avatar/1.png";
     private ArrayList<Channel> channels;
 
+    public ArrayList<Channel> getChannels() {
+        return channels;
+    }
+
+    public void setChannels(ArrayList<Channel> channels) {
+        this.channels = channels;
+    }
+
     public User() {}
 
     public User(long id, String username, String email, String password) {
