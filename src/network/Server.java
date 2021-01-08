@@ -92,8 +92,9 @@ public class Server implements Runnable, SocketListener {
         if(payload.getType()==Payload.Type.HTTP){
             try{
                 ResponseMessage<Object> res= (ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getRoute(), payload.getArgs().toArray() );
-                payload.setResponse(res);
-                broadcast(payload);
+                Payload payloadRes = payload.clone();
+                payloadRes.setResponse(res);
+                broadcast(payloadRes);
             }catch(Exception e){
 
             }

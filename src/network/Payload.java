@@ -31,9 +31,9 @@ public final class Payload implements Serializable {
         CHANNEL_CREATE,
         MESSAGE_POST
     }
-    private final Type type;
+    private Type type;
     private RequestType requestType;
-    private final Map<String, String> props = new ConcurrentHashMap<>();
+    private Map<String, String> props = new ConcurrentHashMap<>();
     private List<Object> args = new ArrayList<>();
     private ResponseMessage<Object> response;
     private String senderID;
@@ -117,7 +117,17 @@ public final class Payload implements Serializable {
             result += key + "=" + props.get(key) + "\1";
         return (result);
     }
-
+    public Payload clone(){
+        Payload payload = new Payload(this.type);
+        payload.setRoute(this.route);
+        payload.requestType=requestType;
+        payload.props = this.props;
+        payload.args = this.args;
+        payload.response= this.response;
+        payload.senderID= this.senderID;
+        payload.route= this.route;
+        return payload;
+    }
     public Type getType() {
         return (type);
     }

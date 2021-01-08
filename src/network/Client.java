@@ -26,9 +26,9 @@ public class Client implements SocketListener, Runnable {
         this.user = user;
         start();
     }
-    
+
     public Client() {
-        start();
+        //start();
     }
 
     public void setUser(String user) {
@@ -153,7 +153,10 @@ public class Client implements SocketListener, Runnable {
             case HTTP:
               if(payload.getSenderID().equals(instanceID) && payload.getResponse()!= null){
                     ServiceRoute.invokeService(payload);
-                }
+              }
+              break;
+            default:
+
         }
     }
 

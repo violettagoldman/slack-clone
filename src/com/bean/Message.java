@@ -10,6 +10,7 @@ public class Message implements Serializable {
     private long channel_id;
     private Timestamp messageCreatedAt;
     private String message;
+    private boolean isSmiley;
 
     public Message() {}
 
