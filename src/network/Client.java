@@ -28,7 +28,7 @@ public class Client implements SocketListener, Runnable {
     }
     
     public Client() {
-        start();
+        //start();
     }
 
     public void setUser(String user) {
