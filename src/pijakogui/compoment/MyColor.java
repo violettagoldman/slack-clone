@@ -1,4 +1,4 @@
-package pijakogui;
+package pijakogui.compoment;
 
 import java.awt.*;
 

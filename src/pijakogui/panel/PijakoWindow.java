@@ -1,8 +1,9 @@
-package pijakogui;
+package pijakogui.panel;
 
-import com.bean.User;
-import pijakogui.services.Service;
 
+import pijakogui.compoment.MyScroll;
+import pijakogui.compoment.ToolsBars;
+import pijakogui.services.UserService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,9 +11,10 @@ import java.awt.event.WindowAdapter;
 // Classe principale de l'interface
 public class PijakoWindow extends JFrame {
     private static JPanel window;
-    private static User user;
     private static MyPanel profile;
     private static SignUp signUp;
+    private static Login login;
+    private static NewChannel newChannel;
 
 
     public PijakoWindow() {
@@ -34,6 +36,10 @@ public class PijakoWindow extends JFrame {
                 exception.printStackTrace();
             }
         }
+        //test---------
+        UserService.test();
+        //--------------
+
 
         //Paramètre de la fenêtre
         this.setUndecorated(false);
@@ -60,7 +66,8 @@ public class PijakoWindow extends JFrame {
         menu.setLayout(new BorderLayout());
         menu.add(new ToolsBars(cardHome, home, cardWindow, window), BorderLayout.NORTH);
         menu.add(home, BorderLayout.CENTER);
-        window.add(MyPanel.login(cardWindow , window), "login");
+        login = new Login(cardWindow , window);
+        window.add(MyScroll.createBlack(login), "login");
         signUp = new SignUp(cardWindow , window);
         window.add(MyScroll.createBlack(signUp), "sign up");
         window.add(menu, "menu");
@@ -73,20 +80,12 @@ public class PijakoWindow extends JFrame {
         profile = new Profile(cardHome, home);
         home.add(MyScroll.createBlack(profile), "profile");
         home.add(MyPanel.avatar("avatar/0.png"), "avatar");
-        home.add(MyPanel.newChannel(cardHome, home), "new channel");
-
-        //Test ajout de message depuis le serveur
-        Service.addChannel("Team Violetta", "Jeanne");
+        newChannel = new NewChannel(cardHome, home);
+        home.add(MyScroll.createBlack(newChannel), "new channel");
 
     }
 
-    public static User getUser() {
-        return user;
-    }
 
-    public static void setUser(User user) {
-        PijakoWindow.user = user;
-    }
 
     public static MyPanel getProfile() {
         return profile;
@@ -94,5 +93,13 @@ public class PijakoWindow extends JFrame {
 
     public static SignUp getSignUp() {
         return signUp;
+    }
+
+    public static Login getLogin() {
+        return login;
+    }
+
+    public static NewChannel getNewChannel() {
+        return newChannel;
     }
 }

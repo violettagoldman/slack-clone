@@ -62,6 +62,10 @@ public class Channel implements Serializable {
         return createdAt;
     }
 
+    public ArrayList<Message> getMessages() {
+        return messages;
+    }
+
     @Override
     public String toString() {
         return "Channel{" +

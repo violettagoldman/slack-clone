@@ -1,7 +1,7 @@
-package pijakogui;
+package pijakogui.panel;
 
-import pijakogui.MyButton;
-import pijakogui.MyColor;
+import pijakogui.compoment.MyColor;
+import pijakogui.services.UserService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -13,7 +13,7 @@ public class Smiley extends JPanel {
         this.setPreferredSize(new Dimension(0,50));
 
         for(int i = 0; i<12 ; i++){
-            this.add(MyButton.createBSmile(title, "smileybutton/smiley"+i+".png"));
+            this.add(MyButton.createBSmile(title, "smileybutton/smiley"+i+".png", UserService.getUser().getIcone()));
             this.validate();
         }
 

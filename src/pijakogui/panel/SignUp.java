@@ -1,7 +1,10 @@
-package pijakogui;
+package pijakogui.panel;
 
 import com.bean.ResponseMessage;
 import com.bean.User;
+import pijakogui.compoment.MyColor;
+import pijakogui.compoment.MyTextField;
+import pijakogui.services.UserService;
 
 import javax.swing.*;
 import java.awt.*;
@@ -17,8 +20,8 @@ public class SignUp extends MyPanel{
 
     public SignUp(CardLayout cardLayout, JPanel cardPanel) {
         super();
-        cardLayout = cardLayout;
-        cardPanel = cardPanel;
+        this.cardLayout = cardLayout;
+        this.cardPanel = cardPanel;
         JTextField information = MyTextField.BorderEmpty("Password : minimum 8 characters with at least 1 uppercase letter, 1 lowercase letter and 1 number");
         this.panel.add(information);
 
@@ -71,7 +74,7 @@ public class SignUp extends MyPanel{
                 error.setText("an error occurred");
                 break;
             case USER_CREATED:
-                PijakoWindow.setUser((User) res.getData());
+                UserService.setUser((User) res.getData());
                 cardLayout.show(cardPanel, "menu");
                 break;
         }

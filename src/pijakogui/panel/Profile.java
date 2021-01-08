@@ -1,4 +1,6 @@
-package pijakogui;
+package pijakogui.panel;
+
+import pijakogui.compoment.MyTextField;
 
 import javax.swing.*;
 import java.awt.*;

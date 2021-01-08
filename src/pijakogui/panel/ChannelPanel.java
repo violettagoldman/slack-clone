@@ -1,4 +1,12 @@
-package pijakogui;
+package pijakogui.panel;
+
+import com.bean.ResponseMessage;
+import com.bean.User;
+import pijakogui.compoment.MyColor;
+import pijakogui.compoment.MyScroll;
+import pijakogui.compoment.MyTextArea;
+import pijakogui.compoment.MyTextField;
+import pijakogui.services.UserService;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -10,7 +18,15 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChannelPanel extends JPanel {
+    private final String id;
+    private final JPanel messagesZone;
+    private final JPanel listUser;
+    private final HashMap<String, MyButton> usersMap = new HashMap<>();
+    private final  JScrollPane scrollMessages;
     private final String title;
+    private final JTextField errorAddUser;
+    private final long admin;
+
 
     public String getTitle() { return title; }
 
@@ -22,23 +38,11 @@ public class ChannelPanel extends JPanel {
 
     public HashMap<String, MyButton> getUsersMap() {return usersMap; }
 
-    private final String id;
-    private final JPanel messagesZone;
-    private final JPanel listUser;
-    private final HashMap<String, MyButton> usersMap = new HashMap<>();
-    private final  JScrollPane scrollMessages;
-
-    public ChannelPanel(String title, String id, String user){
+    public ChannelPanel(String title, String id, long admin){
         this.title = title;
         this.id = id;
         this.setLayout(new BorderLayout());
-
-        //Zone menu et titre
-        JPanel menu = new JPanel();
-        menu.setLayout(new FlowLayout(FlowLayout.LEFT));
-        menu.add(MyButton.createBNameChannel(title));
-        menu.setBackground(MyColor.black());
-        menu.setPreferredSize(new Dimension(0,40));
+        this.admin = user;
 
         //zone de liste des utilisateurs
         listUser = new JPanel();
@@ -47,10 +51,20 @@ public class ChannelPanel extends JPanel {
         listUser.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,new Color(101, 162, 201)));
         this.add(listUser , BorderLayout.EAST );
 
+        //Zone menu et titre
+        JPanel menu = new JPanel();
+        menu.setLayout(new FlowLayout(FlowLayout.LEFT));
+        menu.add(MyButton.createBNameChannel(title));
+        menu.setBackground(MyColor.black());
+        menu.setPreferredSize(new Dimension(0,40));
         //Ajout nouvel utilisateur dans la conversation
-        JTextField addUser = new MyTextField("add user in this channel");
-        menu.add(addUser);
-        menu.add(MyButton.createBAddUser(addUser, listUser));
+        errorAddUser = MyTextField.BorderEmpty("");
+        if(UserService.getUser().getId()==user){
+            JTextField addUser = new MyTextField("add user in this channel");
+            menu.add(addUser);
+            menu.add(MyButton.createBAddUser(addUser, listUser));
+            menu.add(errorAddUser);
+        }
         this.add(menu, BorderLayout.NORTH);
 
         //Zone des messages
@@ -82,12 +96,12 @@ public class ChannelPanel extends JPanel {
         writeScript.setBackground(MyColor.black());
         writeScript.setFont(new Font("SansSerif", Font.PLAIN, 15));
         writeScript.setForeground(MyColor.white());
-        write.add(MyButton.createBSend(writeScript, messagesZone, title), BorderLayout.EAST );
+        write.add(MyButton.createBSend(writeScript, title, UserService.getUser().getIcone()), BorderLayout.EAST );
         write.add(MyButton.createBSeeSmile(smiley,"smileybutton/smile.png"), BorderLayout.WEST );
         this.add(write, BorderLayout.SOUTH );
     }
 
-    public JPanel messagesStructure(String nickname){
+    public JPanel messagesStructure(String nickname, String avatar){
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
@@ -100,7 +114,7 @@ public class ChannelPanel extends JPanel {
         JTextArea user = MyTextArea.user(nickname+" :");
         user.setForeground(MyColor.blue());
         user.setPreferredSize(new Dimension(0,25));
-        ImageIcon image = new ImageIcon( MyButton.class.getResource("avatar/0.png"));
+        ImageIcon image = new ImageIcon( MyButton.class.getResource(avatar));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
         JLabel jlabel = new JLabel(image2);
         userPlace.add(jlabel, BorderLayout.WEST);
@@ -134,8 +148,8 @@ public class ChannelPanel extends JPanel {
         return panel;
     }
 
-    public void messages(String str, String nickname){
-        JPanel messageStruct = messagesStructure(nickname);
+    public void messages(String str, String nickname, String avatar){
+        JPanel messageStruct = messagesStructure(nickname, avatar);
         JTextArea message = MyTextArea.message(str);
         message.setForeground(MyColor.white());
         messageStruct.add(message, BorderLayout.CENTER);
@@ -151,8 +165,8 @@ public class ChannelPanel extends JPanel {
         messagesZone.add(connected);
     }
 
-    public void smiley(String smiley, String nickname){
-        JPanel messageStruct = messagesStructure(nickname);
+    public void smiley(String smiley, String nickname, String avatar){
+        JPanel messageStruct = messagesStructure(nickname, avatar);
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         JLabel jlabel = new JLabel(image2);
@@ -182,7 +196,8 @@ public class ChannelPanel extends JPanel {
         }
         usersMap.clear();
         for (String user : users) {
-            MyButton button = MyButton.createBNameUser(user);
+            MyButton button;
+            button =  (UserService.getUser().getId() == admin) ? MyButton.createBNameUserAdmin(user): MyButton.createBNameUser(user);
             usersMap.put(user, button);
             listUser.add(button);
         }
@@ -192,5 +207,54 @@ public class ChannelPanel extends JPanel {
 
     public void downVerticalScroll(){
         scrollMessages.getVerticalScrollBar().setValue(scrollMessages.getVerticalScrollBar().getMaximum());
+    }
+
+    public void updateAddUser(ResponseMessage res) {
+        switch (res.getMessage()) {
+            case USERNAME_NOT_VALID:
+                errorAddUser.setText("The username is not valid");
+                break;
+            case PASSWORD_NOT_VALID:
+                errorAddUser.setText("The password is not valid");
+                break;
+            case USER_NOT_FOUND:
+                errorAddUser.setText("This username not exist");
+                break;
+            case INCORRECT_PASSWORD:
+                errorAddUser.setText("Password incorrect");
+                break;
+            case USER_CREATED:
+                String userName = ((User)res.getData()).getUsername();
+                MyButton button = MyButton.createBNameUser(userName);
+                usersMap.put(userName, button);
+                listUser.add(button);
+                listUser.validate();
+                this.validate();
+                break;
+        }
+    }
+
+    public void updateRemoveUser(ResponseMessage res) {
+        switch (res.getMessage()) {
+            case USERNAME_NOT_VALID:
+                errorAddUser.setText("The username is not valid");
+                break;
+            case PASSWORD_NOT_VALID:
+                errorAddUser.setText("The password is not valid");
+                break;
+            case USER_NOT_FOUND:
+                errorAddUser.setText("This username not exist");
+                break;
+            case INCORRECT_PASSWORD:
+                errorAddUser.setText("Password incorrect");
+                break;
+            case USER_CREATED:
+                String userName = ((User)res.getData()).getUsername();
+                listUser.remove( usersMap.get(userName));
+                usersMap.remove(userName);
+                listUser.validate();
+                this.validate();
+                break;
+        }
     }
 }
