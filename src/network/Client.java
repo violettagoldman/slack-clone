@@ -108,7 +108,7 @@ public class Client implements SocketListener, Runnable {
     }
 
     public void publishMessage(String message) {
-        messages.offer(message);
+       messages.offer(message);
     }
 
     public static void main(String[] argv) {
