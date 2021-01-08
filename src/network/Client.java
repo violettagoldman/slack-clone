@@ -61,18 +61,19 @@ public class Client implements SocketListener, Runnable {
         Scanner scanner = new Scanner(System.in);
         while (scanner.hasNextLine()) {
             String message = scanner.nextLine();
-            Payload payload = buildPayloadMessage(message, false, "Team Violetta");
+            Payload payload = buildPayloadMessage(message, false, "Team Violetta", "avatar/1.png");
             sm.send(payload);
         }
         scanner.close();
     }
 
-    private Payload buildPayloadMessage(String message, boolean isSmile, String channel) {
+    private Payload buildPayloadMessage(String message, boolean isSmile, String channel, String avatar) {
         Payload payload = new Payload(Payload.Type.MESSAGE);
         payload.addProperty("message", message);
         payload.addProperty("user", user);
         payload.addProperty("smile", isSmile + "");
         payload.addProperty("channel", channel);
+        payload.addProperty("avatar", avatar);
         return (payload);
     }
 
@@ -82,14 +83,14 @@ public class Client implements SocketListener, Runnable {
         return (payload);
     }
 
-    public void sendMessage(String message, String channel) {
+    public void sendMessage(String message, String channel , String avatar) {
         // String message = messages.take();
-        Payload payload = buildPayloadMessage(message, false, channel);
+        Payload payload = buildPayloadMessage(message, false, channel, avatar);
         sm.send(payload);
     }
 
-    public void sendSmile(String smile, String channel) {
-        Payload payload = buildPayloadMessage(smile, true, channel);
+    public void sendSmile(String smile, String channel, String avatar) {
+        Payload payload = buildPayloadMessage(smile, true, channel, avatar);
         sm.send(payload);
     }
     public void sendPayload(Payload payload){
@@ -137,10 +138,10 @@ public class Client implements SocketListener, Runnable {
                 break;
             case MESSAGE:
                 if (payload.getProps().get("smile").equals("true")) {
-                    ChannelsService.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
+                    ChannelsService.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"), payload.getProps().get("avatar"));
                 } else {
                     System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
-                    ChannelsService.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
+                    ChannelsService.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"),payload.getProps().get("avatar"));
                     payloads.add(payload);
                 }
                 break;

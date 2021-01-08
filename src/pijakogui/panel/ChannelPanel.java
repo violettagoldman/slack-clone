@@ -42,7 +42,7 @@ public class ChannelPanel extends JPanel {
         this.title = title;
         this.id = id;
         this.setLayout(new BorderLayout());
-        this.admin = user;
+        this.admin = admin;
 
         //zone de liste des utilisateurs
         listUser = new JPanel();
@@ -59,7 +59,7 @@ public class ChannelPanel extends JPanel {
         menu.setPreferredSize(new Dimension(0,40));
         //Ajout nouvel utilisateur dans la conversation
         errorAddUser = MyTextField.BorderEmpty("");
-        if(UserService.getUser().getId()==user){
+        if(UserService.getUser().getId()==admin){
             JTextField addUser = new MyTextField("add user in this channel");
             menu.add(addUser);
             menu.add(MyButton.createBAddUser(addUser, listUser));
@@ -73,7 +73,7 @@ public class ChannelPanel extends JPanel {
         messagesZone = new JPanel();
         messagesZone.setLayout(new BoxLayout(messagesZone, BoxLayout.PAGE_AXIS));
         messagesZone.setBackground(MyColor.gray());
-        messagesZone.add(new MyTextArea("\n\n Channel of "+user+": \n\n**************************************\n\n "
+        messagesZone.add(new MyTextArea("\n\n Channel of "+admin+": \n\n**************************************\n\n "
                 +title+
                 " \n\n**************************************\n\n Send news messages !! "+
                 "\n\n**************************************\n\n See the other users at right ->\n\n"
