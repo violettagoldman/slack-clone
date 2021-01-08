@@ -3,6 +3,7 @@ package pijakogui.panel;
 
 import pijakogui.compoment.MyScroll;
 import pijakogui.compoment.ToolsBars;
+import pijakogui.services.ChannelsService;
 import pijakogui.services.UserService;
 
 import javax.swing.*;
@@ -82,6 +83,9 @@ public class PijakoWindow extends JFrame {
         home.add(MyPanel.avatar("avatar/0.png"), "avatar");
         newChannel = new NewChannel(cardHome, home);
         home.add(MyScroll.createBlack(newChannel), "new channel");
+
+        //Test ajout de message depuis le serveur
+        ChannelsService.addChannel("Team Violetta", 00021);
 
     }
 
