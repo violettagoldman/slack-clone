@@ -19,12 +19,12 @@ public class ChannelsService {
         channelsMap.put(title, ChannelsPanel.addChannels(title, adminUserId));
     }
 
-    public static void addMessage(String message, String user, String avatar, String title){
+    public static void addMessage(String message, String user, String title, String avatar){
         channelsMap.get(title).messages(message, user, avatar);
         channelsMap.get(title).getMessagesZone().validate();
     }
 
-    public static void addSmiley(String smiley, String user, String avatar, String title){
+    public static void addSmiley(String smiley, String user, String title, String avatar ){
         channelsMap.get(title).smiley(smiley, user, avatar);
     }
 

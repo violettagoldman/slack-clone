@@ -151,7 +151,7 @@ public class Client implements SocketListener, Runnable {
                 }
                 break;
             case HTTP:
-                if(payload.getSenderID().equals(instanceID) && payload.getResponse()!= null){
+              if(payload.getSenderID().equals(instanceID) && payload.getResponse()!= null){
                     ServiceRoute.invokeService(payload);
                 }
         }

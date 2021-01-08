@@ -85,7 +85,7 @@ public final class Payload implements Serializable {
     }
 
 
-    public Payload(Type type, RequestType requestType) {
+    public Payload(Type type, RequestType requestType){
         this.type = type;
         this.requestType=requestType;
     }
