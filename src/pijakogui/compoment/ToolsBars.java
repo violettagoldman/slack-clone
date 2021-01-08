@@ -1,4 +1,6 @@
-package pijakogui;
+package pijakogui.compoment;
+
+import pijakogui.panel.MyButton;
 
 import javax.swing.*;
 import java.awt.*;

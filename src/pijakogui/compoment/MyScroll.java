@@ -1,4 +1,4 @@
-package pijakogui;
+package pijakogui.compoment;
 
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicScrollBarUI;

@@ -1,4 +1,7 @@
-package pijakogui;
+package pijakogui.panel;
+
+import pijakogui.compoment.MyColor;
+import pijakogui.compoment.MyScroll;
 
 import javax.swing.*;
 import java.awt.*;
@@ -46,36 +49,6 @@ public class MyPanel extends JPanel {
 
     public static void setAvatarChoose(String str){
         avatarChoose = str;
-    }
-
-    public static MyScroll newChannel(CardLayout cardLayout, JPanel cardPanel){
-        MyPanel newChannel = new MyPanel();
-
-        JTextField title = new MyTextField("Name of new channel");
-        newChannel.panel.add(title);
-        newChannel.south.setPreferredSize(new Dimension(400,400));
-
-        newChannel.panel.add(MyButton.createBSaveChannel(cardLayout,cardPanel, title));
-
-        MyScroll scroll = MyScroll.createBlack(newChannel);
-        return scroll;
-    }
-
-    public static MyScroll login(CardLayout cardLayout, JPanel cardPanel){
-        MyPanel login = new MyPanel();
-
-        JTextField nickname = new MyTextField("Your nickname");
-        login.panel.add(nickname);
-
-        JTextField password = new MyTextField("Your password");
-        login.panel.add(password);
-        login.south.setPreferredSize(new Dimension(400,400));
-
-        login.panel.add(MyButton.createBLogin(cardLayout, cardPanel, nickname));
-        login.panel.add(MyButton.createBSignUp(cardLayout, cardPanel));
-
-        MyScroll scroll = MyScroll.createBlack(login);
-        return scroll;
     }
 
     public static MyScroll avatar(String avatarStr){

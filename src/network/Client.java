@@ -6,7 +6,8 @@ import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Payload.Type;
-import pijakogui.services.Service;
+import pijakogui.panel.PijakoWindow;
+import pijakogui.services.ChannelsService;
 
 public class Client implements SocketListener, Runnable {
     private SocketManager sm;
@@ -103,7 +104,7 @@ public class Client implements SocketListener, Runnable {
     }
 
     public static void main(String[] argv) {
-        new pijakogui.PijakoWindow().setVisible(true);
+        new PijakoWindow().setVisible(true);
         Client cl = Client.getInstance();
         cl.start();
         // cl.sendMessage();
@@ -126,10 +127,10 @@ public class Client implements SocketListener, Runnable {
                 break;
             case MESSAGE:
                 if (payload.getProps().get("smile").equals("true")) {
-                    Service.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
+                    ChannelsService.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
                 } else {
                     System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
-                    Service.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
+                    ChannelsService.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"));
                     payloads.add(payload);
                 }
                 break;
@@ -138,7 +139,7 @@ public class Client implements SocketListener, Runnable {
                 if (payload.getProps().get(this.channel) != null) {
                     String users[] = payload.getProps().get(this.channel).split("\2");
                     if (users != null && users.length != 0)
-                    Service.updateUsersConnected(users, this.channel);
+                    ChannelsService.updateUsersConnected(users, this.channel);
                 }
                 break;
             case REQUEST:

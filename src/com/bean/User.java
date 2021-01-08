@@ -77,6 +77,10 @@ public class User implements Serializable {
         this.icone = icone;
     }
 
+    public ArrayList<Channel> getChannels() {
+        return channels;
+    }
+
     @Override
     public String toString() {
         return "User{" +

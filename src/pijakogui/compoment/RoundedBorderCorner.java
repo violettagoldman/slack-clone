@@ -1,4 +1,4 @@
-package pijakogui;
+package pijakogui.compoment;
 
 import javax.swing.border.AbstractBorder;
 import java.awt.*;
