@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public final class Payload implements Serializable {
-    public enum Type {
+    public enum Type implements Serializable{
         MESSAGE,
         CONNECTION,
         DISCONNECTION,
@@ -18,7 +18,7 @@ public final class Payload implements Serializable {
         CHANNEL,
         HTTP
     }
-    public enum RequestType {
+    public enum RequestType implements Serializable {
         USER_LOGIN,
         USER_SIGNUP,
         USER_EDIT,

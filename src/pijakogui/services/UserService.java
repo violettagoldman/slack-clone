@@ -23,7 +23,7 @@ public class UserService {
         session = user;
     }
 
-    public static void signIn(ResponseMessage res){
+    public static void signUp(ResponseMessage res){
         PijakoWindow.getSignUp().updateSignUp(res);
     }
 

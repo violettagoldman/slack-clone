@@ -151,7 +151,7 @@ public class UserController extends Controller {
 
 
             // We check if the information is valid
-        if (!isUsernameValid(username)) {
+       if (!isUsernameValid(username)) {
             return new ResponseMessage(null, USERNAME_NOT_VALID, 400);
         } else if (!isPasswordValid(pass)) {
             return new ResponseMessage(null, PASSWORD_NOT_VALID, 400);

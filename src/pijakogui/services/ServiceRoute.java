@@ -11,6 +11,7 @@ public class ServiceRoute {
             case USER_FIND:
             case USER_DELETE:
             case USER_SIGNUP:
+                UserService.signUp(payload.getResponse());
             case CHANNEL_EDIT:
             case CHANNEL_CREATE:
             case CHANNEL_DELETE:

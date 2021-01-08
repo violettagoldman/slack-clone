@@ -6,14 +6,11 @@ import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import network.Payload.Type;
-<<<<<<< HEAD
 import pijakogui.helpers.RandomString;
 import pijakogui.invoker.Invoker;
-import pijakogui.services.Service;
-=======
 import pijakogui.panel.PijakoWindow;
 import pijakogui.services.ChannelsService;
->>>>>>> 96f009ea84413debf0fc76d2276ba05014b18934
+import pijakogui.services.ServiceRoute;
 
 public class Client implements SocketListener, Runnable {
     private SocketManager sm;
@@ -154,15 +151,10 @@ public class Client implements SocketListener, Runnable {
                 }
                 break;
             case HTTP:
-                if(!payload.getSenderID().equals(instanceID)){
-                    return;
+                if(payload.getSenderID().equals(instanceID) && payload.getResponse()!= null){
+                    ServiceRoute.invokeService(payload);
                 }
-                Invoker.getInstance().invoke(payload.getRoute(), payload.getResponse());
-
         }
-    }
-    public void onMessage(SocketManager sm, Request payload) {
-
     }
 
 }

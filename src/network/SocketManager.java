@@ -49,6 +49,9 @@ public class SocketManager implements Runnable {
             this.listener.onDisconnection(this);
         } catch (ClassNotFoundException e) {
                 System.out.println("CNFE error");
+        }catch (Exception e){
+            System.out.println(e);
+            e.printStackTrace();
         }
     }
 }

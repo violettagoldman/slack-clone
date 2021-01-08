@@ -4,17 +4,9 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
-<<<<<<< HEAD:src/pijakogui/MyButton.java
-import com.bean.ResponseMessage;
-import com.bean.User;
-import com.controllers.UserController;
-
-import pijakogui.requestclient.UserClient;
-import pijakogui.services.Service;
-=======
 import pijakogui.compoment.MyColor;
+import pijakogui.requestclient.UserClient;
 import pijakogui.services.ChannelsService;
->>>>>>> 96f009ea84413debf0fc76d2276ba05014b18934:src/pijakogui/panel/MyButton.java
 
 
 public class MyButton extends JButton {
@@ -233,7 +225,7 @@ public class MyButton extends JButton {
                 String nicknameStr = nickname.getText();
                 String password1Str = password1.getText();
                 String password2Str = password2.getText();
-                UserClient.signUp(mailStr,nicknameStr,password1Str,password2Str);
+                UserClient.signUp(nicknameStr,mailStr,password1Str,password2Str);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });

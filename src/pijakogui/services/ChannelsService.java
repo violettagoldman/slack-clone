@@ -52,10 +52,13 @@ public class ChannelsService {
     }
 
     public static void updateChannel(){
+        /*
         ArrayList<Channel> channels = UserService.getUser().getChannels();
         for(Channel channel : channels){
             addChannel(channel.getName(), channel.getAdminUserId());
         }
+        */
+         
     }
 
 }
