@@ -68,7 +68,7 @@ public final class Payload implements Serializable {
         this.senderID = senderID;
     }
 
-    public ResponseMessage<?> getResponse() {
+    public ResponseMessage<Object> getResponse() {
         return response;
     }
 
@@ -103,6 +103,7 @@ public final class Payload implements Serializable {
         }
     }
 
+
     public void addProperty(String key, String value) {
         props.put(key, value);
     }
@@ -131,29 +132,3 @@ message=Hello
 channel=general
 ...
 */
-
-
-/*
-RequestObject:{
-    url: /get/channel/all
-    args:[Object] = 3
-}
-onMessage(){
-    Object response =  Invoker(/get/users/all,args) =
-    payload = serialize(response)
-    payload send:
-}
-
-*
- Client -> requestobject: objet
-*
-*
-*
-* */
-
-/**
-
- User:
- []: Channel
- []:message
- */
