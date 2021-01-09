@@ -86,7 +86,7 @@ public class ChannelPanel extends JPanel {
                 "\n\n**************************************\n\n See the other users at right ->\n\n"
         ));
         containerMessage.add(messagesZone, BorderLayout.CENTER);
-        JPanel smiley = new Smiley(messagesZone,title );
+        JPanel smiley = new Smiley(messagesZone,id );
         smiley.setVisible(false);
         containerMessage.add(smiley, BorderLayout.SOUTH);
         scrollMessages = MyScroll.createGray(containerMessage);

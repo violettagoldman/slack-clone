@@ -1,6 +1,7 @@
 package network;
 
 import java.io.IOException;
+import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -61,6 +62,7 @@ public class Client implements SocketListener, Runnable {
             thread.start();
         } catch (IOException e) {
             e.printStackTrace();
+            System.exit(0);
         }
     }
 
@@ -110,8 +112,6 @@ public class Client implements SocketListener, Runnable {
         this.channel = channel;
         sm.send(payload);
     }
-
-
 
     public void sendConnection() {
         Payload payload = buildPayloadConnection();

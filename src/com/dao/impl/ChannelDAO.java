@@ -91,6 +91,7 @@ public class ChannelDAO implements DAO<Channel> {
         }
         PreparedStatement prepare = this.connect.prepareStatement(
                 "INSERT INTO channel (name,admin_user_id,created_at) VALUES(?,?,?)"
+        ,Statement.RETURN_GENERATED_KEYS
         );
 
         prepare.setString(1,channelObj.getName());

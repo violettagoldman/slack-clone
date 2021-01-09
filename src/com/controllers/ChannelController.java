@@ -13,6 +13,8 @@ import com.mysql.cj.x.protobuf.MysqlxExpr;
 import com.sun.mail.iap.Response;
 import org.apache.commons.cli.Option;
 
+import javax.sound.midi.Soundbank;
+import java.security.NoSuchAlgorithmException;
 import java.sql.SQLException;
 import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.ArrayList;
@@ -22,7 +24,7 @@ import java.util.Optional;
 import static com.bean.ResponseMessage.Messages.*;
 import static com.helpers.RegexHelper.isChannelNameValid;
 
-@ControllerRoute("Channel")
+@ControllerRoute("channels")
 public class ChannelController extends Controller {
 
     private final static ChannelDAO channelDAO = new ChannelDAO();
@@ -69,14 +71,21 @@ public class ChannelController extends Controller {
 
 
     @MethodRoute("create")
-    public static  ResponseMessage create(Channel channelObj) throws SQLException {
-        Optional channelOp = channelDAO.create(channelObj);
-
-        if (channelOp.isEmpty()) {
+    public static  ResponseMessage create(Channel channelObj) throws SQLException, NoSuchAlgorithmException {
+        Optional channelOp;
+        try{
+            channelOp = channelDAO.create(channelObj);
+            if (channelOp.isEmpty()) {
+                return new ResponseMessage(null, ERROR_CREATION_CHANNEL, 400);
+            }
+            Channel channel = (Channel)channelOp.get();
+            userChannelDAO.create(new UserChannel(
+                channel.getID(),channel.getAdminUserId(),channel.getCreatedAt()
+            ));
+            return new ResponseMessage(channel, CHANNEL_CREATED, 200);
+        }catch (Exception e){
             return new ResponseMessage(null, ERROR_CREATION_CHANNEL, 400);
         }
-
-        return new ResponseMessage(channelOp.get(), CHANNEL_CREATED, 200);
     }
 
     @MethodRoute("delete")

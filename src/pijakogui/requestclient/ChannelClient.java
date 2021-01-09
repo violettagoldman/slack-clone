@@ -12,8 +12,8 @@ public class ChannelClient {
         Payload payload=PayloadBuilder.buildRequest("channels/getchannelsbyuserid", Payload.RequestType.CHANNEL_FINDALL,ID);
         Client.getInstance().sendPayload(payload);
     }
-    public static void createChannel(long ID){
-        Payload payload=PayloadBuilder.buildRequest("channels/delete", Payload.RequestType.CHANNEL_CREATE,ID);
+    public static void createChannel(Channel channel){
+        Payload payload=PayloadBuilder.buildRequest("channels/create", Payload.RequestType.CHANNEL_CREATE,channel);
         Client.getInstance().sendPayload(payload);
 
     }

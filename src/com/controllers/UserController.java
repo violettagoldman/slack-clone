@@ -100,7 +100,7 @@ public class UserController extends Controller {
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
-
+    @MethodRoute("signin")
     public static  ResponseMessage signIn(String username, String pass) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
@@ -121,9 +121,10 @@ public class UserController extends Controller {
 
         ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
         for(Channel channel : userChannels){
-            channel.setMessages(
-                    (ArrayList< Message >)messageDAO.findChannelMessages(channel.getID()).get()
-            );
+            Optional messagesOp = messageDAO.findChannelMessages(channel.getID());
+            if(!messagesOp.isEmpty()){
+                channel.setMessages((ArrayList<Message>)messagesOp.get());
+            }
         }
         user.setChannels(userChannels);
             // We check if the password matches the hashed password

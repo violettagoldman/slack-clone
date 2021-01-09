@@ -29,7 +29,7 @@ public class NewChannel extends MyPanel {
         this.panel.add(channel);
         this.south.setPreferredSize(new Dimension(400,400));
 
-        this.panel.add(MyButton.createBSaveChannel(cardLayout,cardPanel, channel, UserService.getUser().getId()));
+        this.panel.add(MyButton.createBSaveChannel(channel));
     }
 
     public void updateNewChannel(ResponseMessage res) {
@@ -46,7 +46,7 @@ public class NewChannel extends MyPanel {
             case INCORRECT_PASSWORD:
                 error.setText("Password incorrect");
                 break;
-            case USER_CREATED:
+            case CHANNEL_CREATED:
                 ChannelsService.addChannel((Channel)res.getData());
                 cardLayout.show(cardPanel, "menu");
                 break;

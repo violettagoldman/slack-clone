@@ -10,11 +10,6 @@ import java.sql.Timestamp;
 public class UserService {
     private static User session;
 
-    public static void test(){
-        session = new User(02155, "Jeanne", "jeannne@gmail.com", "12345Test!", new Timestamp(System.currentTimeMillis()), "avatar/4.png"  );
-        System.out.println(session.toString());
-    }
-
     public static User getUser() {
         return session;
     }

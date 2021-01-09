@@ -40,6 +40,14 @@ public class Channel implements Serializable {
         this.createdAt = new Timestamp(System.currentTimeMillis());;
     }
 
+
+    public Channel(long adminUserId, String name) {
+        this.adminUserId = adminUserId;
+        this.name = name;
+        this.createdAt = new Timestamp(System.currentTimeMillis());;
+    }
+
+
     public Channel(long ID, long adminUserId, String name, Timestamp channelCreatedAt) {
         this.ID = ID;
         this.adminUserId = adminUserId;

@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.concurrent.TimeoutException;
 
+import com.bean.Channel;
 import com.bean.Message;
 import network.Client;
 import pijakogui.compoment.MyColor;
@@ -83,7 +84,7 @@ public class MyButton extends JButton {
         return send;
     }
 
-    public static MyButton createBSmile( String title, String smiley, String avatar){
+    public static MyButton createBSmile( long channelID, String smiley){
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
         MyButton send = new MyButton(image2);
@@ -91,7 +92,14 @@ public class MyButton extends JButton {
         send.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                network.Client.getInstance().sendSmile(smiley, title, avatar);
+                MessageClient.sendMessage(new Message(
+                        0,
+                        UserService.getUser().getId(),
+                        channelID,
+                        new Timestamp(System.currentTimeMillis()),
+                        smiley,
+                        true
+                ));
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -187,17 +195,17 @@ public class MyButton extends JButton {
         return bDeleteAccount;
     }
 
-    public static MyButton createBSaveChannel(CardLayout cardLayout, JPanel cardPanel, JTextField title, long adminId){
+    public static MyButton createBSaveChannel(JTextField title){
         MyButton bSaveChannel = new MyButton("Create new channel");
         bSaveChannel.setPreferredSize(new Dimension(100,20));
         bSaveChannel.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                //envoie de channel au serveur
-                //network.Client.getInstance().sendChannel(title.getText());
-                //ChannelClient.createChannel();
+                ChannelClient.createChannel(new Channel(
+                    UserService.getUser().getId(),
+                        title.getText()
+                ));
                 title.setText("Name of new channel");
-                cardLayout.show(cardPanel, "channels");
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -216,15 +224,14 @@ public class MyButton extends JButton {
         return bSignIn;
     }
 
-    public static MyButton createBLogin(CardLayout cardLayout, JPanel cardPanel, JTextField nickname, JTextField password){
+    public static MyButton createBLogin(JTextField nickname, JTextField password){
         MyButton bLogin = new MyButton("Connect");
         bLogin.setPreferredSize(new Dimension(100,20));
         bLogin.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                network.Client.getInstance().setUser(nickname.getText());
                 UserClient.signIn(nickname.getText(), password.getText());
-                cardLayout.show(cardPanel, "menu");}
+              }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bLogin;

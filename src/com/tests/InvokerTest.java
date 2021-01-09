@@ -32,14 +32,14 @@ public class InvokerTest {
         args.add("Paulius123");
         args.add("Paulius123");
         Object[] array = args.toArray();
-        ResponseMessage res = (ResponseMessage<User>)Invoker.getInstance().invoke("users/signup",array);
-        System.out.println(res);
+//        ResponseMessage res = (ResponseMessage<User>)Invoker.getInstance().invoke("users/signup",array);
+      //  System.out.println(res);
     }
 
     @Test
     public void invokerWithArg(){
-        Object string = Invoker.getInstance().invoke("channel/adduser", 3);
-        System.out.println(string);
+       // Object string = Invoker.getInstance().invoke("channel/adduser", 3);
+//        System.out.println(string);
     }
 
 }

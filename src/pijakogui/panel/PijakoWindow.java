@@ -42,10 +42,6 @@ public class PijakoWindow extends JFrame {
                 exception.printStackTrace();
             }
         }
-        //test---------
-        UserService.test();
-        //--------------
-
 
         //Paramètre de la fenêtre
         this.setUndecorated(false);
@@ -58,7 +54,7 @@ public class PijakoWindow extends JFrame {
         this.addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(java.awt.event.WindowEvent e ){
-                System.exit(1);
+                System.exit(0);
             };
         });
 

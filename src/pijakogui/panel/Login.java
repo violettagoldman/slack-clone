@@ -23,15 +23,22 @@ public class Login extends MyPanel{
 
         error = MyTextField.BorderEmpty("");
         this.panel.add(error);
-
+/*
         nickname = new MyTextField("Your nickname");
         this.panel.add(nickname);
 
         password = new MyTextField("Your password");
         this.panel.add(password);
+  */
+        nickname = new MyTextField("Paulius12345");
+        this.panel.add(nickname);
+
+        password = new MyTextField("Paulius12345");
+        this.panel.add(password);
+
         this.south.setPreferredSize(new Dimension(400,400));
 
-        this.panel.add(MyButton.createBLogin(cardLayout, cardPanel, nickname, password));
+        this.panel.add(MyButton.createBLogin(nickname, password));
         this.panel.add(MyButton.createBSignUp(cardLayout, cardPanel));
     }
 

@@ -33,7 +33,8 @@ public class UserChannelDAO implements DAO<UserChannel> {
     public Optional<UserChannel> create(UserChannel userChannelObj) throws SQLException{
 
             PreparedStatement prepare = this.connect.prepareStatement(
-                    "INSERT INTO userchannel (channel_id,user_id,created_at) VALUES(?,?,?)"
+                    "INSERT INTO userchannel (channel_id,user_id,created_at) VALUES(?,?,?)",
+                    Statement.RETURN_GENERATED_KEYS
             );
 
             prepare.setLong(1, userChannelObj.getChannel_id());
