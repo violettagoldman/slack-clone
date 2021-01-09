@@ -50,6 +50,10 @@ public class Message implements Serializable {
         return message;
     }
 
+    public boolean isSmiley() {
+        return isSmiley;
+    }
+
     @Override
     public String toString() {
         return "Message{" +

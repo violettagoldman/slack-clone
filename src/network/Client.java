@@ -21,14 +21,19 @@ public class Client implements SocketListener, Runnable {
     public static final Client client = new Client();
     private String channel = "Team Violetta";
     public static final String instanceID = (new RandomString()).nextString();
+    private static PijakoWindow window;
 
     public Client(String user) {
         this.user = user;
-        start();
+        //start();
     }
 
     public Client() {
         //start();
+    }
+
+    public static PijakoWindow getWindow() {
+        return window;
     }
 
     public void setUser(String user) {
@@ -112,7 +117,8 @@ public class Client implements SocketListener, Runnable {
     }
 
     public static void main(String[] argv) {
-        new PijakoWindow().setVisible(true);
+        window = new PijakoWindow();
+        window.setVisible(true);
         Client cl = Client.getInstance();
         cl.start();
         // cl.sendMessage();
@@ -135,10 +141,10 @@ public class Client implements SocketListener, Runnable {
                 break;
             case MESSAGE:
                 if (payload.getProps().get("smile").equals("true")) {
-                    ChannelsService.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"), payload.getProps().get("avatar"));
+                    //ChannelsService.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"), payload.getProps().get("avatar"));
                 } else {
                     System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
-                    ChannelsService.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"),payload.getProps().get("avatar"));
+                    //ChannelsService.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"),payload.getProps().get("avatar"));
                     payloads.add(payload);
                 }
                 break;
@@ -161,3 +167,16 @@ public class Client implements SocketListener, Runnable {
     }
 
 }
+
+/// ______ LES DIFFERENTS CAS DE ON MESSAGE ______________
+//connection et Active user ne change pas
+//message -> http, un response message broadcasté (avec un message en data)
+// attention changer pour smiley, une seule fonction
+//inscription -> http, un response uniquement à l'instance qui a envoyé (user dans data)
+//connection -> http, un response uniquement à l'instance qui a envoyé (user dans data)
+//modification profile, -> http, un response uniquement à l'instance qui a envoyé (user dans data)
+//modification icone -> http, un response uniquement à l'instance qui a envoyé (user dans data)
+//création d'une chaine -> http, un response uniquement à l'instance qui a envoyé
+//ajout d'un utilisateur dans une chaine -> http,
+//          -> si data null, un response uniquement à l'instance qui a envoyé
+//         -> si data non null, un response broadcasté (un user et une chaine dans la data)

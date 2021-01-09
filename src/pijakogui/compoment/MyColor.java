@@ -36,6 +36,16 @@ public class MyColor extends Color {
         return grayBlack;
     }
 
+    public static MyColor blueAdmin(){
+        MyColor blueAdmin = new MyColor(22,131,201);
+        return blueAdmin;
+    }
+
+    public static MyColor blueUser(){
+        MyColor blueUser = new MyColor(102,187,241);
+        return blueUser;
+    }
+
     public static MyColor white(){
         MyColor white = new MyColor(230,230,230);
         return white;

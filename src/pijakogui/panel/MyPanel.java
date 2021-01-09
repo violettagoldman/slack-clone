@@ -51,6 +51,8 @@ public class MyPanel extends JPanel {
         avatarChoose = str;
     }
 
+    public static String getAvatarChoose() { return avatarChoose; }
+
     public static MyScroll avatar(String avatarStr){
         MyPanel avatar = new MyPanel();
         avatar.north.remove(0);

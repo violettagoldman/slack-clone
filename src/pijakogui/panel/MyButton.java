@@ -4,9 +4,11 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
 
+import network.Client;
 import pijakogui.compoment.MyColor;
 import pijakogui.requestclient.UserClient;
 import pijakogui.services.ChannelsService;
+import pijakogui.services.UserService;
 
 
 public class MyButton extends JButton {
@@ -140,24 +142,14 @@ public class MyButton extends JButton {
         return bProfile;
     }
 
-    public static MyButton createBDeconnect(CardLayout cardLayout, JPanel cardPanel){
-        MyButton bSignUp = new MyButton("Deconnect");
-        bSignUp.setPreferredSize(new Dimension(100,20));
-        bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "login"); }
-            public void mouseExited(java.awt.event.MouseEvent evt) { }
-        });
-        return bSignUp;
-    }
 
-
-    public static MyButton createBSaveInformation(){
+    public static MyButton createBSaveInformation(String mail, String nickname, String password){
         MyButton bSaveNickName = new MyButton("Save information");
         bSaveNickName.setPreferredSize(new Dimension(100,20));
         bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bSaveNickName;
@@ -168,7 +160,13 @@ public class MyButton extends JButton {
         bDeleteAccount.setPreferredSize(new Dimension(100,20));
         bDeleteAccount.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Delete your profile ? If you delete \n" +
+                        "if you delete your account, the app will close", "Delete account", JOptionPane.YES_NO_OPTION);
+                if(response== JOptionPane.YES_OPTION){ //
+                    // appeler fonction serveur
+                }
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bDeleteAccount;
@@ -180,7 +178,6 @@ public class MyButton extends JButton {
         bSaveChannel.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                ChannelsService.addChannel(title.getText(), adminId);
                 //envoie de channel au serveur
                 network.Client.getInstance().sendChannel(title.getText());
                 title.setText("Name of new channel");
@@ -319,7 +316,12 @@ public class MyButton extends JButton {
         bNameUser.setPreferredSize(new Dimension(100,30));
         bNameUser.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Delete this user ?", "Delete user", JOptionPane.YES_NO_OPTION);
+                if(response== JOptionPane.YES_OPTION){ //
+                    // appeler fonction serveur
+                }
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bNameUser;
@@ -366,7 +368,8 @@ public class MyButton extends JButton {
         chooseAvatar.setPreferredSize(new Dimension(20,20));
         chooseAvatar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+            }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return chooseAvatar;

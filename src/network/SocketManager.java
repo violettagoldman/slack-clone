@@ -28,18 +28,16 @@ public class SocketManager implements Runnable {
            oos.writeObject(payload);
         } catch (IOException e) {
             System.out.println("OIS error send");
-        }catch (Exception e){
-            System.out.println("OIS error send2");
         }
     }
-//    public void send(Object object){
-//        try {
-//            oos.writeObject(object);
-//        } catch (IOException e) {
-//            System.err.println(e);
-//            System.out.println("OIS error send");
-//        }
-//    }
+    public void send(Object object){
+        try {
+            oos.writeObject(object);
+        } catch (IOException e) {
+            System.err.println(e);
+            System.out.println("OIS error send");
+        }
+    }
     public void run() {
         try {
             while (true) {

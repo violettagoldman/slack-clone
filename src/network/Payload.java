@@ -29,7 +29,8 @@ public final class Payload implements Serializable {
         CHANNEL_DELETE,
         CHANNEL_MESSAGES,
         CHANNEL_CREATE,
-        MESSAGE_POST
+        MESSAGE_POST,
+        CHANNEL_ADD_USER
     }
     private Type type;
     private RequestType requestType;
