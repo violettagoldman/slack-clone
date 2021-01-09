@@ -309,15 +309,14 @@ public class MyButton extends JButton {
         return bDeleteMessage;
     }
 
-    public static MyButton createBAddUser(JTextField addUser, JPanel listUser){
+    public static MyButton createBAddUser(JTextField addUser, JPanel listUser, long channelID){
         MyButton bAddUser = new MyButton("Add user");
         bAddUser.setPreferredSize(new Dimension(100,30));
         bAddUser.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                listUser.add(MyButton.createBNameUser(addUser.getText()));
+                ChannelClient.addUserToChannel(channelID,addUser.getText());
                 addUser.setText("add user in this channel");
-                listUser.validate();
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });

@@ -82,6 +82,7 @@ public class ChannelController extends Controller {
             userChannelDAO.create(new UserChannel(
                 channel.getID(),channel.getAdminUserId(),channel.getCreatedAt()
             ));
+            channel.getUsers().add(userDAO.find(channelObj.getAdminUserId()).get());
             return new ResponseMessage(channel, CHANNEL_CREATED, 200);
         }catch (Exception e){
             return new ResponseMessage(null, ERROR_CREATION_CHANNEL, 400);
@@ -123,7 +124,7 @@ public class ChannelController extends Controller {
     }
 
     @MethodRoute("addusertochannel")
-    public ResponseMessage addUserToChannel(String nickname, long channelID ) throws SQLException{
+    public static ResponseMessage addUserToChannel( long channelID ,String nickname) throws SQLException{
 //        ResponseMessage responseMessage; = new ResponseMessage<Channel>();
         try{
             Optional<Channel> channelOp =channelDAO.find(channelID);
@@ -134,7 +135,7 @@ public class ChannelController extends Controller {
             if(userOp.isEmpty()){
                 return new ResponseMessage(channelID,USER_NOT_FOUND,404);
             }
-            UserChannel userChannel = new UserChannel((userOp.get()).getId(), channelID);
+            UserChannel userChannel = new UserChannel(channelID, (userOp.get()).getId() );
             userChannelDAO.create(userChannel);
             Channel channel = channelOp.get();
             List<User> users=userDAO.findUsersByChannelID(channelID).get();

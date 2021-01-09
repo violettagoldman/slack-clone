@@ -1,6 +1,8 @@
-package pijakogui.services;
+package pijakogui;
 
 import network.Payload;
+import pijakogui.services.ChannelsService;
+import pijakogui.services.UserService;
 
 public class ServiceRoute {
 

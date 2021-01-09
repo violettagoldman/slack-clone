@@ -1,22 +1,15 @@
 package network;
 
 import java.io.IOException;
-import java.net.ConnectException;
 import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
-import com.bean.Message;
-import com.bean.ResponseMessage;
 import network.Payload.Type;
 import pijakogui.helpers.RandomString;
-import pijakogui.invoker.Invoker;
 import pijakogui.panel.PijakoWindow;
 import pijakogui.services.ChannelsService;
-import pijakogui.services.ServiceRoute;
-
-import static com.bean.ResponseMessage.Messages.USERCHANNEL_EXISTS;
-import static network.Payload.RequestType.CHANNEL_ADD_USER;
+import pijakogui.ServiceRoute;
 
 public class Client implements SocketListener, Runnable {
     private SocketManager sm;
@@ -161,8 +154,8 @@ public class Client implements SocketListener, Runnable {
                   ChannelsService.addMessage(payload.getResponse());
                 break;
               }
-              if(payload.getRequestType() == Payload.RequestType.CHANNEL_ADD_USER){
-                  if(payload.getResponse().getStatus()<400){
+              if(payload.getRequestType() == Payload.RequestType.CHANNEL_ADD_USER|| payload.getRequestType() == Payload.RequestType.CHANNEL_CREATE){
+                  if(payload.getResponse().getStatus()<400 ){
                       ServiceRoute.invokeService(payload);
                       break;
                   }

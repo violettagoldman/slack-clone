@@ -1,6 +1,8 @@
 package network;
 
+import com.bean.Channel;
 import com.bean.ResponseMessage;
+import com.controllers.ChannelController;
 import com.invoker.Invoker;
 import javassist.NotFoundException;
 
@@ -79,8 +81,9 @@ public class Server implements Runnable, SocketListener {
 
     @Override
     public void onMessage(SocketManager sm, Payload payload) {
-        broadcast(payload);
-        System.out.println(payload.toString());
+        if(payload.getType() == Payload.Type.CHANNEL ){
+            broadcast(payload);
+        }
         if (payload.getType() == Payload.Type.CONNECTION) {
             activeUsers.put(sm, new network.User(payload.getProps().get("user")));
             broadcastActiveUsers();
@@ -104,7 +107,7 @@ public class Server implements Runnable, SocketListener {
             }catch (IllegalArgumentException e){
                 System.err.println("Illegal args");
                 res=new ResponseMessage<Object>(null,ResponseMessage.Messages.BAD_REQUEST,400);
-            }catch (Exception e){
+            } catch (Exception e){
                 System.err.println(e);
                 res=new ResponseMessage<Object>(null,ResponseMessage.Messages.ERROR_SERVER,500);
             }

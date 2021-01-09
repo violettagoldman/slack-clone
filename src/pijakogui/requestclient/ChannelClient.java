@@ -29,5 +29,6 @@ public class ChannelClient {
     }
     public static void addUserToChannel(long channelID,String nickname){
         Payload payload=PayloadBuilder.buildRequest("channels/addusertochannel", Payload.RequestType.CHANNEL_ADD_USER,channelID,nickname);
+        Client.getInstance().sendPayload(payload);
     }
 }

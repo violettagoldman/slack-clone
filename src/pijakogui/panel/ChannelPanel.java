@@ -20,7 +20,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ChannelPanel extends JPanel {
-    private final long id;
+    private final long channelID;
     private final JPanel messagesZone;
     private final JPanel listUser;
     private final  JScrollPane scrollMessages;
@@ -33,7 +33,7 @@ public class ChannelPanel extends JPanel {
 
     public String getTitle() { return title; }
 
-    public long getId() { return id; }
+    public long getChannelID() { return channelID; }
 
     public JPanel getMessagesZone() { return messagesZone; }
 
@@ -43,9 +43,9 @@ public class ChannelPanel extends JPanel {
 
     public ArrayList<User> getUsers() { return users; }
 
-    public ChannelPanel(String title, long id, long admin, ArrayList users){
+    public ChannelPanel(String title, long channelID, long admin, ArrayList users){
         this.title = title;
-        this.id = id;
+        this.channelID = channelID;
         this.setLayout(new BorderLayout());
         this.admin = admin;
         this.users = users;
@@ -70,7 +70,7 @@ public class ChannelPanel extends JPanel {
         if(UserService.getUser().getId()==admin){
             JTextField addUser = new MyTextField("add user in this channel");
             menu.add(addUser);
-            menu.add(MyButton.createBAddUser(addUser, listUser));
+            menu.add(MyButton.createBAddUser(addUser, listUser, channelID));
             menu.add(errorAddUser);
         }
         this.add(menu, BorderLayout.NORTH);
@@ -87,7 +87,7 @@ public class ChannelPanel extends JPanel {
                 "\n\n**************************************\n\n See the other users at right ->\n\n"
         ));
         containerMessage.add(messagesZone, BorderLayout.CENTER);
-        JPanel smiley = new Smiley(messagesZone,id );
+        JPanel smiley = new Smiley(messagesZone, channelID);
         smiley.setVisible(false);
         containerMessage.add(smiley, BorderLayout.SOUTH);
         scrollMessages = MyScroll.createGray(containerMessage);
@@ -104,7 +104,7 @@ public class ChannelPanel extends JPanel {
         writeScript.setBackground(MyColor.black());
         writeScript.setFont(new Font("SansSerif", Font.PLAIN, 15));
         writeScript.setForeground(MyColor.white());
-        write.add(MyButton.createBSendMessage(writeScript, id), BorderLayout.EAST );
+        write.add(MyButton.createBSendMessage(writeScript, channelID), BorderLayout.EAST );
         write.add(MyButton.createBSeeSmile(smiley,"smileybutton/smile.png"), BorderLayout.WEST );
         this.add(write, BorderLayout.SOUTH );
     }
