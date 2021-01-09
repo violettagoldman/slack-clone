@@ -125,6 +125,11 @@ public class UserController extends Controller {
             if(!messagesOp.isEmpty()){
                 channel.setMessages((ArrayList<Message>)messagesOp.get());
             }
+            Optional usersOp = userDAO.findUsersByChannelID(channel.getID());
+            if(!usersOp.isEmpty()){
+                channel.setUsers((ArrayList)usersOp.get());
+            }
+
         }
         user.setChannels(userChannels);
             // We check if the password matches the hashed password

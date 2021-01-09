@@ -103,7 +103,7 @@ public class ChannelPanel extends JPanel {
         writeScript.setBackground(MyColor.black());
         writeScript.setFont(new Font("SansSerif", Font.PLAIN, 15));
         writeScript.setForeground(MyColor.white());
-        write.add(MyButton.createBSend(writeScript, id, UserService.getUser().getIcone()), BorderLayout.EAST );
+        write.add(MyButton.createBSendMessage(writeScript, id), BorderLayout.EAST );
         write.add(MyButton.createBSeeSmile(smiley,"smileybutton/smile.png"), BorderLayout.WEST );
         this.add(write, BorderLayout.SOUTH );
     }

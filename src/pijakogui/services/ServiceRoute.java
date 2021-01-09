@@ -37,6 +37,7 @@ public class ServiceRoute {
             case CHANNEL_MESSAGES:
                 break;
             case MESSAGE_POST:
+                ChannelsService.addMessage(payload.getResponse());
                 break;
             default:
         }
