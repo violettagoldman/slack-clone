@@ -2,11 +2,17 @@ package pijakogui.panel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.xml.crypto.Data;
 import java.awt.*;
+import java.sql.Date;
+import java.sql.Timestamp;
+import java.util.concurrent.TimeoutException;
 
+import com.bean.Message;
 import network.Client;
 import pijakogui.compoment.MyColor;
 import pijakogui.requestclient.ChannelClient;
+import pijakogui.requestclient.MessageClient;
 import pijakogui.requestclient.UserClient;
 import pijakogui.services.ChannelsService;
 import pijakogui.services.UserService;
@@ -54,14 +60,21 @@ public class MyButton extends JButton {
     }
 
 
-    public static MyButton createBSend(JTextArea write,  String title, String avatar){
+    public static MyButton createBSend(JTextArea write,  long channelID, String avatar){
         MyButton send = new MyButton("Send");
         send.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 if (!write.getText().equals("")) {
                     String str = write.getText();
-                    network.Client.getInstance().sendMessage(str, title, avatar);
+                    MessageClient.sendMessage(new Message(
+                            0,
+                            UserService.getUser().getId(),
+                            channelID,
+                            new Timestamp(System.currentTimeMillis()),
+                            str,
+                            false
+                    ));
                     write.setText("");
                 }
             }

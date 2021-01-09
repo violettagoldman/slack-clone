@@ -3,7 +3,6 @@ package com.dao.impl;
 import com.dao.DAO;
 import com.bean.Message;
 
-import javax.swing.text.html.Option;
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -67,9 +66,9 @@ public class MessageDAO implements DAO<Message> {
                 "INSERT INTO channelmessage (transmitter_id,channel_id,created_at,message,is_smiley) VALUES(?,?,?,?,?)"
                 );
 
-        prepare.setLong(1, messageObj.getTransmitter_id());
-        prepare.setLong(2, messageObj.getChannel_id());
-        prepare.setTimestamp(3,messageObj.getMessageCreatedAt());
+        prepare.setLong(1, messageObj.getTransmitterID());
+        prepare.setLong(2, messageObj.getChannelID());
+        prepare.setTimestamp(3,messageObj.getCreatedAt());
         prepare.setString(4,messageObj.getMessage());
         prepare.setBoolean(5,messageObj.isSmiley());
 
@@ -77,7 +76,7 @@ public class MessageDAO implements DAO<Message> {
 
         ResultSet rs = prepare.getGeneratedKeys();
         if (rs.next()){
-            messageObj.setMessageId(rs.getLong(1));
+            messageObj.setMessageID(rs.getLong(1));
         }
 
         return Optional.of(messageObj);
@@ -89,13 +88,13 @@ public class MessageDAO implements DAO<Message> {
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE
         ).executeUpdate(
-                "UPDATE channelmessage SET transmitter_id = '" + messageObj.getTransmitter_id() + "', "
-                        + "channel_id = '" + messageObj.getChannel_id() + "', "
+                "UPDATE channelmessage SET transmitter_id = '" + messageObj.getTransmitterID() + "', "
+                        + "channel_id = '" + messageObj.getChannelID() + "', "
                         + "message = '" + messageObj.getMessage() + "' "
-                        + "WHERE id = " + messageObj.getMessageId()
+                        + "WHERE id = " + messageObj.getMessageID()
         );
 
-        return this.find(messageObj.getMessageId());
+        return this.find(messageObj.getMessageID());
     }
 
     public void delete(long messageId) throws SQLException {

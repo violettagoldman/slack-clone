@@ -5,6 +5,8 @@ import java.net.Socket;
 import java.util.Scanner;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import com.bean.Message;
+import com.bean.ResponseMessage;
 import network.Payload.Type;
 import pijakogui.helpers.RandomString;
 import pijakogui.invoker.Invoker;
@@ -110,6 +112,7 @@ public class Client implements SocketListener, Runnable {
     }
 
 
+
     public void sendConnection() {
         Payload payload = buildPayloadConnection();
         sm.send(payload);
@@ -158,17 +161,16 @@ public class Client implements SocketListener, Runnable {
                 System.out.println(payload.toString());
                 if (payload.getProps().get(this.channel) != null) {
                     String users[] = payload.getProps().get(this.channel).split("\2");
-                    if (users != null && users.length != 0)
-                    ChannelsService.updateUsersConnected(users, this.channel);
+                    if (users != null && users.length != 0){}
+                    //ChannelsService.updateUsersConnected(users, this.channel);
                 }
                 break;
             case HTTP:
                if(payload.getResponse()==null){
                    return;
                }
-               //switch ()
               if(payload.getRequestType()== Payload.RequestType.MESSAGE_POST){
-                  //logique message
+                  ChannelsService.addMessage(payload.getResponse());
                 break;
               }
               if(payload.getRequestType() == Payload.RequestType.CHANNEL_ADD_USER){

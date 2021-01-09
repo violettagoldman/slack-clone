@@ -5,53 +5,53 @@ import java.sql.Timestamp;
 import java.util.Objects;
 
 public class Message implements Serializable {
-    private long messageId;
-    private long transmitter_id;
-    private long channel_id;
-    private Timestamp messageCreatedAt;
+    private long messageID;
+    private long transmitterID;
+    private long channelID;
+    private Timestamp createdAt;
     private String message;
     private boolean isSmiley;
 
     public Message() {}
 
-    public Message(long messageId, long transmitter_id, long channel_id, String message) {
-        this.messageId = messageId;
-        this.transmitter_id = transmitter_id;
-        this.channel_id = channel_id;
-        this.messageCreatedAt = new Timestamp(System.currentTimeMillis());
+    public Message(long messageId, long transmitterID, long channelID, String message) {
+        this.messageID = messageId;
+        this.transmitterID = transmitterID;
+        this.channelID = channelID;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
         this.message = message;
     }
 
-    public Message(long messageId, long transmitter_id, long channel_id, Timestamp messageCreatedAt, String message, boolean isSmiley) {
-        this.messageId = messageId;
-        this.transmitter_id = transmitter_id;
-        this.channel_id = channel_id;
-        this.messageCreatedAt = new Timestamp(System.currentTimeMillis());
+    public Message(long messageId, long transmitterID, long channelID, Timestamp createdAt, String message, boolean isSmiley) {
+        this.messageID = messageId;
+        this.transmitterID = transmitterID;
+        this.channelID = channelID;
+        this.createdAt = new Timestamp(System.currentTimeMillis());
         this.message = message;
         this.isSmiley=isSmiley;
     }
-    public Message(long messageId, long transmitter_id, long channel_id, Timestamp messageCreatedAt, String message) {
-        this.messageId = messageId;
-        this.transmitter_id = transmitter_id;
-        this.channel_id = channel_id;
-        this.messageCreatedAt = messageCreatedAt;
+    public Message(long messageId, long transmitterID, long channelID, Timestamp createdAt, String message) {
+        this.messageID = messageId;
+        this.transmitterID = transmitterID;
+        this.channelID = channelID;
+        this.createdAt = createdAt;
         this.message = message;
     }
 
-    public long getMessageId() {
-        return messageId;
+    public long getMessageID() {
+        return messageID;
     }
 
-    public long getTransmitter_id() {
-        return transmitter_id;
+    public long getTransmitterID() {
+        return transmitterID;
     }
 
-    public long getChannel_id() {
-        return channel_id;
+    public long getChannelID() {
+        return channelID;
     }
 
-    public Timestamp getMessageCreatedAt() {
-        return messageCreatedAt;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
     public String getMessage() {
@@ -65,20 +65,20 @@ public class Message implements Serializable {
     @Override
     public String toString() {
         return "Message{" +
-                "messageId=" + messageId +
-                ", transmitter_id=" + transmitter_id +
-                ", channel_id=" + channel_id +
-                ", messageCreatedAt=" + messageCreatedAt +
+                "messageId=" + messageID +
+                ", transmitter_id=" + transmitterID +
+                ", channel_id=" + channelID +
+                ", messageCreatedAt=" + createdAt +
                 ", message='" + message + '\'' +
                 '}';
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(messageId, transmitter_id, channel_id, messageCreatedAt, message);
+        return Objects.hash(messageID, transmitterID, channelID, createdAt, message);
     }
 
-    public void setMessageId(long messageId) {
-        this.messageId = messageId;
+    public void setMessageID(long messageID) {
+        this.messageID = messageID;
     }
 }

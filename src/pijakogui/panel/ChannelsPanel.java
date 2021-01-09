@@ -2,10 +2,12 @@ package pijakogui.panel;
 
 import com.bean.ResponseMessage;
 import com.bean.Channel;
+import com.bean.User;
 import pijakogui.compoment.MyColor;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 
 public class ChannelsPanel extends JPanel{
     private static JPanel listChannels;
@@ -28,7 +30,7 @@ public class ChannelsPanel extends JPanel{
 
     public static ChannelPanel addChannels(Channel channel){
         listChannels.add(MyButton.createBGoChannel(cardChannels, channels, channel.getName()));
-        ChannelPanel channelPanel = new ChannelPanel(channel.getName(), channel.getID(), channel.getAdminUserId(), channel.getUsers());
+        ChannelPanel channelPanel = new ChannelPanel(channel.getName(), channel.getID(), channel.getAdminUserId(), (ArrayList< User >) channel.getUsers());
         channels.add(channelPanel,channel.getName());
         cardChannels.show(channels, channel.getName());
         return channelPanel;

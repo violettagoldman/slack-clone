@@ -12,7 +12,7 @@ public class User implements Serializable {
     private Timestamp createdAt;
     private String password;
     private String icone = "avatar/1.png";
-    private ArrayList<Channel> channels;
+    private ArrayList<Channel> channels = new ArrayList<>();
 
     public ArrayList<Channel> getChannels() {
         return channels;

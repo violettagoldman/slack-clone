@@ -21,14 +21,26 @@ public class ChannelsService {
         channelsMap.put(channel.getID(), ChannelsPanel.addChannels(channel));
     }
     //ajoute un message dans une chaine
-    public static void addMessage(Message message, long id){
+    public static void addMessage(ResponseMessage responseMessage){
+        Message message=(Message)responseMessage.getData();
+        Long id = message.getChannelID();
         ChannelPanel channel = channelsMap.get(id);
         if(channel == null)return;
-        User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitter_id());
-        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageId());
-        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageId());
+        User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitterID());
+        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID());
+        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID());
         channel.getMessagesZone().validate();
     }
+
+    public static void addMessage(Message message, Long id){
+        ChannelPanel channel = channelsMap.get(id);
+        if(channel == null)return;
+        User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitterID());
+        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID());
+        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID());
+        channel.getMessagesZone().validate();
+    }
+
 
     public static void updateUsersConnected( String [] users, long id){
         channelsMap.get(id).updateListUserConnected(users);
@@ -55,7 +67,7 @@ public class ChannelsService {
         if(UserHelper.findUserById(channelpanel.getUsers(), UserService.getUser().getId()) == null)return;
         if(channelpanel == null)addChannel((Channel)response.getData());
         else {
-            channelpanel.updateUsers(channel.getUsers());
+            channelpanel.updateUsers((ArrayList<User>)channel.getUsers());
             channelpanel.clearError();
         }
     }
