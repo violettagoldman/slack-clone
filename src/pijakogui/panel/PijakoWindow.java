@@ -17,6 +17,10 @@ public class PijakoWindow extends JFrame {
     private static SignUp signUp;
     private static Login login;
     private static NewChannel newChannel;
+    private static Avatar avatar;
+    private static JPanel home;
+    private static CardLayout cardHome;
+    private static CardLayout cardWindow;
 
 
     public PijakoWindow() {
@@ -60,11 +64,11 @@ public class PijakoWindow extends JFrame {
 
         //Ajout des éléments à la fenetre
         window = (JPanel) this.getContentPane();
-        final CardLayout cardWindow = new CardLayout();
-        final CardLayout cardHome = new CardLayout();
+        cardWindow = new CardLayout();
+        cardHome = new CardLayout();
         window.setLayout(cardWindow);
         JPanel menu = new JPanel();
-        JPanel home = new JPanel();
+        home = new JPanel();
         menu.setLayout(new BorderLayout());
         menu.add(new ToolsBars(cardHome, home, cardWindow, window), BorderLayout.NORTH);
         menu.add(home, BorderLayout.CENTER);
@@ -74,23 +78,23 @@ public class PijakoWindow extends JFrame {
         window.add(MyScroll.createBlack(signUp), "sign up");
         window.add(menu, "menu");
 
+        //Test ajout de message depuis le serveur
+        //ChannelsService.addChannel("Team Violetta", 00021);
 
+    }
+
+    public static void updateEnvironment(){
         home.setLayout(cardHome);
         home.add(new ChannelsPanel(), "channels");
         cardWindow.show(window, "login");
         cardHome.show(home, "channels");
         profile = new Profile(cardHome, home);
         home.add(MyScroll.createBlack(profile), "profile");
-        home.add(MyPanel.avatar("avatar/0.png"), "avatar");
+        avatar = new Avatar(UserService.getUser().getIcone());
+        home.add(MyScroll.createBlack(newChannel), "avatar");
         newChannel = new NewChannel(cardHome, home);
         home.add(MyScroll.createBlack(newChannel), "new channel");
-
-        //Test ajout de message depuis le serveur
-        //ChannelsService.addChannel("Team Violetta", 00021);
-
     }
-
-
 
     public static MyPanel getProfile() {
         return profile;

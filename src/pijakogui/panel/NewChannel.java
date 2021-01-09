@@ -1,8 +1,10 @@
 package pijakogui.panel;
 
+import com.bean.Channel;
 import com.bean.ResponseMessage;
 import com.bean.User;
 import pijakogui.compoment.MyTextField;
+import pijakogui.services.ChannelsService;
 import pijakogui.services.UserService;
 
 import javax.swing.*;
@@ -45,7 +47,7 @@ public class NewChannel extends MyPanel {
                 error.setText("Password incorrect");
                 break;
             case USER_CREATED:
-                ChannelService;
+                ChannelsService.addChannel((Channel)res.getData());
                 cardLayout.show(cardPanel, "menu");
                 break;
         }

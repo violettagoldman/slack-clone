@@ -16,6 +16,8 @@ public class ServiceRoute {
             case CHANNEL_EDIT:
             case CHANNEL_CREATE:
                 ChannelsService.updateNewChannel(payload.getResponse());
+            case CHANNEL_ADD_USER_ERROR :
+                ChannelsService.addUserError(payload.getResponse());
             case CHANNEL_ADD_USER:
                 ChannelsService.channelAddUser(payload.getResponse());
             case CHANNEL_DELETE:
