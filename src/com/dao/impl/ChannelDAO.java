@@ -132,4 +132,5 @@ public class ChannelDAO implements DAO<Channel> {
                     "DELETE FROM channel WHERE id = " + channelId
             );
     }
+
 }

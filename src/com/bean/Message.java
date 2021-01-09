@@ -22,6 +22,14 @@ public class Message implements Serializable {
         this.message = message;
     }
 
+    public Message(long messageId, long transmitter_id, long channel_id, Timestamp messageCreatedAt, String message, boolean isSmiley) {
+        this.messageId = messageId;
+        this.transmitter_id = transmitter_id;
+        this.channel_id = channel_id;
+        this.messageCreatedAt = new Timestamp(System.currentTimeMillis());
+        this.message = message;
+        this.isSmiley=isSmiley;
+    }
     public Message(long messageId, long transmitter_id, long channel_id, Timestamp messageCreatedAt, String message) {
         this.messageId = messageId;
         this.transmitter_id = transmitter_id;

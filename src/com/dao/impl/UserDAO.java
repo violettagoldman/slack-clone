@@ -4,6 +4,7 @@ import com.bean.Channel;
 import com.bean.User;
 import com.dao.DAO;
 import com.helpers.PasswordHelper;
+import org.apache.commons.cli.Option;
 
 import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
@@ -189,5 +190,30 @@ public class UserDAO implements DAO<User> {
         ).executeUpdate(
                 "DELETE FROM user WHERE id = " + id
         );
+    }
+    public Optional<List<User>> findUsersByChannelID(long channelID) throws SQLException{
+        ResultSet result = this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeQuery(
+                "SELECT * FROM user u WHERE EXISTS (SELECT * from userchannel uch WHERE u.id=uch.user_id && uch.channel_id="+ channelID+")"
+        );
+
+        List<User> users = new ArrayList<>();
+
+        while (result.next()) {
+            User user = new User(
+                    result.getLong("id"),
+                    result.getString("username"),
+                    result.getString("email"),
+                    result.getString("hashed_password"),
+                    result.getTimestamp("created_at"),
+                    result.getString("icone")
+            );
+            users.add(user);
+        }
+
+        return Optional.of(users);
+
     }
 }

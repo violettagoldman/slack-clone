@@ -44,6 +44,7 @@ public class UserController extends Controller {
 
     }
 
+
     @ControllerRoute("findAll")
     public static ResponseMessage findAll() throws SQLException {
 

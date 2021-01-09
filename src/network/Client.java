@@ -12,6 +12,9 @@ import pijakogui.panel.PijakoWindow;
 import pijakogui.services.ChannelsService;
 import pijakogui.services.ServiceRoute;
 
+import static com.bean.ResponseMessage.Messages.USERCHANNEL_EXISTS;
+import static network.Payload.RequestType.CHANNEL_ADD_USER;
+
 public class Client implements SocketListener, Runnable {
     private SocketManager sm;
     private String user;
@@ -139,6 +142,7 @@ public class Client implements SocketListener, Runnable {
             case DISCONNECTION:
                 System.out.println(payload.getProps().get("user") + " left.");
                 break;
+                /*
             case MESSAGE:
                 if (payload.getProps().get("smile").equals("true")) {
                     //ChannelsService.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"), payload.getProps().get("avatar"));
@@ -148,6 +152,8 @@ public class Client implements SocketListener, Runnable {
                     payloads.add(payload);
                 }
                 break;
+                */
+
             case ACTIVE_USERS:
                 System.out.println(payload.toString());
                 if (payload.getProps().get(this.channel) != null) {
@@ -157,7 +163,21 @@ public class Client implements SocketListener, Runnable {
                 }
                 break;
             case HTTP:
-              if(payload.getSenderID().equals(instanceID) && payload.getResponse()!= null){
+               if(payload.getResponse()==null){
+                   return;
+               }
+               //switch ()
+              if(payload.getRequestType()== Payload.RequestType.MESSAGE_POST){
+                  //logique message
+                break;
+              }
+              if(payload.getRequestType() == Payload.RequestType.CHANNEL_ADD_USER){
+                  if(payload.getResponse().getStatus()<400){
+                      ServiceRoute.invokeService(payload);
+                      break;
+                  }
+              }
+              if(payload.getSenderID().equals(instanceID)){
                     ServiceRoute.invokeService(payload);
               }
               break;

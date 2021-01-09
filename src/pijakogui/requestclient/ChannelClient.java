@@ -22,10 +22,12 @@ public class ChannelClient {
         Client.getInstance().sendPayload(payload);
 
     }
-
     public static void deleteChannel(long ID){
-        Payload payload=PayloadBuilder.buildRequest("channels/getchannelsbyuserid", Payload.RequestType.CHANNEL_DELETE,ID);
+        Payload payload=PayloadBuilder.buildRequest("channels/delete", Payload.RequestType.CHANNEL_DELETE,ID);
         Client.getInstance().sendPayload(payload);
 
+    }
+    public static void addUserToChannel(long channelID,String nickname){
+        Payload payload=PayloadBuilder.buildRequest("channels/addusertochannel", Payload.RequestType.CHANNEL_ADD_USER,channelID,nickname);
     }
 }

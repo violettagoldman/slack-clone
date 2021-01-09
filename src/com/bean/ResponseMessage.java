@@ -26,6 +26,9 @@ public class ResponseMessage<T> implements Serializable {
         USERNAME_ALREADY_TAKEN,
         USERNAME_NOT_VALID,
 
+        USERCHANNEL_CREATED,
+        USERCHANNEL_EXISTS,
+
         ALL_CHANNELS_FOUND,
         CHANNEL_CREATED,
         CHANNEL_DELETED,
@@ -37,9 +40,10 @@ public class ResponseMessage<T> implements Serializable {
         INFORMATION_CHANNEL_UPDATED,
         NO_CHANNEL_IN_DB,
 
-        MESSAGE_CREATED
+        MESSAGE_CREATED,
+        ERROR_SERVER
     }
-
+    public ResponseMessage(){}
     public ResponseMessage(T data, Messages message, int status) {
         this.data = data;
         this.message = message;

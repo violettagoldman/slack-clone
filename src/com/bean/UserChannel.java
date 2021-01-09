@@ -12,8 +12,7 @@ public class UserChannel implements Serializable {
 
     public UserChannel() {}
 
-    public UserChannel(long userChannelId, long channel_id, long user_id) {
-        this.userChannelId = userChannelId;
+    public UserChannel(long channel_id, long user_id) {
         this.channel_id = channel_id;
         this.user_id = user_id;
         this.userChannelCreatedAt = new Timestamp(System.currentTimeMillis());;
@@ -21,6 +20,12 @@ public class UserChannel implements Serializable {
 
     public UserChannel(long userChannelId, long channel_id, long user_id, Timestamp userChannelCreatedAt) {
         this.userChannelId = userChannelId;
+        this.channel_id = channel_id;
+        this.user_id = user_id;
+        this.userChannelCreatedAt = userChannelCreatedAt;
+    }
+
+    public UserChannel(long channel_id, long user_id, Timestamp userChannelCreatedAt) {
         this.channel_id = channel_id;
         this.user_id = user_id;
         this.userChannelCreatedAt = userChannelCreatedAt;

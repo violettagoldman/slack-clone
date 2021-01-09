@@ -4,13 +4,14 @@ import java.io.Serializable;
 import java.sql.Array;
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Channel implements Serializable {
     private long ID;
     private Timestamp createdAt;
 
-    public ArrayList<User> getUsers() {
+    public List<User> getUsers() {
         return users;
     }
 
@@ -28,7 +29,7 @@ public class Channel implements Serializable {
 
     private long adminUserId;
     private String name;
-    private ArrayList<User> users = new ArrayList<>();
+    private List<User> users = new ArrayList<>();
     private ArrayList<Message> messages = new ArrayList<>();
     public Channel() {}
 

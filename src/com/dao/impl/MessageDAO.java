@@ -29,7 +29,8 @@ public class MessageDAO implements DAO<Message> {
                     result.getLong("transmitter_id"),
                     result.getLong("channel_id"),
                     result.getTimestamp("created_at"),
-                    result.getString("message"))
+                    result.getString("message"),
+                    result.getBoolean("is_smiley"))
             );
         }
         if (messages.isEmpty()) {
@@ -53,8 +54,9 @@ public class MessageDAO implements DAO<Message> {
                     result.getLong("transmitter_id"),
                     result.getLong("channel_id"),
                     result.getTimestamp("created_at"),
-                    result.getString("message")
-            ));
+                    result.getString("message"),
+                    result.getBoolean("is_smiley"))
+            );
         }
         return Optional.empty();
     }
@@ -62,13 +64,14 @@ public class MessageDAO implements DAO<Message> {
     public Optional<Message> create(Message messageObj) throws NoSuchAlgorithmException, SQLException {
 
         PreparedStatement prepare = this.connect.prepareStatement(
-                "INSERT INTO channelmessage (transmitter_id,channel_id,created_at,message) VALUES(?,?,?,?)"
+                "INSERT INTO channelmessage (transmitter_id,channel_id,created_at,message,is_smiley) VALUES(?,?,?,?,?)"
                 );
 
         prepare.setLong(1, messageObj.getTransmitter_id());
         prepare.setLong(2, messageObj.getChannel_id());
         prepare.setTimestamp(3,messageObj.getMessageCreatedAt());
         prepare.setString(4,messageObj.getMessage());
+        prepare.setBoolean(5,messageObj.isSmiley());
 
         prepare.executeUpdate();
 
