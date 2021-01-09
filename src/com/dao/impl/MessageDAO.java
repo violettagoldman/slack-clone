@@ -7,6 +7,7 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -63,7 +64,8 @@ public class MessageDAO implements DAO<Message> {
     public Optional<Message> create(Message messageObj) throws NoSuchAlgorithmException, SQLException {
 
         PreparedStatement prepare = this.connect.prepareStatement(
-                "INSERT INTO channelmessage (transmitter_id,channel_id,created_at,message,is_smiley) VALUES(?,?,?,?,?)"
+                "INSERT INTO channelmessage (transmitter_id,channel_id,created_at,message,is_smiley) VALUES(?,?,?,?,?)",
+                Statement.RETURN_GENERATED_KEYS
                 );
 
         prepare.setLong(1, messageObj.getTransmitterID());

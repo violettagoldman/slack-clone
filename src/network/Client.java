@@ -145,18 +145,6 @@ public class Client implements SocketListener, Runnable {
             case DISCONNECTION:
                 System.out.println(payload.getProps().get("user") + " left.");
                 break;
-                /*
-            case MESSAGE:
-                if (payload.getProps().get("smile").equals("true")) {
-                    //ChannelsService.addSmiley(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"), payload.getProps().get("avatar"));
-                } else {
-                    System.out.println(payload.getProps().get("user") + ": " + payload.getProps().get("message"));
-                    //ChannelsService.addMessage(payload.getProps().get("message"), payload.getProps().get("user"), payload.getProps().get("channel"),payload.getProps().get("avatar"));
-                    payloads.add(payload);
-                }
-                break;
-                */
-
             case ACTIVE_USERS:
                 System.out.println(payload.toString());
                 if (payload.getProps().get(this.channel) != null) {
