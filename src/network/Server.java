@@ -2,6 +2,7 @@ package network;
 
 import com.bean.ResponseMessage;
 import com.invoker.Invoker;
+import javassist.NotFoundException;
 
 import java.io.IOException;
 import java.net.ServerSocket;
@@ -90,14 +91,26 @@ public class Server implements Runnable, SocketListener {
             broadcastActiveUsers();
         }
         if(payload.getType()==Payload.Type.HTTP){
+            ResponseMessage<Object> res;
             try{
-                ResponseMessage<Object> res= (ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getRoute(), payload.getArgs().toArray() );
-                Payload payloadRes = payload.clone();
-                payloadRes.setResponse(res);
-                broadcast(payloadRes);
-            }catch(Exception e){
-
+                res=(ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getRoute(), payload.getArgs().toArray() );
+            }catch (NotFoundException e){
+                System.err.println("Route "+ payload.getRoute()+ " doesn't exist");
+                res=new ResponseMessage<Object>(null,ResponseMessage.Messages.BAD_ROUTE,404);
+            }catch (NullPointerException e){
+                System.err.println(e);
+                System.err.println("Method invoked might not be static");
+                res=new ResponseMessage<Object>(null,ResponseMessage.Messages.ERROR_SERVER,500);
+            }catch (IllegalArgumentException e){
+                System.err.println("Illegal args");
+                res=new ResponseMessage<Object>(null,ResponseMessage.Messages.BAD_REQUEST,400);
+            }catch (Exception e){
+                System.err.println(e);
+                res=new ResponseMessage<Object>(null,ResponseMessage.Messages.ERROR_SERVER,500);
             }
+            Payload payloadRes = payload.clone();
+            payloadRes.setResponse(res);
+            broadcast(payloadRes);
         }
     }
     /*public void onMessage(SocketManager sm, Request payload) {

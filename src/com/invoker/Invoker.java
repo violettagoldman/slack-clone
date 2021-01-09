@@ -8,22 +8,9 @@ public class Invoker {
     private Invoker(){
         routeTree = RouteBuilder.buildRouteTree();
     }
-    public Object invoke(String route, Object ...args){
-        Object result=null;
-        try{
-            result = routeTree.find(route).getMethod().invoke(null, args);
-        }catch (NotFoundException e){
-            System.err.println("Route "+ route+ " doesn't exist");
-        }catch (NullPointerException e){
-            System.err.println(e);
-            System.err.println("Method invoked might not be static");
-        }catch (IllegalArgumentException e){
-            System.err.println("Illegal args");
-        }
-        catch (Exception e){
-            System.err.println(e);
-        }
-        return result;
+    public Object invoke(String route, Object ...args) throws Exception{
+        return routeTree.find(route).getMethod().invoke(null, args);
+
     }
     public static Invoker getInstance(){
         return Instance.INSTANCE;
