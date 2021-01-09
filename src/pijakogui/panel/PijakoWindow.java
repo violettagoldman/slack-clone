@@ -87,7 +87,7 @@ public class PijakoWindow extends JFrame {
         profile = new Profile(cardHome, home);
         home.add(MyScroll.createBlack(profile), "profile");
         avatar = new Avatar(UserService.getUser().getIcone());
-        home.add(MyScroll.createBlack(newChannel), "avatar");
+        home.add(MyScroll.createBlack(avatar), "avatar");
         newChannel = new NewChannel(cardHome, home);
         home.add(MyScroll.createBlack(newChannel), "new channel");
     }

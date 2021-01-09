@@ -11,6 +11,7 @@ import pijakogui.services.UserService;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
+import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -108,7 +109,7 @@ public class ChannelPanel extends JPanel {
         this.add(write, BorderLayout.SOUTH );
     }
 
-    public JPanel messagesStructure(String nickname, String avatar){
+    public JPanel messagesStructure(String nickname, String avatar, Timestamp date){
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
@@ -129,14 +130,14 @@ public class ChannelPanel extends JPanel {
 
         //date
         DateFormat format = new SimpleDateFormat("yyyy/MM/dd HH:mm");
-        Date myDate = new Date();
-        JTextArea date = MyTextArea.date(format.format(myDate));
+        Date myDate=new Date(date.getTime());
+        JTextArea dateText = MyTextArea.date(format.format(myDate));
 
         //zone information
         JPanel north = new JPanel();
         north.setLayout(new GridLayout(0,1));
         north.add(userPlace);
-        north.add(date);
+        north.add(dateText);
         north.setBackground(MyColor.gray());
         north.setPreferredSize(new Dimension(0, 50));
         panel.add(north, BorderLayout.NORTH);
@@ -157,8 +158,8 @@ public class ChannelPanel extends JPanel {
         return panel;
     }
 
-    public void messages(String str, String nickname, String avatar, long idMessage){
-        JPanel messageStruct = messagesStructure(nickname, avatar);
+    public void messages(String str, String nickname, String avatar, long idMessage, Timestamp date){
+        JPanel messageStruct = messagesStructure(nickname, avatar, date);
         JTextArea message = MyTextArea.message(str);
         message.setForeground(MyColor.white());
         messageStruct.add(message, BorderLayout.CENTER);
@@ -169,8 +170,8 @@ public class ChannelPanel extends JPanel {
         downVerticalScroll();
     }
 
-    public void smiley(String smiley, String nickname, String avatar, long idMessage){
-        JPanel messageStruct = messagesStructure(nickname, avatar);
+    public void smiley(String smiley, String nickname, String avatar, long idMessage, Timestamp date){
+        JPanel messageStruct = messagesStructure(nickname, avatar, date);
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         JLabel jlabel = new JLabel(image2);

@@ -27,8 +27,9 @@ public class ChannelsService {
         ChannelPanel channel = channelsMap.get(id);
         if(channel == null)return;
         User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitterID());
-        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID());
-        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID());
+        if(message.isSmiley())channel.smiley(
+                message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(), message.getCreatedAt());
+        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(), message.getCreatedAt());
         channel.getMessagesZone().validate();
     }
 
@@ -36,8 +37,8 @@ public class ChannelsService {
         ChannelPanel channel = channelsMap.get(id);
         if(channel == null)return;
         User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitterID());
-        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID());
-        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID());
+        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt());
+        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt());
         channel.getMessagesZone().validate();
     }
 
