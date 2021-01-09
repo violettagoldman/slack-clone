@@ -6,6 +6,7 @@ import java.awt.*;
 
 import network.Client;
 import pijakogui.compoment.MyColor;
+import pijakogui.requestclient.ChannelClient;
 import pijakogui.requestclient.UserClient;
 import pijakogui.services.ChannelsService;
 import pijakogui.services.UserService;
@@ -149,6 +150,7 @@ public class MyButton extends JButton {
         bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                UserClient.updateUser(UserService.getUser(), nickname, mail, password, UserService.getUser().getIcone());
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -164,7 +166,7 @@ public class MyButton extends JButton {
                 int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Delete your profile ? If you delete \n" +
                         "if you delete your account, the app will close", "Delete account", JOptionPane.YES_NO_OPTION);
                 if(response== JOptionPane.YES_OPTION){ //
-                    // appeler fonction serveur
+                    UserClient.delete(UserService.getUser().getId());
                 }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
@@ -179,7 +181,8 @@ public class MyButton extends JButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 //envoie de channel au serveur
-                network.Client.getInstance().sendChannel(title.getText());
+                //network.Client.getInstance().sendChannel(title.getText());
+                //ChannelClient.createChannel();
                 title.setText("Name of new channel");
                 cardLayout.show(cardPanel, "channels");
             }
@@ -193,7 +196,8 @@ public class MyButton extends JButton {
         bSignIn.setPreferredSize(new Dimension(100,20));
         bSignIn.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
-            public void mousePressed(java.awt.event.MouseEvent evt) { cardLayout.show(cardPanel, "sign up");}
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                cardLayout.show(cardPanel, "sign up");}
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return bSignIn;
@@ -206,6 +210,7 @@ public class MyButton extends JButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 network.Client.getInstance().setUser(nickname.getText());
+                UserClient.signIn(nickname.getText(), password.getText());
                 cardLayout.show(cardPanel, "menu");}
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -340,23 +345,23 @@ public class MyButton extends JButton {
         return bNameUser;
     }
 
-    public static MyButton createBChooseAvatar(String avatar, JPanel north){
-        ImageIcon image = new ImageIcon( MyButton.class.getResource(avatar));
+    public static MyButton createBChooseAvatar(String avatarStr, Avatar avatar){
+        ImageIcon image = new ImageIcon( MyButton.class.getResource(avatarStr));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(70, 70, Image.SCALE_DEFAULT));
         MyButton chooseAvatar = new MyButton(image2);
         chooseAvatar.setPreferredSize(new Dimension(80,80));
         chooseAvatar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                MyPanel.setAvatarChoose(avatar);
-                north.removeAll();
-                north.validate();
-                north.add(MyButton.createBCSaveAvatar(), BorderLayout.SOUTH);
-                ImageIcon image = new ImageIcon( chooseAvatar.getClass().getResource(avatar));
+                avatar.north.removeAll();
+                avatar.north.validate();
+                avatar.north.add(MyButton.createBCSaveAvatar(), BorderLayout.SOUTH);
+                ImageIcon image = new ImageIcon( chooseAvatar.getClass().getResource(avatarStr));
                 ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(100, 100, Image.SCALE_DEFAULT));
                 JLabel jlabel = new JLabel(image2, JLabel.CENTER);
-                north.add(jlabel, BorderLayout.CENTER);
-                north.validate();
+                avatar.north.add(jlabel, BorderLayout.CENTER);
+                avatar.north.validate();
+                avatar.setAvatarStr(avatarStr);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -369,6 +374,7 @@ public class MyButton extends JButton {
         chooseAvatar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
+                //
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });

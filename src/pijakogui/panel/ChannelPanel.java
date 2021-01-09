@@ -26,9 +26,9 @@ public class ChannelPanel extends JPanel {
     private final String title;
     private final JTextField errorAddUser;
     private final long admin;
-    private static final HashMap< Long , Component> messageMap = new HashMap<>();
+    private final HashMap< Long , Component> messageMap = new HashMap<>();
     private final HashMap<String, MyButton> usersButtonMap = new HashMap<>();
-    private final ArrayList<User> users;
+    private ArrayList<User> users;
 
     public String getTitle() { return title; }
 
@@ -54,12 +54,8 @@ public class ChannelPanel extends JPanel {
         listUser.setPreferredSize(new Dimension(100,0));
         listUser.setBackground(MyColor.grayBlue());
         listUser.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,new Color(101, 162, 201)));
-        for (User user : this.users){
-            MyButton button =  (UserService.getUser().getId() == admin) ? MyButton.createBNameUserAdmin(user.getUsername()): MyButton.createBNameUser(user.getUsername());
-            if(user.getId()==admin)button.setBackground(MyColor.blueAdmin());
-            usersButtonMap.put(user.getUsername(), button);
-            listUser.add(button);
-        }
+        updateListUsers(users);
+
         this.add(listUser , BorderLayout.EAST );
 
         //Zone menu et titre
@@ -197,7 +193,25 @@ public class ChannelPanel extends JPanel {
         downVerticalScroll();
     }
 
-    public void updateListUser(String [] users){
+    public void updateUsers(ArrayList users){
+        this.users = users;
+        updateListUsers(users);
+    }
+
+    public void updateListUsers(ArrayList users){
+        listUser.removeAll();
+        listUser.validate();
+        for (User user : this.users){
+            MyButton button =  (UserService.getUser().getId() != admin || user.getId() == admin ) ? MyButton.createBNameUser(user.getUsername()): MyButton.createBNameUserAdmin(user.getUsername());
+            if(user.getId()==admin)button.setBackground(MyColor.blueAdmin());
+            usersButtonMap.put(user.getUsername(), button);
+            listUser.add(button);
+            listUser.validate();
+        }
+        this.validate();
+    }
+
+    public void updateListUserConnected(String [] users){
         for (Map.Entry mapentry : usersButtonMap.entrySet()) {
              ((Component) mapentry.getValue()).setBackground(MyColor.grayWithe());
              this.validate();
@@ -228,16 +242,11 @@ public class ChannelPanel extends JPanel {
             case INCORRECT_PASSWORD:
                 errorAddUser.setText("Password incorrect");
                 break;
-            case USER_CREATED:
-                String userName = ((User)res.getData()).getUsername();
-                MyButton button =  (UserService.getUser().getId() == admin) ? MyButton.createBNameUserAdmin(userName): MyButton.createBNameUser(userName);
-                usersButtonMap.put(userName, button);
-                listUser.add(button);
-                errorAddUser.setText("");
-                listUser.validate();
-                this.validate();
-                break;
         }
+    }
+
+    public void clearError(){
+        errorAddUser.setText("");
     }
 
     public void updateRemoveUser(ResponseMessage res) {

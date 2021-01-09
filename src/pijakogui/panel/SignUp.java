@@ -4,6 +4,7 @@ import com.bean.ResponseMessage;
 import com.bean.User;
 import pijakogui.compoment.MyColor;
 import pijakogui.compoment.MyTextField;
+import pijakogui.services.ChannelsService;
 import pijakogui.services.UserService;
 
 import javax.swing.*;
@@ -75,6 +76,8 @@ public class SignUp extends MyPanel{
                 break;
             case USER_CREATED:
                 UserService.setUser((User) res.getData());
+                PijakoWindow.updateEnvironment();
+                ChannelsService.updateChannelsStart();
                 cardLayout.show(cardPanel, "menu");
                 break;
         }
