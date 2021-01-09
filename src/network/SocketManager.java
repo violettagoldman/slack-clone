@@ -12,7 +12,6 @@ public class SocketManager implements Runnable {
     private ObjectInputStream ois;
     private SocketListener listener;
 
-
     public SocketManager(Socket socket, SocketListener listener) {
         // this.socket = socket;
         this.listener = listener;
