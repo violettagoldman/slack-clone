@@ -45,7 +45,7 @@ public class NewChannel extends MyPanel {
                 error.setText("Password incorrect");
                 break;
             case USER_CREATED:
-                UserService.setUser((User) res.getData());
+                ChannelService;
                 cardLayout.show(cardPanel, "menu");
                 break;
         }

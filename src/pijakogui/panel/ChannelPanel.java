@@ -13,42 +13,53 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
 public class ChannelPanel extends JPanel {
-    private final String id;
+    private final long id;
     private final JPanel messagesZone;
     private final JPanel listUser;
-    private final HashMap<String, MyButton> usersMap = new HashMap<>();
     private final  JScrollPane scrollMessages;
     private final String title;
     private final JTextField errorAddUser;
     private final long admin;
-
+    private static final HashMap< Long , Component> messageMap = new HashMap<>();
+    private final HashMap<String, MyButton> usersButtonMap = new HashMap<>();
+    private final ArrayList<User> users;
 
     public String getTitle() { return title; }
 
-    public String getId() { return id; }
+    public long getId() { return id; }
 
     public JPanel getMessagesZone() { return messagesZone; }
 
     public JPanel getListUser() {return listUser; }
 
-    public HashMap<String, MyButton> getUsersMap() {return usersMap; }
+    public HashMap<String, MyButton> getUsersButtonMap() {return usersButtonMap; }
 
-    public ChannelPanel(String title, String id, long admin){
+    public ArrayList<User> getUsers() { return users; }
+
+    public ChannelPanel(String title, long id, long admin, ArrayList users){
         this.title = title;
         this.id = id;
         this.setLayout(new BorderLayout());
         this.admin = admin;
+        this.users = users;
 
         //zone de liste des utilisateurs
         listUser = new JPanel();
         listUser.setPreferredSize(new Dimension(100,0));
         listUser.setBackground(MyColor.grayBlue());
         listUser.setBorder(BorderFactory.createMatteBorder(0, 1, 0, 0,new Color(101, 162, 201)));
+        for (User user : this.users){
+            MyButton button =  (UserService.getUser().getId() == admin) ? MyButton.createBNameUserAdmin(user.getUsername()): MyButton.createBNameUser(user.getUsername());
+            if(user.getId()==admin)button.setBackground(MyColor.blueAdmin());
+            usersButtonMap.put(user.getUsername(), button);
+            listUser.add(button);
+        }
         this.add(listUser , BorderLayout.EAST );
 
         //Zone menu et titre
@@ -137,8 +148,10 @@ public class ChannelPanel extends JPanel {
         //zone de suppression message
         JPanel zoneButton = new JPanel();
         zoneButton.setPreferredSize(new Dimension(17,0));
-        JButton bDeleteMessages = MyButton.createBDeleteMessage(messagesZone, panel);
-        zoneButton.add(bDeleteMessages);
+        if(UserService.getUser().getId()==admin) {
+            JButton bDeleteMessages = MyButton.createBDeleteMessage(messagesZone, panel);
+            zoneButton.add(bDeleteMessages);
+        }
         zoneButton.setBackground(MyColor.gray());
         panel.add(zoneButton, BorderLayout.WEST);
 
@@ -148,24 +161,19 @@ public class ChannelPanel extends JPanel {
         return panel;
     }
 
-    public void messages(String str, String nickname, String avatar){
+    public void messages(String str, String nickname, String avatar, long idMessage){
         JPanel messageStruct = messagesStructure(nickname, avatar);
         JTextArea message = MyTextArea.message(str);
         message.setForeground(MyColor.white());
         messageStruct.add(message, BorderLayout.CENTER);
+        messageMap.put(idMessage, messageStruct);
         messagesZone.add(messageStruct);
         messagesZone.validate();
         scrollMessages.validate();
         downVerticalScroll();
     }
 
-    public void connected(String user){
-        JTextArea connected = new MyTextArea(user+" connected");
-        connected.setForeground(MyColor.blue());
-        messagesZone.add(connected);
-    }
-
-    public void smiley(String smiley, String nickname, String avatar){
+    public void smiley(String smiley, String nickname, String avatar, long idMessage){
         JPanel messageStruct = messagesStructure(nickname, avatar);
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
@@ -176,30 +184,27 @@ public class ChannelPanel extends JPanel {
         panel.add(jlabel, BorderLayout.WEST);
         panel.setBackground(MyColor.gray());
         messageStruct.add(panel, BorderLayout.CENTER);
-        messagesZone.add(messageStruct);
-
         JPanel south = new JPanel();
         south.setPreferredSize(new Dimension(0,30));
         south.setBackground(MyColor.gray());
         messageStruct.add(south, BorderLayout.SOUTH);
 
+        messageMap.put(idMessage, messageStruct);
+
+        messagesZone.add(messageStruct);
         messagesZone.validate();
         scrollMessages.validate();
         downVerticalScroll();
     }
 
     public void updateListUser(String [] users){
-        for (Map.Entry mapentry : usersMap.entrySet()) {
-             listUser.remove((Component) mapentry.getValue());
-             System.out.println(mapentry.getKey());
+        for (Map.Entry mapentry : usersButtonMap.entrySet()) {
+             ((Component) mapentry.getValue()).setBackground(MyColor.grayWithe());
              this.validate();
         }
-        usersMap.clear();
+        usersButtonMap.clear();
         for (String user : users) {
-            MyButton button;
-            button =  (UserService.getUser().getId() == admin) ? MyButton.createBNameUserAdmin(user): MyButton.createBNameUser(user);
-            usersMap.put(user, button);
-            listUser.add(button);
+            usersButtonMap.get(user).setBackground(MyColor.blueUser());
         }
         this.listUser.validate();
         this.validate();
@@ -225,9 +230,10 @@ public class ChannelPanel extends JPanel {
                 break;
             case USER_CREATED:
                 String userName = ((User)res.getData()).getUsername();
-                MyButton button = MyButton.createBNameUser(userName);
-                usersMap.put(userName, button);
+                MyButton button =  (UserService.getUser().getId() == admin) ? MyButton.createBNameUserAdmin(userName): MyButton.createBNameUser(userName);
+                usersButtonMap.put(userName, button);
                 listUser.add(button);
+                errorAddUser.setText("");
                 listUser.validate();
                 this.validate();
                 break;
@@ -250,8 +256,8 @@ public class ChannelPanel extends JPanel {
                 break;
             case USER_CREATED:
                 String userName = ((User)res.getData()).getUsername();
-                listUser.remove( usersMap.get(userName));
-                usersMap.remove(userName);
+                listUser.remove( usersButtonMap.get(userName));
+                usersButtonMap.remove(userName);
                 listUser.validate();
                 this.validate();
                 break;

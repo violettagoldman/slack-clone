@@ -1,11 +1,14 @@
 package pijakogui.services;
 
 import com.bean.Channel;
+import com.bean.Message;
+import com.bean.User;
 import com.bean.ResponseMessage;
 import pijakogui.panel.ChannelPanel;
 import pijakogui.panel.ChannelsPanel;
 import pijakogui.panel.MyButton;
 import pijakogui.panel.PijakoWindow;
+import pijakogui.helpers.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,33 +17,18 @@ import java.util.HashMap;
 public class ChannelsService {
     private static final HashMap<String, ChannelPanel> channelsMap = new HashMap<>();
 
-    public static void addChannel(String title, long adminUserId){
-        Object channel;
-        channelsMap.put(title, ChannelsPanel.addChannels(title, adminUserId));
+    //rajoute une chaine
+    public static void addChannel(Channel channel){
+        channelsMap.put(channel.getName(), ChannelsPanel.addChannels(channel));
     }
-
-    public static void addMessage(String message, String user, String title, String avatar){
-        channelsMap.get(title).messages(message, user, avatar);
-        channelsMap.get(title).getMessagesZone().validate();
-    }
-
-    public static void addSmiley(String smiley, String user, String title, String avatar ){
-        channelsMap.get(title).smiley(smiley, user, avatar);
-    }
-
-    public static void addUser( String nickname, String title){
-        MyButton button = MyButton.createBNameUser(nickname);
-        channelsMap.get(title).connected(nickname);
-        channelsMap.get(title).getUsersMap().put(nickname, button);
-        channelsMap.get(title).getListUser().add(button);
-        channelsMap.get(title).validate();
-    }
-
-    public static void removeUser( String nickname, String title){
+    //ajoute un message dans une chaine
+    public static void addMessage(Message message, String title){
         ChannelPanel channel = channelsMap.get(title);
-        channel.getListUser().remove(channel.getUsersMap().get(nickname));
-        channel.getUsersMap().remove(nickname);
-        channelsMap.get(title).validate();
+        if(channel == null)return;
+        User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitter_id());
+        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageId());
+        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageId());
+        channel.getMessagesZone().validate();
     }
 
     public static void updateUsersConnected( String [] users, String title){
@@ -51,14 +39,16 @@ public class ChannelsService {
         PijakoWindow.getNewChannel().updateNewChannel(res);
     }
 
-    public static void updateChannel(){
-        /*
+    public static void updateChannels(){
         ArrayList<Channel> channels = UserService.getUser().getChannels();
         for(Channel channel : channels){
-            addChannel(channel.getName(), channel.getAdminUserId());
+            addChannel(channel);
+            for(Message message : channel.getMessages()){
+                addMessage(message , channel.getName());
+            }
         }
-        */
-         
     }
 
+    public static void channelAddUser(ResponseMessage<Object> response) {
+    }
 }

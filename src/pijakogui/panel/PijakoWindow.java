@@ -1,6 +1,7 @@
 package pijakogui.panel;
 
 
+import network.Client;
 import pijakogui.compoment.MyScroll;
 import pijakogui.compoment.ToolsBars;
 import pijakogui.services.ChannelsService;
@@ -45,7 +46,7 @@ public class PijakoWindow extends JFrame {
         //Paramètre de la fenêtre
         this.setUndecorated(false);
         this.setDefaultCloseOperation( JFrame.DISPOSE_ON_CLOSE );
-        this.setSize( 500, 500 );
+        this.setSize( 1000, 800 );
         this.setLocationRelativeTo( null );
         this.setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().getResource("pijakoIconWhite.png")));
 
@@ -85,7 +86,7 @@ public class PijakoWindow extends JFrame {
         home.add(MyScroll.createBlack(newChannel), "new channel");
 
         //Test ajout de message depuis le serveur
-        ChannelsService.addChannel("Team Violetta", 00021);
+        //ChannelsService.addChannel("Team Violetta", 00021);
 
     }
 
