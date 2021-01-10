@@ -104,7 +104,7 @@ public class MyButton extends JButton {
         return send;
     }
 
-    public static MyButton createBSeeSmile(JPanel smileyPanel, String smiley, JScrollPane scrollMessages){
+    public static MyButton createBSeeSmile(JPanel smileyPanel, String smiley, ChannelPanel channelPanel){
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
         MyButton send = new MyButton(image2);
@@ -116,7 +116,7 @@ public class MyButton extends JButton {
                     smileyPanel.setVisible(false);
                 }else {
                     smileyPanel.setVisible(true);
-                    scrollMessages.getVerticalScrollBar().setValue(scrollMessages.getVerticalScrollBar().getMaximum());
+                    channelPanel.downVerticalScroll();
                 }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
