@@ -15,6 +15,7 @@ public class ChannelsPanel extends JPanel{
     private JPanel channels;
     private CardLayout cardChannels;
     private HashMap<Long, MyButton> channelButtonMap = new HashMap<>();
+    private BaseChannel baseChannel;
 
 
     public ChannelsPanel(){
@@ -27,6 +28,8 @@ public class ChannelsPanel extends JPanel{
         channels = new JPanel();
         cardChannels = new CardLayout();
         channels.setLayout(cardChannels);
+        channels.add(baseChannel, "base");
+        cardChannels.show(channels,"base");
         this.add( listChannels, BorderLayout.WEST );
         this.add( channels, BorderLayout.CENTER );
     }
@@ -49,6 +52,8 @@ public class ChannelsPanel extends JPanel{
     }
 
     public void removeChannelButton(long channelID){
+        channelButtonMap.get(channelID).setVisible(false);
+        channelButtonMap.get(channelID).validate();
         listChannels.remove(channelButtonMap.get(channelID));
         listChannels.validate();
         this.validate();
@@ -56,6 +61,7 @@ public class ChannelsPanel extends JPanel{
     }
 
     public void removeChannelPanel(ChannelPanel channelPanel){
+        showBase();
         cardChannels.removeLayoutComponent(channelPanel);
         this.remove(channelPanel);
         this.validate();
@@ -64,6 +70,13 @@ public class ChannelsPanel extends JPanel{
 
     public void updateChannels(ResponseMessage res){
 
+    }
+
+    public void showBase(){
+        cardChannels.show(channels, "base");
+        channels.validate();
+        listChannels.validate();
+        this.validate();
     }
 
 }

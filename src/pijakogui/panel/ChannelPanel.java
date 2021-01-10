@@ -82,8 +82,7 @@ public class ChannelPanel extends JPanel {
         messagesZone = new JPanel();
         messagesZone.setLayout(new BoxLayout(messagesZone, BoxLayout.PAGE_AXIS));
         messagesZone.setBackground(MyColor.gray());
-        messagesZone.add(new MyTextArea("\n\n Channel of "+admin+": \n\n**************************************\n\n "
-                +title+
+        messagesZone.add(new MyTextArea("\n\n Welcome to the Channel "+title+": \n\n**************************************\n\n "+
                 " \n\n**************************************\n\n Send news messages !! "+
                 "\n\n**************************************\n\n See the other users at right ->\n\n"
         ));

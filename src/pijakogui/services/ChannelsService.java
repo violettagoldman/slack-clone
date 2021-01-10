@@ -82,8 +82,10 @@ public class ChannelsService {
         ChannelPanel channelpanel = channelsMap.get(id);
         if(channelpanel == null)return;
         if(UserHelper.findUserById(channel.getUsers(), UserService.getUser().getId()) == null){
-            PijakoWindow.getChannelsPanel().removeChannelButton(channel.getID());
+            PijakoWindow.getChannelsPanel().removeChannelButton(id);
             PijakoWindow.getChannelsPanel().removeChannelPanel(channelpanel);
+            PijakoWindow.getChannelsPanel().validate();
+            channelsMap.remove(id);
         }
         else {
             channelpanel.updateUsers((ArrayList<User>)channel.getUsers());
@@ -98,6 +100,7 @@ public class ChannelsService {
         PijakoWindow.getChannelsPanel().removeChannelButton(id);
         PijakoWindow.getChannelsPanel().removeChannelPanel(channelpanel);
         PijakoWindow.getChannelsPanel().validate();
+        channelsMap.remove(id);
     }
 
     public static void addUserError(ResponseMessage response){
