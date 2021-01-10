@@ -65,7 +65,7 @@ public class ChannelsService {
         Channel channel = (Channel)response.getData();
         long id = channel.getID();
         ChannelPanel channelpanel = channelsMap.get(id);
-        if(UserHelper.findUserById(channelpanel.getUsers(), UserService.getUser().getId()) == null)return;
+        if(UserHelper.findUserById(channel.getUsers(), UserService.getUser().getId()) == null)return;
         if(channelpanel == null)addChannel((Channel)response.getData());
         else {
             channelpanel.updateUsers((ArrayList<User>)channel.getUsers());
