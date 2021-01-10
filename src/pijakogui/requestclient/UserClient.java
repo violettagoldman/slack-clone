@@ -3,8 +3,6 @@ package pijakogui.requestclient;
 import com.bean.User;
 import network.Client;
 import network.Payload;
-import pijakogui.Main;
-import pijakogui.invoker.decorators.*;
 
 public class UserClient {
 

@@ -34,12 +34,27 @@ public class UserController extends Controller {
             return new ResponseMessage(null, USER_NOT_FOUND, 400);
         }
         User user =(User) userOp.get();
-        ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
+      /*  ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
         for(Channel channel : userChannels){
             channel.setMessages(
                     (ArrayList< Message >)messageDAO.findChannelMessages(channel.getID()).get()
             );
         }
+        */
+
+        ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
+        for(Channel channel : userChannels){
+            Optional messagesOp = messageDAO.findChannelMessages(channel.getID());
+            if(!messagesOp.isEmpty()){
+                channel.setMessages((ArrayList<Message>)messagesOp.get());
+            }
+            Optional usersOp = userDAO.findUsersByChannelID(channel.getID());
+            if(!usersOp.isEmpty()){
+                channel.setUsers((ArrayList)usersOp.get());
+            }
+        }
+
+        user.setPassword(null);
         user.setChannels(userChannels);
         return new ResponseMessage(user, USER_FOUND, 200);
 
@@ -118,28 +133,15 @@ public class UserController extends Controller {
             return new ResponseMessage(null, USER_NOT_FOUND, 400);
         }
 
-        User user = (User) userOp.get();
-
-        ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
-        for(Channel channel : userChannels){
-            Optional messagesOp = messageDAO.findChannelMessages(channel.getID());
-            if(!messagesOp.isEmpty()){
-                channel.setMessages((ArrayList<Message>)messagesOp.get());
-            }
-            Optional usersOp = userDAO.findUsersByChannelID(channel.getID());
-            if(!usersOp.isEmpty()){
-                channel.setUsers((ArrayList)usersOp.get());
-            }
-
-        }
-        user.setChannels(userChannels);
+        User user = (User)userOp.get();
             // We check if the password matches the hashed password
         if (!comparePassAndHashedPassword(pass, user.getPassword())) {
             return new ResponseMessage(null, INCORRECT_PASSWORD, 400);
         }
+        User userResponse = (User) find(user.getId()).getData();
 
             // The information is correct - the user is identified
-        return new ResponseMessage(user, USER_IDENTIFIED, 200);
+        return new ResponseMessage(userResponse, USER_IDENTIFIED, 200);
 
     }
 
@@ -181,7 +183,7 @@ public class UserController extends Controller {
             return new ResponseMessage(null, EMAIL_ALREADY_TAKEN, 400);
         }
 
-            // We check if the two passes are identical
+        // We check if the two passes are identical
         if (!pass.equals(secondPass)) {
             return new ResponseMessage(null, PASSES_NOT_IDENTICAL, 400);
         }
@@ -271,14 +273,10 @@ public class UserController extends Controller {
         if (!isUsernameValid(user.getUsername())) {
             return new ResponseMessage(null, USERNAME_NOT_VALID, 400);
         }
-        if (!isPasswordValid(user.getPassword())) {
-            return new ResponseMessage(null, PASSWORD_NOT_VALID, 400);
-        }
         if (!isEmailValid(user.getEmail())) {
             return new ResponseMessage(null, EMAIL_NOT_VALID, 400);
         }
         Optional userOp;
-
         // We check if the username is already taken by another user
         userOp = userDAO.findWithUsername(user.getUsername());
         if (userOp.isPresent()) {
@@ -295,12 +293,15 @@ public class UserController extends Controller {
                 return new ResponseMessage(null, EMAIL_ALREADY_TAKEN, 400);
             }
         }
-        // We update the user in DB
-        user.setPassword(hashPassword(user.getPassword()));
+        if(!(user.getPassword()==null)) {
+            if (!isPasswordValid(user.getPassword())) {
+                return new ResponseMessage(null, PASSWORD_NOT_VALID, 400);
+            }
+            user.setPassword(hashPassword(user.getPassword()));
+        }
         User updatedUser = userDAO.update(user).get();
-        User userWithAllData =(User) find(updatedUser.getId()).getData();
-
-        return new ResponseMessage(userWithAllData, INFORMATION_USER_UPDATED, 200);
+        User userResponse =(User)find(updatedUser.getId()).getData();
+        return new ResponseMessage(updatedUser, INFORMATION_USER_UPDATED, 200);
 
     }
 
@@ -314,8 +315,9 @@ public class UserController extends Controller {
      * @throws SQLException
      */
     @MethodRoute("updateicone")
-    public ResponseMessage updateIcone(long userID, String icone) throws SQLException {
+    public static ResponseMessage updateIcone(long userID, String icone) throws SQLException {
         Optional updatedUser = userDAO.updateIcone(userID,icone);
-        return new ResponseMessage(updatedUser.get(), ICONE_USER_UPDATED, 200);
+        User user =(User)find(userID).getData();
+        return new ResponseMessage(user, INFORMATION_USER_UPDATED, 200);
     }
 }

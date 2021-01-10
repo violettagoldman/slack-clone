@@ -2,9 +2,6 @@ package pijakogui.requestclient;
 
 import network.Client;
 import network.Payload;
-import network.Request;
-import pijakogui.Main;
-
 import java.util.Arrays;
 
 public class PayloadBuilder {

@@ -15,6 +15,8 @@ public class ServiceRoute {
                 UserService.updateUser(payload.getResponse());
                 break;
             case USER_EDIT_ICONE:
+                UserService.updateUser(payload.getResponse());
+                break;
             case USER_FIND:
                 break;
             case USER_DELETE:

@@ -3,6 +3,7 @@ package pijakogui.panel;
 import com.bean.ResponseMessage;
 import com.bean.User;
 import pijakogui.compoment.MyTextField;
+import pijakogui.services.ChannelsService;
 import pijakogui.services.UserService;
 
 import javax.swing.*;
@@ -64,6 +65,7 @@ public class Profile extends MyPanel {
                 UserService.setUser((User) res.getData());
                 PijakoWindow.rebuilEnvironment();
                 PijakoWindow.updateEnvironment();
+                ChannelsService.updateChannelsStart();
                 PijakoWindow.seeChannels();
                 break;
         }

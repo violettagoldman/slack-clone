@@ -394,9 +394,7 @@ public class MyButton extends JButton {
         chooseAvatar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                User newUser = (UserService.getUser().cloneForUpdate());
-                newUser.setIcone((PijakoWindow.getAvatar()).getAvatarStr());
-                UserClient.updateUser(newUser);
+                 UserClient.updateIcone(UserService.getUser().getId(),(PijakoWindow.getAvatar()).getAvatarStr());
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
