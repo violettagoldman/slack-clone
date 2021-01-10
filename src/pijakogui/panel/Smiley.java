@@ -12,7 +12,7 @@ public class Smiley extends JPanel {
         this.setLayout(new FlowLayout());
         this.setPreferredSize(new Dimension(0,50));
 
-        for(int i = 0; i<14 ; i++){
+        for(int i = 0; i<20 ; i++){
             this.add(MyButton.createBSmile(channelID, "smileybutton/smiley"+i+".png"));
             System.out.println("smileybutton/smiley"+i+".png");
             this.validate();
