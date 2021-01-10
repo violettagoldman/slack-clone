@@ -110,7 +110,7 @@ public class ChannelPanel extends JPanel {
         this.add(write, BorderLayout.SOUTH );
     }
 
-    public JPanel messagesStructure(String nickname, String avatar, Timestamp date){
+    public JPanel messagesStructure(String nickname, String avatar, Timestamp date, long idUser){
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
@@ -121,7 +121,7 @@ public class ChannelPanel extends JPanel {
         userPlace.setBackground(MyColor.gray());
 
         JTextArea user = MyTextArea.user(nickname+" :");
-        user.setForeground(MyColor.blue());
+        user.setForeground((idUser==UserService.getUser().getId())?MyColor.blueAdmin():MyColor.blue());
         user.setPreferredSize(new Dimension(0,25));
         ImageIcon image = new ImageIcon( MyButton.class.getResource(avatar));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
@@ -159,8 +159,8 @@ public class ChannelPanel extends JPanel {
         return panel;
     }
 
-    public void messages(String str, String nickname, String avatar, long idMessage, Timestamp date){
-        JPanel messageStruct = messagesStructure(nickname, avatar, date);
+    public void messages(String str, String nickname, String avatar, long idMessage, Timestamp date, long idUser){
+        JPanel messageStruct = messagesStructure(nickname, avatar, date, idUser);
         JTextArea message = MyTextArea.message(str);
         message.setForeground(MyColor.white());
         messageStruct.add(message, BorderLayout.CENTER);
@@ -171,8 +171,8 @@ public class ChannelPanel extends JPanel {
         downVerticalScroll();
     }
 
-    public void smiley(String smiley, String nickname, String avatar, long idMessage, Timestamp date){
-        JPanel messageStruct = messagesStructure(nickname, avatar, date);
+    public void smiley(String smiley, String nickname, String avatar, long idMessage, Timestamp date, long idUser){
+        JPanel messageStruct = messagesStructure(nickname, avatar, date, idUser);
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         JLabel jlabel = new JLabel(image2);

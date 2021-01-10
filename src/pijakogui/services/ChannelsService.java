@@ -28,8 +28,8 @@ public class ChannelsService {
         if(channel == null)return;
         User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitterID());
         if(message.isSmiley())channel.smiley(
-                message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(), message.getCreatedAt());
-        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(), message.getCreatedAt());
+                message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(), message.getCreatedAt(), message.getTransmitterID());
+        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(), message.getCreatedAt(), message.getTransmitterID());
         channel.getMessagesZone().validate();
     }
 
@@ -37,8 +37,8 @@ public class ChannelsService {
         ChannelPanel channel = channelsMap.get(id);
         if(channel == null)return;
         User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitterID());
-        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt());
-        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt());
+        if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt(), message.getTransmitterID());
+        else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt(), message.getTransmitterID());
         PijakoWindow.getChannelsPanel().notifyNewMessage(id);
         channel.getMessagesZone().validate();
     }

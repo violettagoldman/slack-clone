@@ -409,7 +409,10 @@ public class MyButton extends JButton {
         bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                //code logout
+                int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Are you sure to logout ?", "Logout", JOptionPane.YES_NO_OPTION);
+                if(response== JOptionPane.YES_OPTION){ //
+                    //code logout
+                }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
