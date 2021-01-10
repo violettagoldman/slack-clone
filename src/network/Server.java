@@ -22,6 +22,7 @@ public class Server implements Runnable, SocketListener {
     private final ExecutorService pool;
     private final Map<SocketManager, network.User> activeUsers;
     private final Set<String> channels;
+    private static final int port = 6868;
 
     public Server() {
         sockets = new ArrayList<SocketManager>();
@@ -31,12 +32,13 @@ public class Server implements Runnable, SocketListener {
     }
 
     public void run() {
-        try (ServerSocket serverSocket = new ServerSocket(6868)) {
+        try (ServerSocket serverSocket = new ServerSocket(port)) {
             while (!serverSocket.isClosed()) {
                 SocketManager tmp = new SocketManager(serverSocket.accept(), this);
                 sockets.add(tmp);
                 pool.execute(tmp);
             }
+            System.out.println("Listening at port: "+port);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
