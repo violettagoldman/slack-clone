@@ -116,6 +116,7 @@ public class MyButton extends JButton {
                     smileyPanel.setVisible(false);
                 }else {
                     smileyPanel.setVisible(true);
+                    channelPanel.validate();
                     channelPanel.downVerticalScroll();
                 }
             }
