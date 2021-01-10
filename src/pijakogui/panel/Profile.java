@@ -27,7 +27,7 @@ public class Profile extends MyPanel {
 
         this.panel.add(MyButton.createBChangeAvatar(cardLayout, cardPanel));
 
-        this.add(MyTextField.borderEmpty("Other users will see the changes when they relaunch the application"));
+        this.panel.add(MyTextField.borderEmpty("Other users will see the changes when they relaunch the application"));
 
         error = MyTextField.borderEmpty("");
         this.panel.add(error);

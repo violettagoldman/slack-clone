@@ -20,7 +20,7 @@ public class NewChannel extends MyPanel {
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
 
-        this.add(MyTextField.borderEmpty("the name of the channel must not contain spaces and two characters"));
+        this.panel.add(MyTextField.borderEmpty("the name of the channel must not contain spaces and two characters"));
 
         error = MyTextField.borderEmpty("");
         this.panel.add(error);

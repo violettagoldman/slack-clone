@@ -297,9 +297,10 @@ public class UserController extends Controller {
         }
         // We update the user in DB
         user.setPassword(hashPassword(user.getPassword()));
-        Optional updatedUser = userDAO.update(user);
+        User updatedUser = userDAO.update(user).get();
+        User userWithAllData =(User) find(updatedUser.getId()).getData();
 
-        return new ResponseMessage(updatedUser.get(), INFORMATION_USER_UPDATED, 200);
+        return new ResponseMessage(userWithAllData, INFORMATION_USER_UPDATED, 200);
 
     }
 
