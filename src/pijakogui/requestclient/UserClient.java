@@ -35,7 +35,7 @@ public class UserClient {
     }
 
     public static void resetPassword(String mail){
-        Payload payload = PayloadBuilder.buildRequest("users/resetpassword", Payload.RequestType.RESET_PASSWORD, mail);
+        Payload payload = PayloadBuilder.buildRequest("users/reset", Payload.RequestType.RESET_PASSWORD, mail);
         Client.getInstance().sendPayload(payload);
     }
 }

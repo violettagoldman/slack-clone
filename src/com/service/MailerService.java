@@ -18,23 +18,24 @@ public class MailerService{
 
     public static void sendEmail(String emailString,String destination, String subject) throws Exception{
         Email email = new SimpleEmail();
-         email.setHostName("smtp.googlemail.com");
-         email.setSmtpPort(465);
-         email.setAuthenticator(new DefaultAuthenticator(MailerService.email, MailerService.password));
-         email.setSSLOnConnect(true);
-         email.setFrom(MailerService.email);
-         email.setSubject("Confirmation d'inscription");
-         email.setMsg("Bonjour <br/> Merci pour votre inscription");
-         email.addTo(emailString);
+        email.setCharset("UTF-8");
+        email.setHostName("smtp.googlemail.com");
+        email.setSmtpPort(465);
+        email.setAuthenticator(new DefaultAuthenticator(MailerService.email, MailerService.password));
+        email.setSSLOnConnect(true);
+        email.setFrom(MailerService.email);
+        email.setSubject(subject);
+        email.setMsg(emailString);
+        email.addTo(destination);
          System.out.println(email.send());
     }
 
     public static void sendResetMail(String dest)throws Exception{
-        String emailString = "Bonjour, votre mot de pass est initialisé à \"Password12345\". Vous devez le changer le plus rapidement possible.\nTrès bonne journée\n\nPijako Support";
+        String emailString = "Bonjour,\n\n votre mot de pass est ré-initialisé à \"Password12345\".\n\n Vous devez le changer le plus rapidement possible.\n\nTrès bonne journée\n\nPijako Support";
         sendEmail(emailString,dest,"Mot de passe Pijako");
     }
     public static void sendWelcomeEmail(String dest)throws Exception{
-        String email="Bonjour, merci d'avoir choisi Pijako.\nTrès bonne journée,gros bisou.\n\nPijako Support";
+        String email="Bonjour,\n\nmerci d'avoir choisi Pijako.\n\nTrès bonne journée, gros bisou.\n\n\n\nPijako Support";
         sendEmail(email,dest,"Welcome to Pijako!");
     }
 
