@@ -18,7 +18,7 @@ public class Client implements SocketListener, Runnable {
     private LinkedBlockingQueue<String> messages = new LinkedBlockingQueue<>();
     private LinkedBlockingQueue<Payload> payloads = new LinkedBlockingQueue<>();
     public static final Client client = new Client();
-    private String channel = "Team Violetta";
+    private long channel = 0;
     public static final String instanceID = (new RandomString()).nextString();
     private static PijakoWindow window;
 
@@ -98,10 +98,10 @@ public class Client implements SocketListener, Runnable {
     public void sendPayload(Payload payload){
         sm.send(payload);
     }
-    public void sendChannel(String channel) {
+    public void sendChannel(long channel) {
         System.out.println(channel);
         Payload payload = new Payload(Type.CHANNEL);
-        payload.addProperty("channel", channel);
+        payload.addProperty("channel", channel+"");
         this.channel = channel;
         sm.send(payload);
     }
@@ -143,7 +143,7 @@ public class Client implements SocketListener, Runnable {
                 if (payload.getProps().get(this.channel) != null) {
                     String users[] = payload.getProps().get(this.channel).split("\2");
                     if (users != null && users.length != 0){}
-                    //ChannelsService.updateUsersConnected(users, this.channel);
+                    ChannelsService.updateUsersConnected(users, this.channel);
                 }
                 break;
             case HTTP:

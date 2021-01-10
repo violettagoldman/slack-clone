@@ -35,7 +35,7 @@ public class ChannelsPanel extends JPanel{
     }
 
     public ChannelPanel addChannels(Channel channel){
-        MyButton button = MyButton.createBGoChannel(cardChannels, channels, channel.getName());
+        MyButton button = MyButton.createBGoChannel(cardChannels, channels, channel.getName(), channel.getID());
         channelButtonMap.put(channel.getID(), button);
         listChannels.add(button );
         ChannelPanel channelPanel = new ChannelPanel(channel.getName(), channel.getID(), channel.getAdminUserId(), (ArrayList< User >) channel.getUsers());

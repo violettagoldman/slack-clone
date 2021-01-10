@@ -270,7 +270,7 @@ public class MyButton extends JButton {
         return bGoToConnect;
     }
 
-    public static MyButton createBGoChannel( CardLayout cardLayout, JPanel cardPanel , String title){
+    public static MyButton createBGoChannel( CardLayout cardLayout, JPanel cardPanel , String title, long channelID){
         MyButton bGoToChannel = new MyButton(title);
         bGoToChannel.setPreferredSize(new Dimension(200,50));
         bGoToChannel.addMouseListener(new java.awt.event.MouseAdapter (){
@@ -278,7 +278,7 @@ public class MyButton extends JButton {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 cardLayout.show(cardPanel, title);
                 bGoToChannel.setBorder(null);
-                network.Client.getInstance().sendChannel(title);
+                network.Client.getInstance().sendChannel(channelID);
                  }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -291,7 +291,6 @@ public class MyButton extends JButton {
         bNameChannel.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                network.Client.getInstance().sendChannel(title);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
