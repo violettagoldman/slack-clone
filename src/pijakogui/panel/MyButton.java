@@ -414,7 +414,9 @@ public class MyButton extends JButton {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Are you sure to logout ?", "Logout", JOptionPane.YES_NO_OPTION);
                 if(response== JOptionPane.YES_OPTION){ //
-                    //code logout
+                    UserService.setUser(null);
+                    network.Client.getInstance().setUser(null);
+                    PijakoWindow.rebuilEnvironment();
                 }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
