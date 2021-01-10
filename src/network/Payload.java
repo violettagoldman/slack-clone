@@ -32,8 +32,9 @@ public final class Payload implements Serializable {
         MESSAGE_POST,
         CHANNEL_ADD_USER,
         USER_EDIT_ICONE,
-        MESSAGE_DELETE, CHANNEL_REMOVE_USER
-
+        MESSAGE_DELETE,
+        CHANNEL_REMOVE_USER,
+        RESET_PASSWORD;
     }
     private Type type;
     private RequestType requestType;

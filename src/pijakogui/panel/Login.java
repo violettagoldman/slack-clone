@@ -29,16 +29,12 @@ public class Login extends MyPanel{
 
         password = MyTextField.password("Your password");
         this.panel.add(password);
-//
-//        nickname = new MyTextField("Paulius12345");
-//        this.panel.add(nickname);
-//
-//        password = new MyTextField("Paulius12345");
-//        this.panel.add(password);
+
 
         this.south.setPreferredSize(new Dimension(400,400));
 
         this.panel.add(MyButton.createBLogin(nickname, password));
+        this.panel.add(MyButton.createBSendMail(this));
         this.panel.add(MyButton.createBSignUp(cardLayout, cardPanel));
     }
 

@@ -244,6 +244,8 @@ public class ChannelPanel extends JPanel {
         }
     }
 
+
+
     public void clearError(){
         errorAddUser.setText("");
     }
