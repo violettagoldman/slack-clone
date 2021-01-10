@@ -231,17 +231,11 @@ public class ChannelPanel extends JPanel {
 
     public void updateAddUser(ResponseMessage res) {
         switch (res.getMessage()) {
-            case USERNAME_NOT_VALID:
-                errorAddUser.setText("The username is not valid");
-                break;
-            case PASSWORD_NOT_VALID:
-                errorAddUser.setText("The password is not valid");
-                break;
             case USER_NOT_FOUND:
                 errorAddUser.setText("This username not exist");
                 break;
-            case INCORRECT_PASSWORD:
-                errorAddUser.setText("Password incorrect");
+            case USERCHANNEL_EXISTS:
+                errorAddUser.setText("User already in this channel");
                 break;
         }
     }
@@ -252,17 +246,11 @@ public class ChannelPanel extends JPanel {
 
     public void updateRemoveUser(ResponseMessage res) {
         switch (res.getMessage()) {
-            case USERNAME_NOT_VALID:
-                errorAddUser.setText("The username is not valid");
-                break;
-            case PASSWORD_NOT_VALID:
-                errorAddUser.setText("The password is not valid");
-                break;
             case USER_NOT_FOUND:
                 errorAddUser.setText("This username not exist");
                 break;
-            case INCORRECT_PASSWORD:
-                errorAddUser.setText("Password incorrect");
+            case USERCHANNEL_EXISTS:
+                errorAddUser.setText("User already in this channel");
                 break;
             case USER_CREATED:
                 String userName = ((User)res.getData()).getUsername();

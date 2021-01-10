@@ -49,6 +49,7 @@ public class NewChannel extends MyPanel {
             case CHANNEL_CREATED:
                 ChannelsService.addChannel((Channel)res.getData());
                 cardLayout.show(cardPanel, "menu");
+                PijakoWindow.seeChannels();
                 break;
         }
     }

@@ -107,4 +107,8 @@ public class PijakoWindow extends JFrame {
     public static NewChannel getNewChannel() {
         return newChannel;
     }
+
+    public static void seeChannels(){
+        cardHome.show(home, "channels");
+    }
 }
