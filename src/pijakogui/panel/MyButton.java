@@ -436,4 +436,21 @@ public class MyButton extends JButton {
         });
         return bSignUp;
     }
+
+    public static MyButton createBSendMail(Login login){
+        MyButton bSignUp = new MyButton("password forget");
+        bSignUp.setPreferredSize(new Dimension(200,30));
+        bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                String s = (String)JOptionPane.showInputDialog(
+                        login,
+                        "Enter your email, if it is in our database, a new password will be sent to you.",
+                        "Reset password");
+                if(s!=null)UserClient.resetPassword(s);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { }
+        });
+        return bSignUp;
+    }
 }

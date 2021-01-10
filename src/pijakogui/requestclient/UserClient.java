@@ -34,5 +34,10 @@ public class UserClient {
         Payload payload = PayloadBuilder.buildRequest("users/updateicone", Payload.RequestType.USER_EDIT_ICONE, userID,icone);
         Client.getInstance().sendPayload(payload);
     }
+
+    public static void resetPassword(String mail){
+        Payload payload = PayloadBuilder.buildRequest("users/resetpassword", Payload.RequestType.RESET_PASSWORD, mail);
+        Client.getInstance().sendPayload(payload);
+    }
 }
 
