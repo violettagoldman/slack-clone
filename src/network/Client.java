@@ -154,7 +154,7 @@ public class Client implements SocketListener, Runnable {
                   ChannelsService.addMessage(payload.getResponse());
                 break;
               }
-              if(payload.getRequestType() == Payload.RequestType.CHANNEL_ADD_USER|| payload.getRequestType() == Payload.RequestType.CHANNEL_CREATE){
+              if(payload.getRequestType() == Payload.RequestType.CHANNEL_ADD_USER){
                   if(payload.getResponse().getStatus()<400 ){
                       ServiceRoute.invokeService(payload);
                       break;
