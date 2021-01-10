@@ -277,6 +277,7 @@ public class MyButton extends JButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 cardLayout.show(cardPanel, title);
+                bGoToChannel.setForeground(Color.BLACK);
                 bGoToChannel.setBorder(null);
                 network.Client.getInstance().sendChannel(channelID);
                  }
