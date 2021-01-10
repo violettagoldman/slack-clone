@@ -29,7 +29,6 @@ public class UserClient {
         Payload payload = PayloadBuilder.buildRequest("users/update", Payload.RequestType.USER_EDIT, user);
         Client.getInstance().sendPayload(payload);
     }
-
     public static void updateIcone(long userID, String icone){
         Payload payload = PayloadBuilder.buildRequest("users/updateicone", Payload.RequestType.USER_EDIT_ICONE, userID,icone);
         Client.getInstance().sendPayload(payload);

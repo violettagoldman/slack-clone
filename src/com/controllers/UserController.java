@@ -6,6 +6,7 @@ import com.dao.impl.MessageDAO;
 import com.dao.impl.UserDAO;
 import com.invoker.decorators.ControllerRoute;
 import com.invoker.decorators.MethodRoute;
+import com.service.MailerService;
 import org.apache.commons.cli.Option;
 
 import java.security.NoSuchAlgorithmException;
@@ -18,6 +19,7 @@ import static com.helpers.PasswordHelper.comparePassAndHashedPassword;
 import static com.helpers.PasswordHelper.hashPassword;
 import static com.helpers.RegexHelper.*;
 import static com.bean.ResponseMessage.Messages.*;
+import static com.service.MailerService.sendWelcomeEmail;
 
 @ControllerRoute("users")
 public class UserController extends Controller {
@@ -146,16 +148,27 @@ public class UserController extends Controller {
     // EN STATIC PARCE QU'APPELER DANS MYBUTTON.JAVA. A CHANGER SI BESOIN.
     /**
      * Create user and add to DB
-     * @param username
-     * @param email
-     * @param pass
-     * @param secondPass
      * @return Data, message, status
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
 
-
+    @MethodRoute("reset")
+    public static ResponseMessage resetPassword(String email)throws SQLException{
+        Optional userOP=userDAO.findWithEmail(email);
+        if(userOP.isEmpty()){
+            return new ResponseMessage(null, BAD_REQUEST,400);
+        }
+        User user =(User) userOP.get();
+        try{
+            MailerService.sendResetMail(user.getEmail());
+            user.setPassword(hashPassword("Password12345"));
+            userDAO.update(user);
+            return new ResponseMessage(null, USER_FOUND,200);
+        }catch (Exception e){
+            return new ResponseMessage(null, BAD_REQUEST,400);
+        }
+    }
 
     @MethodRoute("signup")
     public static ResponseMessage signUp(String username, String email, String pass, String secondPass) throws SQLException, NoSuchAlgorithmException {
@@ -196,7 +209,11 @@ public class UserController extends Controller {
         if (createdUser.isEmpty()) {
             return new ResponseMessage(null, ERROR_CREATION_USER, 400);
         }
-
+        try{
+            sendWelcomeEmail(user.getEmail());
+        }catch (Exception e){
+            System.err.println(e);
+        }
         return new ResponseMessage(createdUser.get(), USER_CREATED, 200);
 
     }

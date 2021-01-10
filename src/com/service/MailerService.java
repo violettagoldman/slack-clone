@@ -16,16 +16,8 @@ public class MailerService{
     public static final String email = "spijako@gmail.com";
     public static final String password = "Pijako123";
 
-    public static void sendEmail(String emailString){
-      try{
+    public static void sendEmail(String emailString,String destination, String subject) throws Exception{
         Email email = new SimpleEmail();
-/*
-        email.setHostName("smtp.mail.yahoo.com");
-        email.setSmtpPort(465);
-        //email.setAuthenticator(new DefaultAuthenticator(MailerService.username, password));
-        email.setAuthentication(MailerService.email, MailerService.password );
-        email.setSSLOnConnect(true);
- */
          email.setHostName("smtp.googlemail.com");
          email.setSmtpPort(465);
          email.setAuthenticator(new DefaultAuthenticator(MailerService.email, MailerService.password));
@@ -35,14 +27,15 @@ public class MailerService{
          email.setMsg("Bonjour <br/> Merci pour votre inscription");
          email.addTo(emailString);
          System.out.println(email.send());
-
-    }catch (Exception e){
-          System.err.println(e);
-          System.err.println("errr");
-      }
     }
-    public static void sendWelcomeEmail(){
 
+    public static void sendResetMail(String dest)throws Exception{
+        String emailString = "Bonjour, votre mot de pass est initialisé à \"Password12345\". Vous devez le changer le plus rapidement possible.\nTrès bonne journée\n\nPijako Support";
+        sendEmail(emailString,dest,"Mot de passe Pijako");
+    }
+    public static void sendWelcomeEmail(String dest)throws Exception{
+        String email="Bonjour, merci d'avoir choisi Pijako.\nTrès bonne journée,gros bisou.\n\nPijako Support";
+        sendEmail(email,dest,"Welcome to Pijako!");
     }
 
 
