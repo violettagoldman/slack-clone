@@ -23,10 +23,10 @@ public class SignUp extends MyPanel{
         super();
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
-        JTextField information = MyTextField.BorderEmpty("Password : minimum 8 characters with at least 1 uppercase letter, 1 lowercase letter and 1 number");
+        JTextField information = MyTextField.borderEmpty("Password : minimum 8 characters with at least 1 uppercase letter, 1 lowercase letter and 1 number");
         this.panel.add(information);
 
-        error = MyTextField.BorderEmpty("");
+        error = MyTextField.borderEmpty("");
         this.panel.add(error);
 
         mail = new MyTextField("mail@gmail.com");
@@ -35,10 +35,10 @@ public class SignUp extends MyPanel{
         nickName = new MyTextField("nickname");
         this.panel.add(nickName);
 
-        password1 = new MyTextField("password");
+        password1 = MyTextField.password("Your password");
         this.panel.add(password1);
 
-        password2 = new MyTextField("confirm password");
+        password2 = MyTextField.password("Your password");
         this.panel.add(password2);
 
         this.panel.add(MyButton.createBNewProfile( error,mail, nickName, password1, password2, cardLayout, cardPanel));

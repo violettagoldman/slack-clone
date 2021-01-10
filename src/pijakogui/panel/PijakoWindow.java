@@ -21,6 +21,7 @@ public class PijakoWindow extends JFrame {
     private static JPanel home;
     private static CardLayout cardHome;
     private static CardLayout cardWindow;
+    private static ChannelsPanel channelsPanel;
 
 
     public PijakoWindow() {
@@ -79,9 +80,28 @@ public class PijakoWindow extends JFrame {
 
     }
 
+    public static void rebuilEnvironment(){
+        window.removeAll();
+        cardWindow = new CardLayout();
+        cardHome = new CardLayout();
+        window.setLayout(cardWindow);
+        JPanel menu = new JPanel();
+        home = new JPanel();
+        menu.setLayout(new BorderLayout());
+        menu.add(new ToolsBars(cardHome, home, cardWindow, window), BorderLayout.NORTH);
+        menu.add(home, BorderLayout.CENTER);
+        login = new Login(cardWindow , window);
+        window.add(MyScroll.createBlack(login), "login");
+        signUp = new SignUp(cardWindow , window);
+        window.add(MyScroll.createBlack(signUp), "sign up");
+        window.add(menu, "menu");
+        cardWindow.show(window, "login");
+    }
+
     public static void updateEnvironment(){
         home.setLayout(cardHome);
-        home.add(new ChannelsPanel(), "channels");
+        channelsPanel = new ChannelsPanel();
+        home.add(channelsPanel, "channels");
         cardWindow.show(window, "login");
         cardHome.show(home, "channels");
         profile = new Profile(cardHome, home);
@@ -114,5 +134,9 @@ public class PijakoWindow extends JFrame {
 
     public static Avatar getAvatar() {
         return avatar;
+    }
+
+    public static ChannelsPanel getChannelsPanel() {
+        return channelsPanel;
     }
 }

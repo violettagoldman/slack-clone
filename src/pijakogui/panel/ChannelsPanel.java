@@ -8,11 +8,14 @@ import pijakogui.compoment.MyColor;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ChannelsPanel extends JPanel{
-    private static JPanel listChannels;
-    private static JPanel channels;
-    private static CardLayout cardChannels;
+    private JPanel listChannels;
+    private JPanel channels;
+    private CardLayout cardChannels;
+    private HashMap<Long, MyButton> channelButtonMap = new HashMap<>();
+
 
     public ChannelsPanel(){
         this.setLayout( new BorderLayout() );
@@ -28,12 +31,32 @@ public class ChannelsPanel extends JPanel{
         this.add( channels, BorderLayout.CENTER );
     }
 
-    public static ChannelPanel addChannels(Channel channel){
-        listChannels.add(MyButton.createBGoChannel(cardChannels, channels, channel.getName()));
+    public ChannelPanel addChannels(Channel channel){
+        MyButton button = MyButton.createBGoChannel(cardChannels, channels, channel.getName());
+        channelButtonMap.put(channel.getID(), button);
+        listChannels.add(button );
         ChannelPanel channelPanel = new ChannelPanel(channel.getName(), channel.getID(), channel.getAdminUserId(), (ArrayList< User >) channel.getUsers());
         channels.add(channelPanel,channel.getName());
         cardChannels.show(channels, channel.getName());
         return channelPanel;
+    }
+
+    public void notifyNewMessage(long id){
+        MyButton button = channelButtonMap.get(id);
+        button.setForeground(MyColor.blueUser());
+        listChannels.validate();
+        this.validate();
+    }
+
+    public void removeChannelButton(Channel channel){
+        listChannels.remove(channelButtonMap.get(channel.getID()));
+        listChannels.validate();
+        this.validate();
+        channelButtonMap.remove(channel.getID());
+    }
+
+    public void removeChannelPanel(ChannelPanel channelPanel){
+        cardChannels.removeLayoutComponent(channelPanel);
     }
 
     public void updateChannels(ResponseMessage res){

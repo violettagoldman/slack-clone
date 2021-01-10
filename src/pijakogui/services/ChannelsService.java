@@ -18,7 +18,7 @@ public class ChannelsService {
 
     //rajoute une chaine
     public static void addChannel(Channel channel){
-        channelsMap.put(channel.getID(), ChannelsPanel.addChannels(channel));
+        channelsMap.put(channel.getID(), PijakoWindow.getChannelsPanel().addChannels(channel));
     }
     //ajoute un message dans une chaine
     public static void addMessage(ResponseMessage responseMessage){
@@ -39,6 +39,7 @@ public class ChannelsService {
         User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitterID());
         if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt());
         else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt());
+        PijakoWindow.getChannelsPanel().notifyNewMessage(id);
         channel.getMessagesZone().validate();
     }
 
@@ -63,6 +64,7 @@ public class ChannelsService {
 
     public static void channelAddUser(ResponseMessage<Object> response) {
         Channel channel = (Channel)response.getData();
+        if(channel==null)return;
         long id = channel.getID();
         ChannelPanel channelpanel = channelsMap.get(id);
         if(UserHelper.findUserById(channel.getUsers(), UserService.getUser().getId()) == null)return;
@@ -71,6 +73,31 @@ public class ChannelsService {
             channelpanel.updateUsers((ArrayList<User>)channel.getUsers());
             channelpanel.clearError();
         }
+    }
+
+    public static void channelRemoveUser(ResponseMessage<Object> response) {
+        Channel channel = (Channel)response.getData();
+        if(channel==null)return;
+        long id = channel.getID();
+        ChannelPanel channelpanel = channelsMap.get(id);
+        if(channelpanel == null)return;
+        if(UserHelper.findUserById(channel.getUsers(), UserService.getUser().getId()) == null){
+            PijakoWindow.getChannelsPanel().removeChannelButton(channel);
+            PijakoWindow.getChannelsPanel().removeChannelPanel(channelpanel);
+        }
+        else {
+            channelpanel.updateUsers((ArrayList<User>)channel.getUsers());
+        }
+    }
+
+    public static void removeChannel(ResponseMessage<Object> response) {
+        Channel channel = (Channel)response.getData();
+        if(channel==null)return;
+        long id = channel.getID();
+        ChannelPanel channelpanel = channelsMap.get(id);
+        if(channelpanel == null)return;
+        PijakoWindow.getChannelsPanel().removeChannelButton(channel);
+        PijakoWindow.getChannelsPanel().removeChannelPanel(channelpanel);
     }
 
     public static void addUserError(ResponseMessage response){

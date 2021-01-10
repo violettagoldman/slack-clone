@@ -34,7 +34,11 @@ public class ServiceRoute {
                     ChannelsService.channelAddUser(payload.getResponse());
                 }
                 break;
+            case CHANNEL_REMOVE_USER:
+                ChannelsService.channelRemoveUser(payload.getResponse());
+                break;
             case CHANNEL_DELETE:
+                ChannelsService.removeChannel(payload.getResponse());
                 break;
             case CHANNEL_FINDALL:
                 break;

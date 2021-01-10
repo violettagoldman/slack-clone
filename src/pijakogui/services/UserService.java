@@ -29,4 +29,9 @@ public class UserService {
         PijakoWindow.getLogin().updateLogin(res);
     }
 
+    public static void logout(ResponseMessage res){
+        UserService.setUser(null);
+        PijakoWindow.rebuilEnvironment();
+    }
+
 }

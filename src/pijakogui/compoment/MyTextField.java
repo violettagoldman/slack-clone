@@ -13,10 +13,16 @@ public class MyTextField extends JTextField {
         this.setForeground(new Color(250,250,250));
     }
 
-    public static MyTextField BorderEmpty(String str){
+    public static MyTextField borderEmpty(String str){
         MyTextField text = new MyTextField(str);
         text.setBorder(new EmptyBorder(0,0,0,0));
         text.setEditable(false);
+        return text;
+    }
+
+    public static MyTextField password(String str){
+        MyTextField text = new MyTextField(str);
+        text.setFont(new Font("Bookshelf Symbol 7", 0, 15));
         return text;
     }
 

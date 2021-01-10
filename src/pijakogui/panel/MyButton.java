@@ -10,6 +10,7 @@ import com.bean.Message;
 import com.bean.User;
 import network.Client;
 import pijakogui.compoment.MyColor;
+import pijakogui.compoment.MyScroll;
 import pijakogui.requestclient.ChannelClient;
 import pijakogui.requestclient.MessageClient;
 import pijakogui.requestclient.UserClient;
@@ -103,7 +104,7 @@ public class MyButton extends JButton {
         return send;
     }
 
-    public static MyButton createBSeeSmile(JPanel smileyPanel, String smiley){
+    public static MyButton createBSeeSmile(JPanel smileyPanel, String smiley, JScrollPane scrollMessages){
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(35, 35, Image.SCALE_DEFAULT));
         MyButton send = new MyButton(image2);
@@ -115,6 +116,7 @@ public class MyButton extends JButton {
                     smileyPanel.setVisible(false);
                 }else {
                     smileyPanel.setVisible(true);
+                    scrollMessages.getVerticalScrollBar().setValue(scrollMessages.getVerticalScrollBar().getMaximum());
                 }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
@@ -228,7 +230,7 @@ public class MyButton extends JButton {
         bLogin.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                UserClient.signIn(nickname.getText(), password.getText());
+               UserClient.signIn(nickname.getText(), password.getText());
               }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -271,6 +273,7 @@ public class MyButton extends JButton {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 cardLayout.show(cardPanel, title);
+                bGoToChannel.setBorder(null);
                 network.Client.getInstance().sendChannel(title);
                  }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
@@ -307,7 +310,7 @@ public class MyButton extends JButton {
         return bDeleteMessage;
     }
 
-    public static MyButton createBAddUser(JTextField addUser, JPanel listUser, long channelID){
+    public static MyButton createBAddUser(JTextField addUser, long channelID){
         MyButton bAddUser = new MyButton("Add user");
         bAddUser.setPreferredSize(new Dimension(100,30));
         bAddUser.addMouseListener(new java.awt.event.MouseAdapter (){
@@ -333,7 +336,7 @@ public class MyButton extends JButton {
         return bNameUser;
     }
 
-    public static MyButton createBNameUserAdmin(String name){
+    public static MyButton createBNameUserAdmin(long channelID, String name){
         MyButton bNameUser = new MyButton(name);
         bNameUser.setPreferredSize(new Dimension(100,30));
         bNameUser.addMouseListener(new java.awt.event.MouseAdapter (){
@@ -341,7 +344,7 @@ public class MyButton extends JButton {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Delete this user ?", "Delete user", JOptionPane.YES_NO_OPTION);
                 if(response== JOptionPane.YES_OPTION){ //
-                    // appeler fonction serveur
+                    ChannelClient.removeUserToChannel(channelID,name);
                 }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
@@ -398,6 +401,35 @@ public class MyButton extends JButton {
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
         return chooseAvatar;
+    }
+
+    public static MyButton createBLogOut(){
+        MyButton bSignUp = new MyButton("SignUp");
+        bSignUp.setPreferredSize(new Dimension(100,20));
+        bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                //code logout
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { }
+        });
+        return bSignUp;
+    }
+
+    public static MyButton createBDeleteChannel(long channelID){
+        MyButton bSignUp = new MyButton("Delete channel");
+        bSignUp.setPreferredSize(new Dimension(100,20));
+        bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) { }
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Delete this channel ?", "Delete channel", JOptionPane.YES_NO_OPTION);
+                if(response== JOptionPane.YES_OPTION){ //
+                    ChannelClient.deleteChannel(channelID);
+                }
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) { }
+        });
+        return bSignUp;
     }
 
 

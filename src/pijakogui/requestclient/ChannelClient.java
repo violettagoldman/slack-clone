@@ -31,4 +31,9 @@ public class ChannelClient {
         Payload payload=PayloadBuilder.buildRequest("channels/addusertochannel", Payload.RequestType.CHANNEL_ADD_USER,channelID,nickname);
         Client.getInstance().sendPayload(payload);
     }
+
+    public static void removeUserToChannel(long channelID,String nickname){
+        Payload payload=PayloadBuilder.buildRequest("channels/removeusertochannel", Payload.RequestType.CHANNEL_ADD_USER,channelID,nickname);
+        Client.getInstance().sendPayload(payload);
+    }
 }

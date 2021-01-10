@@ -21,20 +21,20 @@ public class Login extends MyPanel{
         this.cardLayout = cardLayout;
         this.cardPanel = cardPanel;
 
-        error = MyTextField.BorderEmpty("");
+        error = MyTextField.borderEmpty("");
         this.panel.add(error);
-/*
+
         nickname = new MyTextField("Your nickname");
         this.panel.add(nickname);
 
-        password = new MyTextField("Your password");
+        password = MyTextField.password("Your password");
         this.panel.add(password);
-  */
-        nickname = new MyTextField("Paulius12345");
-        this.panel.add(nickname);
-
-        password = new MyTextField("Paulius12345");
-        this.panel.add(password);
+//
+//        nickname = new MyTextField("Paulius12345");
+//        this.panel.add(nickname);
+//
+//        password = new MyTextField("Paulius12345");
+//        this.panel.add(password);
 
         this.south.setPreferredSize(new Dimension(400,400));
 

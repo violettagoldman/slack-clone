@@ -28,7 +28,7 @@ public class ChannelPanel extends JPanel {
     private final JTextField errorAddUser;
     private final long admin;
     private final HashMap< Long , Component> messageMap = new HashMap<>();
-    private final HashMap<String, MyButton> usersButtonMap = new HashMap<>();
+    private final HashMap<Long, MyButton> usersButtonMap = new HashMap<>();
     private ArrayList<User> users;
 
     public String getTitle() { return title; }
@@ -39,7 +39,7 @@ public class ChannelPanel extends JPanel {
 
     public JPanel getListUser() {return listUser; }
 
-    public HashMap<String, MyButton> getUsersButtonMap() {return usersButtonMap; }
+    public HashMap<Long, MyButton> getUsersButtonMap() {return usersButtonMap; }
 
     public ArrayList<User> getUsers() { return users; }
 
@@ -66,12 +66,13 @@ public class ChannelPanel extends JPanel {
         menu.setBackground(MyColor.black());
         menu.setPreferredSize(new Dimension(0,40));
         //Ajout nouvel utilisateur dans la conversation
-        errorAddUser = MyTextField.BorderEmpty("");
+        errorAddUser = MyTextField.borderEmpty("");
         if(UserService.getUser().getId()==admin){
             JTextField addUser = new MyTextField("add user in this channel");
             menu.add(addUser);
-            menu.add(MyButton.createBAddUser(addUser, listUser, channelID));
+            menu.add(MyButton.createBAddUser(addUser, channelID));
             menu.add(errorAddUser);
+            menu.add(MyButton.createBDeleteChannel(channelID));
         }
         this.add(menu, BorderLayout.NORTH);
 
@@ -105,7 +106,7 @@ public class ChannelPanel extends JPanel {
         writeScript.setFont(new Font("SansSerif", Font.PLAIN, 15));
         writeScript.setForeground(MyColor.white());
         write.add(MyButton.createBSendMessage(writeScript, channelID), BorderLayout.EAST );
-        write.add(MyButton.createBSeeSmile(smiley,"smileybutton/smile.png"), BorderLayout.WEST );
+        write.add(MyButton.createBSeeSmile(smiley,"smileybutton/smile.png", scrollMessages), BorderLayout.WEST );
         this.add(write, BorderLayout.SOUTH );
     }
 
@@ -203,9 +204,9 @@ public class ChannelPanel extends JPanel {
         listUser.removeAll();
         listUser.validate();
         for (User user : this.users){
-            MyButton button =  (UserService.getUser().getId() != admin || user.getId() == admin ) ? MyButton.createBNameUser(user.getUsername()): MyButton.createBNameUserAdmin(user.getUsername());
-            if(user.getId()==admin)button.setBackground(MyColor.blueAdmin());
-            usersButtonMap.put(user.getUsername(), button);
+            MyButton button =  (UserService.getUser().getId() != admin || user.getId() == admin ) ? MyButton.createBNameUser(user.getUsername()): MyButton.createBNameUserAdmin(channelID,user.getUsername());
+            if(user.getId()==admin)button.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,MyColor.blue()));
+            usersButtonMap.put(user.getId(), button);
             listUser.add(button);
             listUser.validate();
         }
@@ -219,7 +220,7 @@ public class ChannelPanel extends JPanel {
         }
         usersButtonMap.clear();
         for (String user : users) {
-            usersButtonMap.get(user).setBackground(MyColor.blueUser());
+            usersButtonMap.get(user).setForeground(MyColor.blueUser());
         }
         this.listUser.validate();
         this.validate();
@@ -244,21 +245,21 @@ public class ChannelPanel extends JPanel {
         errorAddUser.setText("");
     }
 
-    public void updateRemoveUser(ResponseMessage res) {
-        switch (res.getMessage()) {
-            case USER_NOT_FOUND:
-                errorAddUser.setText("This username not exist");
-                break;
-            case USERCHANNEL_EXISTS:
-                errorAddUser.setText("User already in this channel");
-                break;
-            case USER_CREATED:
-                String userName = ((User)res.getData()).getUsername();
-                listUser.remove( usersButtonMap.get(userName));
-                usersButtonMap.remove(userName);
-                listUser.validate();
-                this.validate();
-                break;
-        }
-    }
+//    public void updateRemoveUser(ResponseMessage res) {
+//        switch (res.getMessage()) {
+//            case USER_NOT_FOUND:
+//                errorAddUser.setText("This username not exist");
+//                break;
+//            case USERCHANNEL_EXISTS:
+//                errorAddUser.setText("User already in this channel");
+//                break;
+//            case USER_CREATED:
+//                String userName = ((User)res.getData()).getUsername();
+//                listUser.remove( usersButtonMap.get(userName));
+//                usersButtonMap.remove(userName);
+//                listUser.validate();
+//                this.validate();
+//                break;
+//        }
+//    }
 }

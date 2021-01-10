@@ -27,7 +27,7 @@ public class Profile extends MyPanel {
 
         this.panel.add(MyButton.createBChangeAvatar(cardLayout, cardPanel));
 
-        error = MyTextField.BorderEmpty("");
+        error = MyTextField.borderEmpty("");
         this.panel.add(error);
 
         mail = new MyTextField(UserService.getUser().getEmail());
@@ -36,7 +36,7 @@ public class Profile extends MyPanel {
         nickName = new MyTextField(UserService.getUser().getUsername());
         this.panel.add(nickName);
 
-        password = new MyTextField("password");
+        password = MyTextField.password("Your password");
         this.panel.add(password);
 
         this.panel.add(MyButton.createBSaveInformation(mail, nickName, password));
@@ -60,6 +60,8 @@ public class Profile extends MyPanel {
                 break;
             case INFORMATION_USER_UPDATED:
                 UserService.setUser((User) res.getData());
+                PijakoWindow.rebuilEnvironment();
+                PijakoWindow.updateEnvironment();
                 PijakoWindow.seeChannels();
                 break;
         }

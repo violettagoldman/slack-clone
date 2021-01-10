@@ -37,7 +37,7 @@ public class MyColor extends Color {
     }
 
     public static MyColor blueAdmin(){
-        MyColor blueAdmin = new MyColor(22,131,201);
+        MyColor blueAdmin = new MyColor(37,95,132);
         return blueAdmin;
     }
 
