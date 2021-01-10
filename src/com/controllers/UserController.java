@@ -100,12 +100,17 @@ public class UserController extends Controller {
     }
 
     @MethodRoute("delete")
-    public static ResponseMessage delete(long id) throws SQLException {
-
-        userDAO.delete(id);
-
-        return new ResponseMessage(null, USER_DELETED, 200);
-
+    public static ResponseMessage delete(long id){
+        try{
+            User user = userDAO.find(id).get();
+            user.setEmail("(user deleted)");
+            user.setUsername("(user deleted)");
+            user.setPassword("-");
+            userDAO.update(user);
+            return new ResponseMessage(null, USER_DELETED, 200);
+        }catch (SQLException e){
+            return new ResponseMessage(null, BAD_REQUEST, 400);
+        }
     }
 
     /**
