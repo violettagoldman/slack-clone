@@ -110,6 +110,7 @@ public class PijakoWindow extends JFrame {
         home.add(MyScroll.createBlack(avatar), "avatar");
         newChannel = new NewChannel(cardHome, home);
         home.add(MyScroll.createBlack(newChannel), "new channel");
+        seeMenu();
     }
 
     public static Profile getProfile() {
@@ -130,6 +131,10 @@ public class PijakoWindow extends JFrame {
 
     public static void seeChannels(){
         cardHome.show(home, "channels");
+    }
+
+    public static void seeMenu(){
+        cardWindow.show(window, "menu");
     }
 
     public static Avatar getAvatar() {
