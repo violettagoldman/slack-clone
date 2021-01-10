@@ -32,7 +32,7 @@ public final class Payload implements Serializable {
         MESSAGE_POST,
         CHANNEL_ADD_USER,
         USER_EDIT_ICONE,
-        CHANNEL_REMOVE_USER
+        MESSAGE_DELETE, CHANNEL_REMOVE_USER
 
     }
     private Type type;
@@ -84,10 +84,6 @@ public final class Payload implements Serializable {
         return args;
     }
 
-    public void addArgs(Object arg) {
-        this.args.add(arg);
-    }
-
 
     public Payload(Type type, RequestType requestType){
         this.type = type;
@@ -96,15 +92,6 @@ public final class Payload implements Serializable {
 
     public Payload(Type type) {
         this.type = type;
-    }
-
-    public Payload(String payload) {
-        String lines[] = payload.split("\1");
-        this.type = Type.valueOf(lines[0]);
-        for (int i = 1; i < lines.length; ++i) {
-            String line[] = lines[i].split("=", 2);
-            addProperty(line[0], line[1]);
-        }
     }
 
 

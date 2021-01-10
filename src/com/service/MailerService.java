@@ -3,6 +3,8 @@ package com.service;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.SimpleEmail;
+import com.controllers.UserController;
+
 public class MailerService{
 /*
     public static final String email = "ppijako@yahoo.com";
@@ -29,8 +31,8 @@ public class MailerService{
          email.setAuthenticator(new DefaultAuthenticator(MailerService.email, MailerService.password));
          email.setSSLOnConnect(true);
          email.setFrom(MailerService.email);
-         email.setSubject("TestMail");
-         email.setMsg("Votre inscription est bien enregistrée");
+         email.setSubject("Confirmation d'inscription");
+         email.setMsg("Bonjour <br/> Merci pour votre inscription");
          email.addTo(emailString);
          System.out.println(email.send());
 

@@ -2,6 +2,7 @@ package pijakogui.panel;
 
 import com.bean.ResponseMessage;
 import com.bean.User;
+import com.mysql.cj.protocol.Message;
 import pijakogui.compoment.MyColor;
 import pijakogui.compoment.MyScroll;
 import pijakogui.compoment.MyTextArea;
@@ -109,7 +110,7 @@ public class ChannelPanel extends JPanel {
         this.add(write, BorderLayout.SOUTH );
     }
 
-    public JPanel messagesStructure(String nickname, String avatar, Timestamp date, long idUser){
+    public JPanel messagesStructure(long messageID,String nickname, String avatar, Timestamp date, long idUser){
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
@@ -145,8 +146,8 @@ public class ChannelPanel extends JPanel {
         //zone de suppression message
         JPanel zoneButton = new JPanel();
         zoneButton.setPreferredSize(new Dimension(17,0));
-        if(UserService.getUser().getId()==admin) {
-            JButton bDeleteMessages = MyButton.createBDeleteMessage(messagesZone, panel);
+        if(UserService.getUser().getId()==idUser) {
+            JButton bDeleteMessages = MyButton.createBDeleteMessage(messageID);
             zoneButton.add(bDeleteMessages);
         }
         zoneButton.setBackground(MyColor.gray());
@@ -159,7 +160,7 @@ public class ChannelPanel extends JPanel {
     }
 
     public void messages(String str, String nickname, String avatar, long idMessage, Timestamp date, long idUser){
-        JPanel messageStruct = messagesStructure(nickname, avatar, date, idUser);
+        JPanel messageStruct = messagesStructure(idMessage,nickname, avatar, date, idUser);
         JTextArea message = MyTextArea.message(str);
         message.setForeground(MyColor.white());
         messageStruct.add(message, BorderLayout.CENTER);
@@ -171,7 +172,7 @@ public class ChannelPanel extends JPanel {
     }
 
     public void smiley(String smiley, String nickname, String avatar, long idMessage, Timestamp date, long idUser){
-        JPanel messageStruct = messagesStructure(nickname, avatar, date, idUser);
+        JPanel messageStruct = messagesStructure(idMessage,nickname, avatar, date, idUser);
         ImageIcon image = new ImageIcon( MyButton.class.getResource(smiley));
         ImageIcon image2 = new ImageIcon(image.getImage().getScaledInstance(30, 30, Image.SCALE_DEFAULT));
         JLabel jlabel = new JLabel(image2);
@@ -245,6 +246,13 @@ public class ChannelPanel extends JPanel {
 
     public void clearError(){
         errorAddUser.setText("");
+    }
+
+    public void deleteMessage(long messageID) {
+        messagesZone.remove(messageMap.get(messageID));
+        messageMap.remove(messageID);
+        messagesZone.validate();
+        this.validate();
     }
 
 //    public void updateRemoveUser(ResponseMessage res) {

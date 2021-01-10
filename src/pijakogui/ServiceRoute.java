@@ -1,6 +1,8 @@
 package pijakogui;
 
+import com.bean.Channel;
 import network.Payload;
+import pijakogui.panel.PijakoWindow;
 import pijakogui.services.ChannelsService;
 import pijakogui.services.UserService;
 
@@ -20,6 +22,11 @@ public class ServiceRoute {
             case USER_FIND:
                 break;
             case USER_DELETE:
+                if(payload.getResponse().getStatus()<400){
+                    UserService.setUser(null);
+                    //network.Client.getInstance().setUser(null);
+                    PijakoWindow.rebuilEnvironment();
+                }
                 break;
             case USER_SIGNUP:
                 UserService.signUp(payload.getResponse());
@@ -51,6 +58,10 @@ public class ServiceRoute {
                     ChannelsService.addMessage(payload.getResponse());
                 }
                 break;
+            case MESSAGE_DELETE:
+                if(payload.getResponse().getStatus()<400){
+                    ChannelsService.deleteMessage(payload.getResponse());
+                }
             default:
         }
     }

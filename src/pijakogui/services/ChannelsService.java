@@ -107,4 +107,10 @@ public class ChannelsService {
     public static void addUserError(ResponseMessage response){
         channelsMap.get(response.getData()).updateAddUser(response);
     }
+    public static void deleteMessage(ResponseMessage responseMessage) {
+        if(((Message)responseMessage.getData())==null)return;
+        ChannelPanel channelPanel = channelsMap.get(((Message)responseMessage.getData()).getChannelID());
+        if(channelPanel==null)return ;
+        channelPanel.deleteMessage(((Message)responseMessage.getData()).getMessageID());
+    }
 }

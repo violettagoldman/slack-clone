@@ -41,6 +41,7 @@ public class ResponseMessage<T> implements Serializable {
         NO_CHANNEL_IN_DB,
 
         MESSAGE_CREATED,
+        MESSAGE_DELETED,
         ERROR_SERVER,
         BAD_ROUTE,
         BAD_REQUEST

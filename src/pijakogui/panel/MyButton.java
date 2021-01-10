@@ -300,15 +300,13 @@ public class MyButton extends JButton {
     }
 
 
-    public static MyButton createBDeleteMessage(JPanel messagesZone, JPanel message){
+    public static MyButton createBDeleteMessage(long messageID){
         MyButton bDeleteMessage = new MyButton("X");
         bDeleteMessage.setPreferredSize(new Dimension(17,17));
         bDeleteMessage.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                messagesZone.remove(message);
-                messagesZone.remove(bDeleteMessage);
-                messagesZone.validate();
+                MessageClient.deleteMessage(messageID);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -407,7 +405,7 @@ public class MyButton extends JButton {
     }
 
     public static MyButton createBLogOut(){
-        MyButton bSignUp = new MyButton("SignUp");
+        MyButton bSignUp = new MyButton("Logout");
         bSignUp.setPreferredSize(new Dimension(100,20));
         bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
@@ -415,7 +413,6 @@ public class MyButton extends JButton {
                 int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Are you sure to logout ?", "Logout", JOptionPane.YES_NO_OPTION);
                 if(response== JOptionPane.YES_OPTION){ //
                     UserService.setUser(null);
-                    network.Client.getInstance().setUser(null);
                     PijakoWindow.rebuilEnvironment();
                 }
             }

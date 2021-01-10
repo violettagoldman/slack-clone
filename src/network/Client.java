@@ -146,35 +146,40 @@ public class Client implements SocketListener, Runnable {
                 }
                 break;
             case HTTP:
-               if(payload.getResponse()==null){
+                if(payload.getResponse()==null){
                    return;
-               }
-              if(payload.getRequestType()== Payload.RequestType.MESSAGE_POST){
+                }
+                if(payload.getRequestType()== Payload.RequestType.MESSAGE_POST){
                   ChannelsService.addMessage(payload.getResponse());
                 break;
-              }
-              if(payload.getRequestType() == Payload.RequestType.CHANNEL_ADD_USER){
-                  if(payload.getResponse().getStatus()<400 ){
-                      ServiceRoute.invokeService(payload);
-                      break;
-                  }
-              }
-              if(payload.getRequestType() == Payload.RequestType.CHANNEL_REMOVE_USER){
+                }
+                if(payload.getRequestType()== Payload.RequestType.MESSAGE_DELETE ) {
+                    ChannelsService.deleteMessage(payload.getResponse());
+                break;
+                }
+
+                if(payload.getRequestType() == Payload.RequestType.CHANNEL_ADD_USER){
                     if(payload.getResponse().getStatus()<400 ){
                         ServiceRoute.invokeService(payload);
                         break;
                     }
-              }
-              if(payload.getRequestType() == Payload.RequestType.CHANNEL_DELETE){
-                  if(payload.getResponse().getStatus()<400 ){
-                     ServiceRoute.invokeService(payload);
-                     break;
-                  }
-              }
-              if(payload.getSenderID().equals(instanceID)){
+                }
+                if(payload.getRequestType() == Payload.RequestType.CHANNEL_REMOVE_USER){
+                    if(payload.getResponse().getStatus()<400 ){
+                        ServiceRoute.invokeService(payload);
+                        break;
+                    }
+                }
+                if(payload.getRequestType() == Payload.RequestType.CHANNEL_DELETE){
+                    if(payload.getResponse().getStatus()<400 ){
+                        ServiceRoute.invokeService(payload);
+                        break;
+                    }
+                }
+                if(payload.getSenderID().equals(instanceID)){
                     ServiceRoute.invokeService(payload);
-              }
-              break;
+                }
+                break;
             default:
 
         }

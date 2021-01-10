@@ -34,13 +34,6 @@ public class UserController extends Controller {
             return new ResponseMessage(null, USER_NOT_FOUND, 400);
         }
         User user =(User) userOp.get();
-      /*  ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
-        for(Channel channel : userChannels){
-            channel.setMessages(
-                    (ArrayList< Message >)messageDAO.findChannelMessages(channel.getID()).get()
-            );
-        }
-        */
 
         ArrayList<Channel> userChannels =(ArrayList<Channel>) channelDAO.findChannelsbyUserId(user.getId()).get();
         for(Channel channel : userChannels){
@@ -103,8 +96,8 @@ public class UserController extends Controller {
     public static ResponseMessage delete(long id){
         try{
             User user = userDAO.find(id).get();
-            user.setEmail("(user deleted)");
-            user.setUsername("(user deleted)");
+            user.setEmail("(user "+id+" deleted)");
+            user.setUsername("(user "+id+" deleted)");
             user.setPassword("-");
             userDAO.update(user);
             return new ResponseMessage(null, USER_DELETED, 200);
@@ -161,6 +154,9 @@ public class UserController extends Controller {
      * @throws SQLException
      * @throws NoSuchAlgorithmException
      */
+
+
+
     @MethodRoute("signup")
     public static ResponseMessage signUp(String username, String email, String pass, String secondPass) throws SQLException, NoSuchAlgorithmException {
 
