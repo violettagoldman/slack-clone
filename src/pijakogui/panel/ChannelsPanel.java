@@ -48,16 +48,19 @@ public class ChannelsPanel extends JPanel{
         this.validate();
     }
 
-    public void removeChannelButton(Channel channel){
-        listChannels.remove(channelButtonMap.get(channel.getID()));
+    public void removeChannelButton(long channelID){
+        listChannels.remove(channelButtonMap.get(channelID));
         listChannels.validate();
         this.validate();
-        channelButtonMap.remove(channel.getID());
+        channelButtonMap.remove(channelID);
     }
 
     public void removeChannelPanel(ChannelPanel channelPanel){
         cardChannels.removeLayoutComponent(channelPanel);
+        this.remove(channelPanel);
+        this.validate();
     }
+
 
     public void updateChannels(ResponseMessage res){
 

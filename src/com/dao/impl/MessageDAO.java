@@ -110,4 +110,12 @@ public class MessageDAO implements DAO<Message> {
 
     }
 
+    public void deleteAllFromChannel(long channelID) throws SQLException {
+        this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeUpdate(
+                "DELETE FROM channelmessage WHERE channel_id = " + channelID
+        );
+    }
 }

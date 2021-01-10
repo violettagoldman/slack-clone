@@ -5,6 +5,7 @@ import com.bean.User;
 import com.bean.UserChannel;
 import com.dao.impl.ChannelDAO;
 import com.bean.ResponseMessage;
+import com.dao.impl.MessageDAO;
 import com.dao.impl.UserChannelDAO;
 import com.dao.impl.UserDAO;
 import com.invoker.decorators.ControllerRoute;
@@ -30,6 +31,7 @@ public class ChannelController extends Controller {
     private final static ChannelDAO channelDAO = new ChannelDAO();
     private final static UserChannelDAO userChannelDAO = new UserChannelDAO();
     private final static UserDAO userDAO = new UserDAO();
+    private final static MessageDAO messageDAO = new MessageDAO();
 
     @MethodRoute("find")
     public static ResponseMessage find(long id) throws SQLException {
@@ -91,9 +93,13 @@ public class ChannelController extends Controller {
 
     @MethodRoute("delete")
     public static ResponseMessage delete(long id) throws SQLException {
-        channelDAO.delete(id);
+        if(channelDAO.find(id).isEmpty()){
+            return new ResponseMessage(null, BAD_ROUTE, 404);
+        }
+        messageDAO.deleteAllFromChannel(id);
         userChannelDAO.deleteByChannelID(id);
-        return new ResponseMessage(null, CHANNEL_DELETED, 200);
+        channelDAO.delete(id);
+        return new ResponseMessage(id, CHANNEL_DELETED, 200);
     }
 
     @MethodRoute("updateinformation")

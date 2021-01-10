@@ -301,7 +301,7 @@ public class UserController extends Controller {
         }
         User updatedUser = userDAO.update(user).get();
         User userResponse =(User)find(updatedUser.getId()).getData();
-        return new ResponseMessage(updatedUser, INFORMATION_USER_UPDATED, 200);
+        return new ResponseMessage(userResponse, INFORMATION_USER_UPDATED, 200);
 
     }
 

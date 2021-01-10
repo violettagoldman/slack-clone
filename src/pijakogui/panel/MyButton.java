@@ -170,7 +170,11 @@ public class MyButton extends JButton {
         bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                User newUser = UserService.getUser().cloneForUpdate(nickname.getText(),mail.getText(),password.getText());
+                String pass=password.getText();
+                if(pass.equals("Your password")){
+                    pass=null;
+                }
+                User newUser = UserService.getUser().cloneForUpdate(nickname.getText(),mail.getText(),pass);
                 UserClient.updateUser(newUser);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
@@ -432,6 +436,4 @@ public class MyButton extends JButton {
         });
         return bSignUp;
     }
-
-
 }

@@ -47,7 +47,9 @@ public class ServiceRoute {
             case CHANNEL_MESSAGES:
                 break;
             case MESSAGE_POST:
-                ChannelsService.addMessage(payload.getResponse());
+                if(payload.getResponse().getStatus()<400){
+                    ChannelsService.addMessage(payload.getResponse());
+                }
                 break;
             default:
         }

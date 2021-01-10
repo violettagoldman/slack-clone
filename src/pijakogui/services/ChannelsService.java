@@ -82,7 +82,7 @@ public class ChannelsService {
         ChannelPanel channelpanel = channelsMap.get(id);
         if(channelpanel == null)return;
         if(UserHelper.findUserById(channel.getUsers(), UserService.getUser().getId()) == null){
-            PijakoWindow.getChannelsPanel().removeChannelButton(channel);
+            PijakoWindow.getChannelsPanel().removeChannelButton(channel.getID());
             PijakoWindow.getChannelsPanel().removeChannelPanel(channelpanel);
         }
         else {
@@ -91,13 +91,13 @@ public class ChannelsService {
     }
 
     public static void removeChannel(ResponseMessage<Object> response) {
-        Channel channel = (Channel)response.getData();
-        if(channel==null)return;
-        long id = channel.getID();
+        if(response.getData()==null)return;
+        long id = (long)response.getData();;
         ChannelPanel channelpanel = channelsMap.get(id);
         if(channelpanel == null)return;
-        PijakoWindow.getChannelsPanel().removeChannelButton(channel);
+        PijakoWindow.getChannelsPanel().removeChannelButton(id);
         PijakoWindow.getChannelsPanel().removeChannelPanel(channelpanel);
+        PijakoWindow.getChannelsPanel().validate();
     }
 
     public static void addUserError(ResponseMessage response){
