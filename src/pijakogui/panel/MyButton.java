@@ -423,7 +423,7 @@ public class MyButton extends JButton {
 
     public static MyButton createBDeleteChannel(long channelID){
         MyButton bSignUp = new MyButton("Delete channel");
-        bSignUp.setPreferredSize(new Dimension(100,20));
+        bSignUp.setPreferredSize(new Dimension(200,30));
         bSignUp.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
