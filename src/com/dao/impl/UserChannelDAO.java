@@ -3,6 +3,7 @@ package com.dao.impl;
 import com.dao.DAO;
 import com.bean.UserChannel;
 
+import javax.swing.text.html.Option;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -102,5 +103,14 @@ public class UserChannelDAO implements DAO<UserChannel> {
         }
 
         return Optional.of(userChannels);
+    }
+    public void delete(long userID, long channelID) throws SQLException{
+        this.connect.createStatement(
+                ResultSet.TYPE_SCROLL_INSENSITIVE,
+                ResultSet.CONCUR_UPDATABLE
+        ).executeUpdate(
+                "DELETE FROM userchannel WHERE user_id = " + userID +
+                        " and channel_id=" + channelID
+        );
     }
 }

@@ -39,8 +39,7 @@ public class Server implements Runnable, SocketListener {
             }
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        finally {
+        } finally {
             pool.shutdown();
         }
     }
@@ -60,7 +59,7 @@ public class Server implements Runnable, SocketListener {
                     users += activeUsers.get(sm).getName() + "\2";
                 }
             }
-            payload.addProperty(ch, users);   
+            payload.addProperty(ch, users);
         }
         broadcast(payload);
     }
@@ -81,7 +80,7 @@ public class Server implements Runnable, SocketListener {
 
     @Override
     public void onMessage(SocketManager sm, Payload payload) {
-        if(payload.getType() == Payload.Type.CHANNEL ){
+        if (payload.getType() == Payload.Type.CHANNEL) {
             broadcast(payload);
         }
         if (payload.getType() == Payload.Type.CONNECTION) {
@@ -93,31 +92,27 @@ public class Server implements Runnable, SocketListener {
             channels.add(payload.getProps().get("channel"));
             broadcastActiveUsers();
         }
-        if(payload.getType()==Payload.Type.HTTP){
+        if (payload.getType() == Payload.Type.HTTP) {
             ResponseMessage<Object> res;
-            try{
-                res=(ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getRoute(), payload.getArgs().toArray() );
-            }catch (NotFoundException e){
-                System.err.println("Route "+ payload.getRoute()+ " doesn't exist");
-                res=new ResponseMessage<Object>(null,ResponseMessage.Messages.BAD_ROUTE,404);
-            }catch (NullPointerException e){
+            try {
+                res = (ResponseMessage<Object>) Invoker.getInstance().invoke(payload.getRoute(), payload.getArgs().toArray());
+            } catch (NotFoundException e) {
+                System.err.println("Route " + payload.getRoute() + " doesn't exist");
+                res = new ResponseMessage<Object>(null, ResponseMessage.Messages.BAD_ROUTE, 404);
+            } catch (NullPointerException e) {
                 System.err.println(e);
                 System.err.println("Method invoked might not be static");
-                res=new ResponseMessage<Object>(null,ResponseMessage.Messages.ERROR_SERVER,500);
-            }catch (IllegalArgumentException e){
+                res = new ResponseMessage<Object>(null, ResponseMessage.Messages.ERROR_SERVER, 500);
+            } catch (IllegalArgumentException e) {
                 System.err.println("Illegal args");
-                res=new ResponseMessage<Object>(null,ResponseMessage.Messages.BAD_REQUEST,400);
-            } catch (Exception e){
+                res = new ResponseMessage<Object>(null, ResponseMessage.Messages.BAD_REQUEST, 400);
+            } catch (Exception e) {
                 System.err.println(e);
-                res=new ResponseMessage<Object>(null,ResponseMessage.Messages.ERROR_SERVER,500);
+                res = new ResponseMessage<Object>(null, ResponseMessage.Messages.ERROR_SERVER, 500);
             }
             Payload payloadRes = payload.clone();
             payloadRes.setResponse(res);
             broadcast(payloadRes);
         }
     }
-    /*public void onMessage(SocketManager sm, Request payload) {
-        Object response = Invoker.getInstance().invoke(payload.getReq(),payload.getArgs());
-        sm.send(response);
-    }*/
 }

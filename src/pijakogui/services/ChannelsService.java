@@ -19,6 +19,7 @@ public class ChannelsService {
     //rajoute une chaine
     public static void addChannel(Channel channel){
         channelsMap.put(channel.getID(), PijakoWindow.getChannelsPanel().addChannels(channel));
+        network.Client.getInstance().sendChannel(channel.getID());
     }
     //ajoute un message dans une chaine
     public static void addMessage(ResponseMessage responseMessage){

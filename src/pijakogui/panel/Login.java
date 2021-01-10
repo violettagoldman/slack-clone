@@ -60,6 +60,7 @@ public class Login extends MyPanel{
                 UserService.setUser((User) res.getData());
                 PijakoWindow.updateEnvironment();
                 ChannelsService.updateChannelsStart();
+                network.Client.getInstance().setUser(UserService.getUser().getUsername());
                 cardLayout.show(cardPanel, "menu");
                 break;
         }

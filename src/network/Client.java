@@ -48,8 +48,8 @@ public class Client implements SocketListener, Runnable {
 
     public void start() {
         try {
-            //Socket socket = new Socket("135.181.151.73", 6868);
-            Socket socket = new Socket("localhost", 6868);
+            Socket socket = new Socket("135.181.151.73", 6868);
+            //Socket socket = new Socket("localhost", 6868);
             sm = new SocketManager(socket, this);
             thread = new Thread(sm);
             thread.start();
@@ -139,11 +139,10 @@ public class Client implements SocketListener, Runnable {
                 System.out.println(payload.getProps().get("user") + " left.");
                 break;
             case ACTIVE_USERS:
-                System.out.println(payload.toString());
-                if (payload.getProps().get(this.channel) != null) {
-                    String users[] = payload.getProps().get(this.channel).split("\2");
-                    if (users != null && users.length != 0){}
-                    ChannelsService.updateUsersConnected(users, this.channel);
+                if (payload.getProps().get("channel") != null) {
+                    //String users[] = payload.getProps().get(channel).split("\2");
+                    //if (users != null && users.length != 0){}
+                    //ChannelsService.updateUsersConnected(users, this.channel);
                 }
                 break;
             case HTTP:
@@ -158,6 +157,18 @@ public class Client implements SocketListener, Runnable {
                   if(payload.getResponse().getStatus()<400 ){
                       ServiceRoute.invokeService(payload);
                       break;
+                  }
+              }
+              if(payload.getRequestType() == Payload.RequestType.CHANNEL_REMOVE_USER){
+                    if(payload.getResponse().getStatus()<400 ){
+                        ServiceRoute.invokeService(payload);
+                        break;
+                    }
+              }
+              if(payload.getRequestType() == Payload.RequestType.CHANNEL_DELETE){
+                  if(payload.getResponse().getStatus()<400 ){
+                     ServiceRoute.invokeService(payload);
+                     break;
                   }
               }
               if(payload.getSenderID().equals(instanceID)){
@@ -181,5 +192,8 @@ public class Client implements SocketListener, Runnable {
 //modification icone -> http, un response uniquement à l'instance qui a envoyé (user dans data)
 //création d'une chaine -> http, un response uniquement à l'instance qui a envoyé
 //ajout d'un utilisateur dans une chaine -> http,
+//          -> si data null, un response uniquement à l'instance qui a envoyé
+//         -> si data non null, un response broadcasté (un user et une chaine dans la data)
+//delete d'un utilisateur dans une chaine -> http,
 //          -> si data null, un response uniquement à l'instance qui a envoyé
 //         -> si data non null, un response broadcasté (un user et une chaine dans la data)

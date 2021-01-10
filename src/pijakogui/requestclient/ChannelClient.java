@@ -20,7 +20,6 @@ public class ChannelClient {
     public static void editChannel(Channel actualChannel, String name, long adminId){
         Payload payload=PayloadBuilder.buildRequest("channels/updateinformation", Payload.RequestType.CHANNEL_EDIT,actualChannel,name,adminId);
         Client.getInstance().sendPayload(payload);
-
     }
     public static void deleteChannel(long ID){
         Payload payload=PayloadBuilder.buildRequest("channels/delete", Payload.RequestType.CHANNEL_DELETE,ID);
@@ -32,8 +31,8 @@ public class ChannelClient {
         Client.getInstance().sendPayload(payload);
     }
 
-    public static void removeUserToChannel(long channelID,String nickname){
-        Payload payload=PayloadBuilder.buildRequest("channels/removeusertochannel", Payload.RequestType.CHANNEL_ADD_USER,channelID,nickname);
+    public static void removeUserToChannel(long userID,long channelID){
+        Payload payload=PayloadBuilder.buildRequest("channels/removeuserfromchannel", Payload.RequestType.CHANNEL_REMOVE_USER,userID,channelID);
         Client.getInstance().sendPayload(payload);
     }
 }

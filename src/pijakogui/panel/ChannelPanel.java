@@ -197,13 +197,15 @@ public class ChannelPanel extends JPanel {
     public void updateUsers(ArrayList users){
         this.users = users;
         updateListUsers(users);
+        this.validate();
+        listUser.validate();
     }
 
     public void updateListUsers(ArrayList users){
         listUser.removeAll();
         listUser.validate();
         for (User user : this.users){
-            MyButton button =  (UserService.getUser().getId() != admin || user.getId() == admin ) ? MyButton.createBNameUser(user.getUsername()): MyButton.createBNameUserAdmin(channelID,user.getUsername());
+            MyButton button =  (UserService.getUser().getId() != admin || user.getId() == admin ) ? MyButton.createBNameUser(user.getUsername()): MyButton.createBNameUserAdmin(user.getId(), channelID,user.getUsername());
             if(user.getId()==admin)button.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1,MyColor.blue()));
             usersButtonMap.put(user.getId(), button);
             listUser.add(button);

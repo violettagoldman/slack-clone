@@ -339,7 +339,7 @@ public class MyButton extends JButton {
         return bNameUser;
     }
 
-    public static MyButton createBNameUserAdmin(long channelID, String name){
+    public static MyButton createBNameUserAdmin(long userID, long channelID, String name){
         MyButton bNameUser = new MyButton(name);
         bNameUser.setPreferredSize(new Dimension(100,30));
         bNameUser.addMouseListener(new java.awt.event.MouseAdapter (){
@@ -347,7 +347,7 @@ public class MyButton extends JButton {
             public void mousePressed(java.awt.event.MouseEvent evt) {
                 int response = JOptionPane.showConfirmDialog(Client.getWindow(), "Delete this user ?", "Delete user", JOptionPane.YES_NO_OPTION);
                 if(response== JOptionPane.YES_OPTION){ //
-                    ChannelClient.removeUserToChannel(channelID,name);
+                    ChannelClient.removeUserToChannel(userID,channelID);
                 }
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }

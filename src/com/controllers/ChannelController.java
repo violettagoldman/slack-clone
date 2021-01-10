@@ -154,4 +154,21 @@ public class ChannelController extends Controller {
         }
     }
 
+    @MethodRoute("removeuserfromchannel")
+    public static ResponseMessage removeUserFromChannel(long userID, long channelID){
+        try{
+            userChannelDAO.delete(userID,channelID);
+            Channel channel = (channelDAO.find(channelID)).get();
+            ArrayList<User> users=(ArrayList<User>) userDAO.findUsersByChannelID(channelID).get();
+            channel.setUsers(users);
+            return new ResponseMessage<Channel>(channel, USER_DELETED,200 );
+        }catch (SQLException e){
+            return new ResponseMessage<Channel>(null, BAD_REQUEST, 400);
+        }catch (Exception e){
+            return  new ResponseMessage<Channel>(null, ERROR_SERVER, 500);
+        }
+
+    }
+
+
 }
