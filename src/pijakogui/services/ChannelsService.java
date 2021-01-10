@@ -30,6 +30,7 @@ public class ChannelsService {
         if(message.isSmiley())channel.smiley(
                 message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(), message.getCreatedAt(), message.getTransmitterID());
         else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(), message.getCreatedAt(), message.getTransmitterID());
+        PijakoWindow.getChannelsPanel().notifyNewMessage(id);
         channel.getMessagesZone().validate();
     }
 
@@ -39,7 +40,6 @@ public class ChannelsService {
         User user = UserHelper.findUserById(channel.getUsers(), message.getTransmitterID());
         if(message.isSmiley())channel.smiley(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt(), message.getTransmitterID());
         else channel.messages(message.getMessage(), user.getUsername(), user.getIcone(), message.getMessageID(),  message.getCreatedAt(), message.getTransmitterID());
-        PijakoWindow.getChannelsPanel().notifyNewMessage(id);
         channel.getMessagesZone().validate();
     }
 
