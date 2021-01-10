@@ -15,7 +15,7 @@ public class ChannelsPanel extends JPanel{
     private JPanel channels;
     private CardLayout cardChannels;
     private HashMap<Long, MyButton> channelButtonMap = new HashMap<>();
-    private BaseChannel baseChannel;
+    private BaseChannel baseChannel = new BaseChannel();
 
 
     public ChannelsPanel(){
