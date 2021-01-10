@@ -33,13 +33,13 @@ public class Profile extends MyPanel {
         mail = new MyTextField(UserService.getUser().getEmail());
         this.panel.add(mail);
 
-        nickName = new MyTextField(UserService.getUser().getEmail());
+        nickName = new MyTextField(UserService.getUser().getUsername());
         this.panel.add(nickName);
 
         password = new MyTextField("password");
         this.panel.add(password);
 
-        this.panel.add(MyButton.createBSaveInformation(mail.getText(), nickName.getText(), password.getText()));
+        this.panel.add(MyButton.createBSaveInformation(mail, nickName, password));
 
         this.panel.add(MyButton.createBDeleteAccount());
     }
@@ -60,7 +60,7 @@ public class Profile extends MyPanel {
                 break;
             case INFORMATION_USER_UPDATED:
                 UserService.setUser((User) res.getData());
-                cardLayout.show(cardPanel, "menu");
+                PijakoWindow.seeChannels();
                 break;
         }
     }

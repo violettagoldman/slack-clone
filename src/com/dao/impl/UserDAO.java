@@ -164,23 +164,24 @@ public class UserDAO implements DAO<User> {
         ).executeUpdate(
                 "UPDATE user SET username = '" + userObj.getUsername() + "', "
                         + "email = '" + userObj.getEmail() + "', "
-                        + "hashed_password = '" + userObj.getPassword() + "' "
+                        + "hashed_password = '" + userObj.getPassword() + "',"
+                        +"icone='"+userObj.getIcone()+"'"
                         + "WHERE id = " + userObj.getId()
         );
 
         return Optional.of(userObj);
     }
 
-    public Optional<User> updateIcone(User userObj) throws SQLException {
+    public Optional<User> updateIcone(long userID, String icone) throws SQLException {
         this.connect.createStatement(
                 ResultSet.TYPE_SCROLL_INSENSITIVE,
                 ResultSet.CONCUR_UPDATABLE
         ).executeUpdate(
-                "UPDATE user SET icone = '" + userObj.getIcone() + "' "
-                    + "WHERE id = " + userObj.getId()
+                "UPDATE user SET icone = '" + icone + "' "
+                    + "WHERE id = " + userID
         );
 
-        return Optional.of(userObj);
+        return Optional.of(find(userID).get());
     }
 
     public void delete(long id) throws SQLException {

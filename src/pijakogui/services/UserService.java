@@ -18,6 +18,9 @@ public class UserService {
         session = user;
     }
 
+    public static void updateUser(ResponseMessage responseMessage){
+        (PijakoWindow.getProfile()).updateProfile(responseMessage);
+    }
     public static void signUp(ResponseMessage res){
         PijakoWindow.getSignUp().updateSignUp(res);
     }

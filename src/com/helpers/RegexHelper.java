@@ -10,19 +10,19 @@ public class RegexHelper {
         // tiret underscore
         // et court et point, et rend obligatoire @ ainsi que
         // le point + domaine
-        return email.matches(regex);
+        return email.matches(regex)&&email!=null;
     }
 
     public static boolean isUsernameValid(String username) {
         String regex = "^[\\w-]{2,}$";  // Minimum 2 caractères autorisant lettres maj, lettres min,
         // chiffres, tiret underscore et tiret court
-        return username.matches(regex);
+        return username.matches(regex)&& username!=null;
     }
 
     public static boolean isPasswordValid(String pass) {
         String regex = "^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$";  // Minimum 8 caractères avec au minimum
         // 1 lettre maj, 1 lettre min et un chiffre
-        return pass.matches(regex);
+        return pass.matches(regex)&&pass!=null;
     }
 
 

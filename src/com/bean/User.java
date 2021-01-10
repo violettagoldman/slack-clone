@@ -23,7 +23,12 @@ public class User implements Serializable {
     }
 
     public User() {}
-
+    public User cloneForUpdate(String username, String email, String password ){
+        return new User(id,username,email,password,createdAt,icone);
+    }
+    public User cloneForUpdate(){
+        return new User(id,username,email,password,createdAt,icone);
+    }
     public User(long id, String username, String email, String password) {
         this.id = id;
         this.username = username;

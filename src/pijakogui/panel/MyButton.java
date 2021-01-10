@@ -2,20 +2,17 @@ package pijakogui.panel;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
-import javax.xml.crypto.Data;
 import java.awt.*;
-import java.sql.Date;
 import java.sql.Timestamp;
-import java.util.concurrent.TimeoutException;
 
 import com.bean.Channel;
 import com.bean.Message;
+import com.bean.User;
 import network.Client;
 import pijakogui.compoment.MyColor;
 import pijakogui.requestclient.ChannelClient;
 import pijakogui.requestclient.MessageClient;
 import pijakogui.requestclient.UserClient;
-import pijakogui.services.ChannelsService;
 import pijakogui.services.UserService;
 
 
@@ -165,13 +162,14 @@ public class MyButton extends JButton {
     }
 
 
-    public static MyButton createBSaveInformation(String mail, String nickname, String password){
+    public static MyButton createBSaveInformation(JTextField mail, JTextField nickname, JTextField password){
         MyButton bSaveNickName = new MyButton("Save information");
         bSaveNickName.setPreferredSize(new Dimension(100,20));
         bSaveNickName.addMouseListener(new java.awt.event.MouseAdapter (){
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                UserClient.updateUser(UserService.getUser(), nickname, mail, password, UserService.getUser().getIcone());
+                User newUser = UserService.getUser().cloneForUpdate(nickname.getText(),mail.getText(),password.getText());
+                UserClient.updateUser(newUser);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });
@@ -393,7 +391,9 @@ public class MyButton extends JButton {
         chooseAvatar.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseEntered(java.awt.event.MouseEvent evt) { }
             public void mousePressed(java.awt.event.MouseEvent evt) {
-                //
+                User newUser = (UserService.getUser().cloneForUpdate());
+                newUser.setIcone((PijakoWindow.getAvatar()).getAvatarStr());
+                UserClient.updateUser(newUser);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) { }
         });

@@ -12,7 +12,9 @@ public class ServiceRoute {
                 UserService.login(payload.getResponse());
                 break;
             case USER_EDIT:
+                UserService.updateUser(payload.getResponse());
                 break;
+            case USER_EDIT_ICONE:
             case USER_FIND:
                 break;
             case USER_DELETE:

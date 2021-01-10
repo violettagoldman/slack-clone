@@ -18,13 +18,14 @@ import static com.helpers.PasswordHelper.comparePassAndHashedPassword;
 import static com.helpers.PasswordHelper.hashPassword;
 import static com.helpers.RegexHelper.*;
 import static com.bean.ResponseMessage.Messages.*;
+
 @ControllerRoute("users")
 public class UserController extends Controller {
 
     private final static UserDAO userDAO = new UserDAO();
     private final static ChannelDAO channelDAO = new ChannelDAO();
     private final static MessageDAO messageDAO = new MessageDAO();
-    @ControllerRoute("find")
+    @MethodRoute("find")
     public static ResponseMessage find(long id) throws SQLException {
 
         Optional userOp = userDAO.find(id);
@@ -45,7 +46,7 @@ public class UserController extends Controller {
     }
 
 
-    @ControllerRoute("findAll")
+    @MethodRoute("findAll")
     public static ResponseMessage findAll() throws SQLException {
 
         List<com.bean.User> usersOp = userDAO.findAll().get();
@@ -58,7 +59,7 @@ public class UserController extends Controller {
 
     }
 
-    @ControllerRoute("findWithEmail")
+    @MethodRoute("findWithEmail")
     public static ResponseMessage findWithEmail(String email) throws SQLException {
 
         Optional userOp = userDAO.findWithEmail(email);
@@ -70,7 +71,7 @@ public class UserController extends Controller {
         return new ResponseMessage(userOp.get(), USER_FOUND, 200);
 
     }
-    @ControllerRoute("findWithUsername")
+    @MethodRoute("findWithUsername")
     public static ResponseMessage findWithUsername(String username) throws SQLException {
 
         Optional userOp = userDAO.findWithUsername(username);
@@ -83,7 +84,7 @@ public class UserController extends Controller {
 
     }
 
-    @ControllerRoute("delete")
+    @MethodRoute("delete")
     public static ResponseMessage delete(long id) throws SQLException {
 
         userDAO.delete(id);
@@ -207,15 +208,17 @@ public class UserController extends Controller {
      * @throws SQLException
      */
 
-    @ControllerRoute("update")
-    public ResponseMessage update(User actualUser, String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
+
+    public static ResponseMessage update(User actualUser, String username, String email, String pass, String icone) throws SQLException, NoSuchAlgorithmException {
 
             // We check if the information is valid
         if (!isUsernameValid(username)) {
             return new ResponseMessage(null, USERNAME_NOT_VALID, 400);
-        } else if (!isPasswordValid(pass)) {
+        }
+        if (!isPasswordValid(pass)) {
             return new ResponseMessage(null, PASSWORD_NOT_VALID, 400);
-        } else if (!isEmailValid(email)) {
+        }
+        if (!isEmailValid(email)) {
             return new ResponseMessage(null, EMAIL_NOT_VALID, 400);
         }
 
@@ -261,19 +264,57 @@ public class UserController extends Controller {
         return new ResponseMessage(updatedUser.get(), INFORMATION_USER_UPDATED, 200);
 
     }
+    @MethodRoute("update")
+    public static ResponseMessage update(User user) throws SQLException, NoSuchAlgorithmException {
+
+        // We check if the information is valid
+        if (!isUsernameValid(user.getUsername())) {
+            return new ResponseMessage(null, USERNAME_NOT_VALID, 400);
+        }
+        if (!isPasswordValid(user.getPassword())) {
+            return new ResponseMessage(null, PASSWORD_NOT_VALID, 400);
+        }
+        if (!isEmailValid(user.getEmail())) {
+            return new ResponseMessage(null, EMAIL_NOT_VALID, 400);
+        }
+        Optional userOp;
+
+        // We check if the username is already taken by another user
+        userOp = userDAO.findWithUsername(user.getUsername());
+        if (userOp.isPresent()) {
+            User userOpGet = (User) userOp.get();
+            if (userOpGet.getId() != user.getId()) {
+                return new ResponseMessage(null, USERNAME_ALREADY_TAKEN, 400);
+            }
+        }
+        // We check if the email is already taken by another user
+        userOp = userDAO.findWithEmail(user.getEmail());
+        if (userOp.isPresent()) {
+            User userOpGet = (User) userOp.get();
+            if (userOpGet.getId() != user.getId()) {
+                return new ResponseMessage(null, EMAIL_ALREADY_TAKEN, 400);
+            }
+        }
+        // We update the user in DB
+        user.setPassword(hashPassword(user.getPassword()));
+        Optional updatedUser = userDAO.update(user);
+
+        return new ResponseMessage(updatedUser.get(), INFORMATION_USER_UPDATED, 200);
+
+    }
+
+
 
     /**
      * Update user icone in DB
-     * @param actualUser
+     * @param userID
      * @param icone
      * @return Data, message, status
      * @throws SQLException
      */
-    public ResponseMessage updateIcone(User actualUser, String icone) throws SQLException {
-
-        actualUser.setIcone(icone);
-        Optional updatedUser = userDAO.updateIcone(actualUser);
-
+    @MethodRoute("updateicone")
+    public ResponseMessage updateIcone(long userID, String icone) throws SQLException {
+        Optional updatedUser = userDAO.updateIcone(userID,icone);
         return new ResponseMessage(updatedUser.get(), ICONE_USER_UPDATED, 200);
     }
 }

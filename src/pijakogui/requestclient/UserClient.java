@@ -27,11 +27,14 @@ public class UserClient {
         Client.getInstance().sendPayload(payload);
 
     }
-    public static void updateUser(User actualUser, String username, String email, String pass, String icone){
-        Payload payload = PayloadBuilder.buildRequest("users/update", Payload.RequestType.USER_EDIT, actualUser,username,email,pass,icone);
+    public static void updateUser(User user){
+        Payload payload = PayloadBuilder.buildRequest("users/update", Payload.RequestType.USER_EDIT, user);
         Client.getInstance().sendPayload(payload);
     }
 
-
+    public static void updateIcone(long userID, String icone){
+        Payload payload = PayloadBuilder.buildRequest("users/updateicone", Payload.RequestType.USER_EDIT_ICONE, userID,icone);
+        Client.getInstance().sendPayload(payload);
+    }
 }
 

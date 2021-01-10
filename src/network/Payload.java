@@ -30,7 +30,8 @@ public final class Payload implements Serializable {
         CHANNEL_MESSAGES,
         CHANNEL_CREATE,
         MESSAGE_POST,
-        CHANNEL_ADD_USER
+        CHANNEL_ADD_USER,
+        USER_EDIT_ICONE
     }
     private Type type;
     private RequestType requestType;

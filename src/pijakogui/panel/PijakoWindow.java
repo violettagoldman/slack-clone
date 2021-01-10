@@ -13,7 +13,7 @@ import java.awt.event.WindowAdapter;
 // Classe principale de l'interface
 public class PijakoWindow extends JFrame {
     private static JPanel window;
-    private static MyPanel profile;
+    private static Profile profile;
     private static SignUp signUp;
     private static Login login;
     private static NewChannel newChannel;
@@ -92,7 +92,7 @@ public class PijakoWindow extends JFrame {
         home.add(MyScroll.createBlack(newChannel), "new channel");
     }
 
-    public static MyPanel getProfile() {
+    public static Profile getProfile() {
         return profile;
     }
 
@@ -110,5 +110,9 @@ public class PijakoWindow extends JFrame {
 
     public static void seeChannels(){
         cardHome.show(home, "channels");
+    }
+
+    public static Avatar getAvatar() {
+        return avatar;
     }
 }
